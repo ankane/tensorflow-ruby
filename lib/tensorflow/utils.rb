@@ -37,8 +37,10 @@ module TensorFlow
         File.open(temp_path, "wb") do |f|
           http.request(request) do |response|
             response.read_body do |chunk|
-              putc "." if i % 50 == 0
               f.write(chunk)
+
+              # print progress
+              putc "." if i % 50 == 0
               i += 1
             end
           end
