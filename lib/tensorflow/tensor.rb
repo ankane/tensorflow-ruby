@@ -37,13 +37,12 @@ module TensorFlow
           # FFI handles deallocation
         end
 
-        # TODO clean up TF_NewTensor
         tensor = FFI.TF_NewTensor(type, dims_ptr, shape.size, data_ptr, data_ptr.size, callback, nil)
         @pointer = FFI.TFE_NewTensorHandle(tensor, @status)
         check_status @status
       end
 
-      ObjectSpace.define_finalizer(self, self.class.finalize(@pointer))
+      ObjectSpace.define_finalizer(self, self.class.finalize(@pointer, @status, tensor))
     end
 
     def +(other)
@@ -126,9 +125,13 @@ module TensorFlow
       "#<#{self.class} #{inspection.join(", ")}>"
     end
 
-    def self.finalize(pointer)
+    def self.finalize(pointer, status, tensor)
       # must use proc instead of stabby lambda
-      proc { FFI.TFE_DeleteTensorHandle(pointer) }
+      proc do
+        FFI.TFE_DeleteTensorHandle(pointer)
+        FFI.TFE_DeleteStatus(status)
+        FFI.TFE_DeleteTensor(tensor) if tensor
+      end
     end
 
     private
