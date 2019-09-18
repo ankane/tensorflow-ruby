@@ -2,6 +2,8 @@
 
 [TensorFlow](https://github.com/tensorflow/tensorflow) - the end-to-end machine learning platform - for Ruby
 
+:fire: Uses the C API under the hood
+
 [![Build Status](https://travis-ci.org/ankane/tensorflow.svg?branch=master)](https://travis-ci.org/ankane/tensorflow)
 
 ## Installation
