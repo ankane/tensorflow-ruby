@@ -4,6 +4,8 @@
 
 :fire: Uses the C API for blazing performance
 
+[![Build Status](https://travis-ci.org/ankane/tensorflow.svg?branch=master)](https://travis-ci.org/ankane/tensorflow)
+
 ## Installation
 
 [Install TensorFlow](#tensorflow-installation). For Homebrew, use:

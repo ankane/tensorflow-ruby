@@ -1,0 +1,15 @@
+dist: xenial
+language: ruby
+rvm: 2.6.3
+before_install:
+  - export TENSORFLOW_VERSION=1.14.0
+  - ./test/ci/install_tensorflow.sh
+  - export LD_LIBRARY_PATH=$HOME/tensorflow/$TENSORFLOW_VERSION/lib:$LD_LIBRARY_PATH
+cache:
+  directories:
+    - $HOME/tensorflow
+script: bundle exec rake test
+notifications:
+  email:
+    on_success: never
+    on_failure: change
