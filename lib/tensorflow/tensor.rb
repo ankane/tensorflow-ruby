@@ -1,6 +1,6 @@
 module TensorFlow
   class Tensor
-    def initialize(value = nil, pointer: nil, dtype: nil, shape: nil)
+    def initialize(value = nil, dtype: nil, shape: nil, pointer: nil)
       @status = FFI.TF_NewStatus
 
       if pointer
@@ -66,21 +66,6 @@ module TensorFlow
       TensorFlow.floormod(self, other)
     end
 
-    def dtype
-      @dtype ||= FFI::DataType[FFI.TFE_TensorHandleDataType(@pointer)]
-    end
-
-    def shape
-      @shape ||= begin
-        shape = []
-        num_dims.times do |i|
-          shape << FFI.TFE_TensorHandleDim(@pointer, i, @status)
-          check_status @status
-        end
-        shape
-      end
-    end
-
     def value
       value =
         case dtype
@@ -103,6 +88,21 @@ module TensorFlow
         end
 
       reshape(value, shape)
+    end
+
+    def dtype
+      @dtype ||= FFI::DataType[FFI.TFE_TensorHandleDataType(@pointer)]
+    end
+
+    def shape
+      @shape ||= begin
+        shape = []
+        num_dims.times do |i|
+          shape << FFI.TFE_TensorHandleDim(@pointer, i, @status)
+          check_status @status
+        end
+        shape
+      end
     end
 
     def to_s
