@@ -66,20 +66,8 @@ module TensorFlow
       TensorFlow.floormod(self, other)
     end
 
-    def num_dims
-      ret = FFI.TFE_TensorHandleNumDims(@pointer, @status)
-      check_status @status
-      ret
-    end
-
     def dtype
       @dtype ||= FFI::DataType[FFI.TFE_TensorHandleDataType(@pointer)]
-    end
-
-    def element_count
-      ret = FFI.TFE_TensorHandleNumElements(@pointer, @status)
-      check_status @status
-      ret
     end
 
     def shape
@@ -91,16 +79,6 @@ module TensorFlow
         end
         shape
       end
-    end
-
-    def data_pointer
-      tensor = FFI.TFE_TensorHandleResolve(@pointer, @status)
-      check_status @status
-      FFI.TF_TensorData(tensor)
-    end
-
-    def to_ptr
-      @pointer
     end
 
     def value
@@ -139,6 +117,10 @@ module TensorFlow
       value
     end
 
+    def to_ptr
+      @pointer
+    end
+
     def inspect
       inspection = %w(value shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
       "#<#{self.class} #{inspection.join(", ")}>"
@@ -147,6 +129,27 @@ module TensorFlow
     def self.finalize(pointer)
       # must use proc instead of stabby lambda
       proc { FFI.TFE_DeleteTensorHandle(pointer) }
+    end
+
+    # TODO make priviate
+    def num_dims
+      ret = FFI.TFE_TensorHandleNumDims(@pointer, @status)
+      check_status @status
+      ret
+    end
+
+    # TODO make priviate
+    def element_count
+      ret = FFI.TFE_TensorHandleNumElements(@pointer, @status)
+      check_status @status
+      ret
+    end
+
+    # TODO make priviate
+    def data_pointer
+      tensor = FFI.TFE_TensorHandleResolve(@pointer, @status)
+      check_status @status
+      FFI.TF_TensorData(tensor)
     end
 
     private
