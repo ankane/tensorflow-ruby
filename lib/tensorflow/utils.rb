@@ -43,7 +43,7 @@ module TensorFlow
       Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
         request = Net::HTTP::Get.new(uri)
 
-        print("Downloading MNIST")
+        print("Downloading dataset")
         i = 0
         File.open(temp_path, "wb") do |f|
           http.request(request) do |response|
