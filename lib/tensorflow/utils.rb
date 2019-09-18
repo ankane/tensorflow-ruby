@@ -19,6 +19,17 @@ module TensorFlow
       end
     end
 
+    def self.load_dataset(path, url)
+      # TODO handle this better
+      raise "No HOME" unless ENV["HOME"]
+      datasets_dir = "#{ENV["HOME"]}/.keras/datasets"
+      FileUtils.mkdir_p(datasets_dir)
+
+      path = "#{datasets_dir}/#{path}"
+      Utils.download_file(url, path) unless File.exist?(path)
+      Npy.load_npz(path)
+    end
+
     def self.download_file(url, dest)
       uri = URI(url)
 
