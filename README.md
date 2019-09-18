@@ -93,9 +93,11 @@ Run:
 brew install tensorflow
 ```
 
+Alternatively, download the [shared library](https://www.tensorflow.org/install/lang_c#download) and move the files in `lib` to `/usr/local/lib`.
+
 ### Linux
 
-Download the [shared library](https://www.tensorflow.org/install/lang_c#download) and move `libtensorflow.so` to `/usr/local/lib`.
+Download the [shared library](https://www.tensorflow.org/install/lang_c#download) and move the files in `lib` to `/usr/local/lib`.
 
 ### Windows
 
