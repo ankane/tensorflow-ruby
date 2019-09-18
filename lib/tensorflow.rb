@@ -140,10 +140,9 @@ module TensorFlow
 
     def execute(op_name, inputs = [], **attrs)
       context = default_context
-      status = FFI.TF_NewStatus
+      status = FFI.TF_NewStatus # TODO reuse status between ops?
       op = FFI.TFE_NewOp(context, op_name, status)
       check_status status
-      # TODO clean up status and op
 
       attrs.each do |attr_name, attr_value|
         attr_name = attr_name.to_s
@@ -189,6 +188,9 @@ module TensorFlow
           Tensor.new(pointer: handle)
         end
       end
+    ensure
+      FFI.TF_DeleteStatus(status) if status
+      FFI.TFE_DeleteOp(op) if op
     end
 
     def check_status(status)
