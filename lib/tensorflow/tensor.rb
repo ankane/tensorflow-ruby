@@ -37,13 +37,13 @@ module TensorFlow
           # FFI handles deallocation
         end
 
+        # TODO clean up TF_NewTensor
         tensor = FFI.TF_NewTensor(type, dims_ptr, shape.size, data_ptr, data_ptr.size, callback, nil)
         @pointer = FFI.TFE_NewTensorHandle(tensor, @status)
         check_status @status
       end
 
-      # TODO fix segfault
-      # ObjectSpace.define_finalizer(self, self.class.finalize(@pointer))
+      ObjectSpace.define_finalizer(self, self.class.finalize(@pointer))
     end
 
     def +(other)
