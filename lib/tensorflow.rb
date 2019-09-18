@@ -2,6 +2,11 @@
 require "ffi"
 require "npy"
 
+# stdlib
+require "fileutils"
+require "net/http"
+require "tempfile"
+
 # modules
 require "tensorflow/utils"
 require "tensorflow/context"
