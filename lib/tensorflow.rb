@@ -11,6 +11,10 @@ require "tensorflow/version"
 
 # keras
 require "tensorflow/keras/datasets/mnist"
+require "tensorflow/keras/layers/dense"
+require "tensorflow/keras/layers/dropout"
+require "tensorflow/keras/layers/flatten"
+require "tensorflow/keras/models/sequential"
 
 module TensorFlow
   class Error < StandardError; end
