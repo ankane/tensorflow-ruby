@@ -89,12 +89,14 @@ class TensorFlowTest < Minitest::Test
   end
 
   def test_keras
-    skip
-
     mnist = Tf::Keras::Datasets::MNIST
     (x_train, y_train), (x_test, y_test) = mnist.load_data
     x_train = x_train / 255.0
     x_test = x_test / 255.0
+
+    p x_train
+
+    skip
 
     model = Tf::Keras::Models::Sequential.new([
       Tf::Keras::Layers::Flatten.new(input_shape: [28, 28]),

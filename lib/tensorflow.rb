@@ -1,5 +1,6 @@
 # dependencies
 require "ffi"
+require "npy"
 
 # modules
 require "tensorflow/utils"
@@ -7,6 +8,9 @@ require "tensorflow/context"
 require "tensorflow/tensor"
 require "tensorflow/variable"
 require "tensorflow/version"
+
+# keras
+require "tensorflow/keras/datasets/mnist"
 
 module TensorFlow
   class Error < StandardError; end

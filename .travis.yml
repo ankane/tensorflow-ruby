@@ -6,8 +6,10 @@ before_install:
   - ./test/ci/install_tensorflow.sh
   - export LD_LIBRARY_PATH=$HOME/tensorflow/$TENSORFLOW_VERSION/lib:$LD_LIBRARY_PATH
 cache:
+  bundler: true
   directories:
     - $HOME/tensorflow
+    - $HOME/.keras
 script: bundle exec rake test
 notifications:
   email:
