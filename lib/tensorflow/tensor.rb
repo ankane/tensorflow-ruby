@@ -131,28 +131,25 @@ module TensorFlow
       proc { FFI.TFE_DeleteTensorHandle(pointer) }
     end
 
-    # TODO make priviate
+    private
+
     def num_dims
       ret = FFI.TFE_TensorHandleNumDims(@pointer, @status)
       check_status @status
       ret
     end
 
-    # TODO make priviate
     def element_count
       ret = FFI.TFE_TensorHandleNumElements(@pointer, @status)
       check_status @status
       ret
     end
 
-    # TODO make priviate
     def data_pointer
       tensor = FFI.TFE_TensorHandleResolve(@pointer, @status)
       check_status @status
       FFI.TF_TensorData(tensor)
     end
-
-    private
 
     def reshape(arr, dims)
       return arr.first if dims.empty?
