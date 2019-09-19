@@ -43,7 +43,6 @@ w = v + 1
 
 ```ruby
 def fizzbuzz(max_num)
-  counter = Tf.constant(0)
   max_num.times do |i|
     num = Tf.constant(i + 1)
     if (num % 3).to_i == 0 && (num % 5).to_i == 0

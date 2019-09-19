@@ -71,7 +71,6 @@ class TensorFlowTest < Minitest::Test
   end
 
   def test_fizzbuzz
-    counter = Tf.constant(0)
     ret = []
     15.times do |i|
       num = Tf.constant(i + 1)
