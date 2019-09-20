@@ -26,6 +26,9 @@ module TensorFlow
           data_ptr.send("write_array_of_#{dtype}", data)
         when :string
           data_ptr = string_ptr(data)
+        when :bool
+          data_ptr = ::FFI::MemoryPointer.new(:int8, data.size)
+          data_ptr.write_array_of_int8(data.map { |v| v ? 1 : 0 })
         else
           raise "Unknown type: #{dtype}"
         end
