@@ -15,6 +15,16 @@ class TensorFlowTest < Minitest::Test
     assert_equal [[1, 2, 3], [4, 5, 6]], a.value
   end
 
+  def test_infer_type
+    assert_equal :float, Tf.constant(1.0).dtype
+    assert_equal :bool, Tf.constant([true, false]).dtype
+    assert_equal :int32, Tf.constant(1).dtype
+    assert_equal :int32, Tf.constant(2147483647).dtype
+    assert_equal :int32, Tf.constant(-2147483648).dtype
+    assert_equal :int64, Tf.constant(2147483648).dtype
+    assert_equal :int64, Tf.constant(-2147483649).dtype
+  end
+
   def test_variable
     v = Tf::Variable.new(0.0)
     w = v + 1

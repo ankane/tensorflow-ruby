@@ -12,7 +12,11 @@ module TensorFlow
       elsif value.all? { |v| v == true || v == false }
         :bool
       elsif value.all? { |v| v.is_a?(Integer) }
-        :int32 # TODO make sure under certain size
+        if value.all? { |v| v >= -2147483648 && v <= 2147483647 }
+          :int32
+        else
+          :int64
+        end
       elsif value.all? { |v| v.is_a?(Numeric) }
         :float
       else
