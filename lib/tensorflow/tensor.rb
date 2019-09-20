@@ -24,6 +24,12 @@ module TensorFlow
         when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
           data_ptr = ::FFI::MemoryPointer.new(dtype, data.size)
           data_ptr.send("write_array_of_#{dtype}", data)
+        when :complex64
+          data_ptr = ::FFI::MemoryPointer.new(:float, data.size * 2)
+          data_ptr.write_array_of_float(data.flat_map { |v| [v.real, v.imaginary] })
+        when :complex128
+          data_ptr = ::FFI::MemoryPointer.new(:double, data.size * 2)
+          data_ptr.write_array_of_double(data.flat_map { |v| [v.real, v.imaginary] })
         when :string
           data_ptr = string_ptr(data)
         when :bool
@@ -70,6 +76,10 @@ module TensorFlow
         case dtype
         when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
           data_pointer.send("read_array_of_#{dtype}", element_count)
+        when :complex64
+          data_pointer.read_array_of_float(element_count * 2).each_slice(2).map { |v| Complex(*v) }
+        when :complex128
+          data_pointer.read_array_of_double(element_count * 2).each_slice(2).map { |v| Complex(*v) }
         when :string
           # string tensor format
           # https://github.com/tensorflow/tensorflow/blob/5453aee48858fd375172d7ae22fad1557e8557d6/tensorflow/c/tf_tensor.h#L57
