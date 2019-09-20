@@ -5,6 +5,22 @@ class OperationsTest < Minitest::Test
     assert_equal 1, Tf.abs(Tf.constant(-1)).value
   end
 
+  def test_add
+    a = Tf.constant(2)
+    b = Tf.constant(3)
+    assert_equal 5, (a + b).value
+
+    a = Tf.constant([[1, 2], [3, 4]])
+    b = Tf.add(a, 1)
+    assert_equal [[2, 6], [12, 20]], (a * b).value
+  end
+
+  def test_divide
+    a = Tf.constant(2)
+    b = Tf.constant(3)
+    assert_in_delta 0, (a / b).value
+  end
+
   def test_equal
     x = Tf.constant([2, 4])
     y = Tf.constant(2)
@@ -42,6 +58,12 @@ class OperationsTest < Minitest::Test
     assert_equal [[4.0]], Tf.matmul(x, x).value
   end
 
+  def test_multiply
+    a = Tf.constant(2)
+    b = Tf.constant(3)
+    assert_equal 6, (a * b).value
+  end
+
   def test_ones
     assert_equal [[1, 1, 1], [1, 1, 1]], Tf.ones([2, 3]).value
   end
@@ -56,6 +78,12 @@ class OperationsTest < Minitest::Test
 
   def test_sqrt
     assert_equal 3.0, Tf.sqrt(Tf.constant(9.0)).value
+  end
+
+  def test_subtract
+    a = Tf.constant(2)
+    b = Tf.constant(3)
+    assert_equal -1, (a - b).value
   end
 
   def test_timestamp
