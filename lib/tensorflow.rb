@@ -74,14 +74,20 @@ module TensorFlow
         check_status status
 
         case FFI::AttrType[type]
+        when :string
+          FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
+        # when :int
+        # when :float
+        # when :bool
         when :type
           FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
         when :shape
           # TODO set value properly
           FFI.TFE_OpSetAttrShape(op, attr_name, nil, 0, status)
           check_status status
-        when :string
-          FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
+        # when :tensor
+        # when :placeholder
+        # when :func
         else
           raise "Unknown type: #{FFI::AttrType[type]}"
         end
