@@ -9,8 +9,15 @@ module TensorFlow
       raise LoadError, "Could not find TensorFlow"
     end
 
+    class Buffer < ::FFI::Struct
+      layout :data, :pointer,
+        :length, :size_t,
+        :data_deallocator, :pointer
+    end
+
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/c_api.h
     attach_function :TF_Version, %i[], :string
+    attach_function :TF_GetAllOpList, %i[], Buffer.by_ref
 
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/tf_attrtype.h
     AttrType = enum(:string, :int, :float, :bool, :type, :shape, :tensor, :placeholder, :func)
