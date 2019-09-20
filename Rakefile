@@ -43,9 +43,7 @@ task :generate_ops do
     "mul" => "multiply",
     "sub" => "subtract"
   }
-  included_names =
-    ["fill", "range"] +
-    ["abs", "accumulate_n", "acos", "acosh", "add", "add_n", "angle", "argmax", "argmin", "asin", "asinh", "atan", "atan2", "atanh", "bessel_i0", "bessel_i0e", "bessel_i1", "bessel_i1e", "betainc", "bincount", "ceil", "confusion_matrix", "conj", "cos", "cosh", "count_nonzero", "cumprod", "cumsum", "cumulative_logsumexp", "digamma", "divide", "divide_no_nan", "equal", "erf", "erfc", "exp", "expm1", "floor", "floordiv", "floormod", "greater", "greater_equal", "igamma", "igammac", "imag", "invert_permutation", "in_top_k", "is_finite", "is_inf", "is_nan", "is_non_decreasing", "is_strictly_increasing", "l2_normalize", "lbeta", "less", "less_equal", "lgamma", "log", "log1p", "logical_and", "logical_not", "logical_or", "logical_xor", "log_sigmoid", "maximum", "minimum", "multiply", "multiply_no_nan", "negative", "nextafter", "not_equal", "polygamma", "polyval", "pow", "real", "reciprocal", "reciprocal_no_nan", "reduce_any", "reduce_euclidean_norm", "reduce_logsumexp", "reduce_max", "reduce_mean", "reduce_min", "reduce_prod", "reduce_std", "reduce_sum", "reduce_variance", "rint", "round", "rsqrt", "scalar_mul", "segment_max", "segment_mean", "segment_min", "segment_prod", "segment_sum", "sigmoid", "sign", "sin", "sinh", "softplus", "sqrt", "square", "squared_difference", "subtract", "tan", "tanh", "top_k", "truediv", "unsorted_segment_max", "unsorted_segment_mean", "unsorted_segment_min", "unsorted_segment_prod", "unsorted_segment_sqrt_n", "unsorted_segment_sum", "xdivy", "xlogy", "zero_fraction", "zeta"]
+  op_names = ["abs", "acos", "acosh", "add", "add_n", "argmax", "argmin", "argsort", "as_dtype", "as_string", "asin", "asinh", "assert_equal", "assert_greater", "assert_less", "assert_rank", "atan", "atan2", "atanh", "audio", "autograph", "batch_to_space", "bitcast", "bitwise", "boolean_mask", "broadcast_dynamic_shape", "broadcast_static_shape", "broadcast_to", "case", "cast", "clip_by_global_norm", "clip_by_norm", "clip_by_value", "compat", "complex", "concat", "cond", "config", "constant", "constant_initializer", "control_dependencies", "convert_to_tensor", "cos", "cosh", "cumsum", "custom_gradient", "data", "debugging", "device", "distribute", "divide", "dtypes", "dynamic_partition", "dynamic_stitch", "edit_distance", "einsum", "ensure_shape", "equal", "errors", "estimator", "executing_eagerly", "exp", "expand_dims", "experimental", "extract_volume_patches", "eye", "feature_column", "fill", "fingerprint", "floor", "foldl", "foldr", "function", "gather", "gather_nd", "get_logger", "get_static_value", "grad_pass_through", "gradients", "graph_util", "greater", "greater_equal", "group", "guarantee_const", "hessians", "histogram_fixed_width", "histogram_fixed_width_bins", "identity", "identity_n", "image", "import_graph_def", "init_scope", "initializers", "io", "is_tensor", "keras", "less", "less_equal", "linalg", "linspace", "lite", "load_library", "load_op_library", "logical_and", "logical_not", "logical_or", "lookup", "losses", "make_ndarray", "make_tensor_proto", "map_fn", "math", "matmul", "matrix_square_root", "maximum", "meshgrid", "metrics", "minimum", "multiply", "name_scope", "negative", "nest", "nn", "no_gradient", "no_op", "nondifferentiable_batch_function", "norm", "not_equal", "numpy_function", "one_hot", "ones", "ones_initializer", "ones_like", "optimizers", "pad", "parallel_stack", "pow", "print", "py_function", "quantization", "queue", "ragged", "random", "random_normal_initializer", "random_uniform_initializer", "range", "rank", "raw_ops", "realdiv", "recompute_grad", "reduce_all", "reduce_any", "reduce_logsumexp", "reduce_max", "reduce_mean", "reduce_min", "reduce_prod", "reduce_sum", "register_tensor_conversion_function", "required_space_to_batch_paddings", "reshape", "reverse", "reverse_sequence", "roll", "round", "saturate_cast", "saved_model", "scalar_mul", "scan", "scatter_nd", "searchsorted", "sequence_mask", "sets", "shape", "shape_n", "sigmoid", "sign", "signal", "sin", "sinh", "size", "slice", "sort", "space_to_batch", "space_to_batch_nd", "sparse", "split", "sqrt", "square", "squeeze", "stack", "stop_gradient", "strided_slice", "strings", "subtract", "summary", "switch_case", "sysconfig", "tan", "tanh", "tensor_scatter_nd_add", "tensor_scatter_nd_sub", "tensor_scatter_nd_update", "tensordot", "test", "tile", "timestamp", "tpu", "train", "transpose", "truediv", "truncatediv", "truncatemod", "tuple", "unique", "unique_with_counts", "unravel_index", "unstack", "variable_creator_scope", "vectorized_map", "version", "where", "while_loop", "xla", "zeros", "zeros_initializer", "zeros_like"]
 
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
@@ -55,7 +53,7 @@ task :generate_ops do
       def_name = underscore(op.name)
       def_name = name_map[def_name] if name_map[def_name]
 
-      if input_names.first == "x" || included_names.include?(def_name)
+      if input_names.first == "x" || op_names.include?(def_name)
         defs << %!    def #{def_name}(#{input_names.join(", ")})
       execute("#{op.name}", [#{input_names.join(", ")}])
     end!
@@ -74,18 +72,16 @@ end
   File.write("lib/tensorflow/generated_ops.rb", contents)
 end
 
-task :math_ops do
+task :op_names do
   require "open-uri"
   require "nokogiri"
 
   def_names = []
-  doc = Nokogiri::HTML(open("https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/math"))
+  doc = Nokogiri::HTML(open("https://www.tensorflow.org/versions/r2.0/api_docs/python"))
   doc.css("a").each do |node|
-    next unless node.attribute("href")
-
-    href = node.attribute("href").value
-    if href.start_with?("/versions/r2.0/api_docs/python/tf/math/")
-      def_names << href.split("/").last
+    text = node.text.strip
+    if text.start_with?("tf.") && text == text.downcase && text.count(".") == 1
+      def_names << text.split(".").last
     end
   end
   p def_names
