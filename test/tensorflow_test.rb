@@ -24,6 +24,11 @@ class TensorFlowTest < Minitest::Test
     assert_equal :int64, Tf.constant(2147483648).dtype
     assert_equal :int64, Tf.constant(-2147483649).dtype
     assert_equal :complex128, Tf.constant(Complex(2, 3)).dtype
+    assert_equal :string, Tf.constant(["hello", "world"]).dtype
+    error = assert_raises(TensorFlow::Error) do
+      Tf.constant(["hello", 1])
+    end
+    assert_equal "Unable to infer data type", error.message
   end
 
   def test_variable

@@ -1,3 +1,3 @@
 import tensorflow as tf
 
-print(tf.eye(2))
+print(tf.constant(["hello", 1]))
