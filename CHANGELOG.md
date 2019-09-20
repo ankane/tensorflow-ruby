@@ -1,4 +1,4 @@
-## 0.1.1 [unreleased]
+## 0.1.1
 
 - Added more operations
 - Added support for more data types
