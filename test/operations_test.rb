@@ -45,13 +45,15 @@ class OperationsTest < Minitest::Test
       value =
         case dtype
         when :string
-          "hello"
+          ["hello"]
         when :bool
-          true
+          [true, false]
         when :complex64, :complex128
-          Complex(2, 3)
+          [Complex(2, 3), Complex(1, 2)]
+        when :float, :double
+          [2.5, 3.5]
         else
-          2
+          [1, 2]
         end
 
       tensor = Tf.identity(Tf.constant(value, dtype: dtype))
