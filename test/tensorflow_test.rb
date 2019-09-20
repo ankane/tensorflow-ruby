@@ -88,7 +88,7 @@ class TensorFlowTest < Minitest::Test
         ret << num.to_i
       end
     end
-    assert_equal ret, [1, 2, "Fizz", 4, "Buzz", "Fizz", 7, 8, "Fizz", "Buzz", 11, "Fizz", 13, 14, "FizzBuzz"]
+    assert_equal [1, 2, "Fizz", 4, "Buzz", "Fizz", 7, 8, "Fizz", "Buzz", 11, "Fizz", 13, 14, "FizzBuzz"], ret
   end
 
   def test_keras
