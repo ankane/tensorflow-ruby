@@ -50,11 +50,6 @@ module TensorFlow
       value
     end
 
-    alias_method :subtract, :sub
-    alias_method :multiply, :mul
-    alias_method :divide, :div
-    alias_method :floormod, :floor_mod
-
     def matmul(x, y)
       execute("MatMul", [x, y])
     end

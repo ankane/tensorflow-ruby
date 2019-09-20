@@ -24,12 +24,21 @@ task :generate_ops do
     str.gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
   end
 
+  name_map = {
+    "div" => "divide",
+    "floor_mod" => "floormod",
+    "mul" => "multiply",
+    "sub" => "subtract"
+  }
+
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
     input_names = op.input_arg.map(&:name)
     if op.name[0] != "_" && op.name[-2..-1] != "V2" && input_names.first == "x"
       # TODO generate default values and optional arguments
-      defs << %!    def #{underscore(op.name)}(#{input_names.join(", ")})
+      def_name = underscore(op.name)
+      def_name = name_map[def_name] if name_map[def_name]
+      defs << %!    def #{def_name}(#{input_names.join(", ")})
       execute("#{op.name}", [#{input_names.join(", ")}])
     end!
     end

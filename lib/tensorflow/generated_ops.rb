@@ -109,7 +109,7 @@ module TensorFlow
       execute("Digamma", [x])
     end
 
-    def div(x, y)
+    def divide(x, y)
       execute("Div", [x, y])
     end
 
@@ -145,7 +145,7 @@ module TensorFlow
       execute("FloorDiv", [x, y])
     end
 
-    def floor_mod(x, y)
+    def floormod(x, y)
       execute("FloorMod", [x, y])
     end
 
@@ -253,7 +253,7 @@ module TensorFlow
       execute("Mod", [x, y])
     end
 
-    def mul(x, y)
+    def multiply(x, y)
       execute("Mul", [x, y])
     end
 
@@ -345,7 +345,7 @@ module TensorFlow
       execute("SquaredDifference", [x, y])
     end
 
-    def sub(x, y)
+    def subtract(x, y)
       execute("Sub", [x, y])
     end
 
