@@ -21,10 +21,6 @@ module TensorFlow
       execute("AddN", [inputs])
     end
 
-    def approximate_equal(x, y, tolerance: nil)
-      execute("ApproximateEqual", [x, y], tolerance: tolerance)
-    end
-
     def as_string(input, precision: nil, scientific: nil, shortest: nil, width: nil, fill: nil)
       execute("AsString", [input], precision: precision, scientific: scientific, shortest: shortest, width: width, fill: fill)
     end
@@ -61,36 +57,12 @@ module TensorFlow
       execute("Atanh", [x])
     end
 
-    def batch_mat_mul(x, y, adj_x: nil, adj_y: nil)
-      execute("BatchMatMul", [x, y], adj_x: adj_x, adj_y: adj_y)
-    end
-
     def batch_to_space(input, crops, block_size: nil)
       execute("BatchToSpace", [input, crops], block_size: block_size)
     end
 
-    def bessel_i0e(x)
-      execute("BesselI0e", [x])
-    end
-
-    def bessel_i1e(x)
-      execute("BesselI1e", [x])
-    end
-
     def bitcast(input, type: nil)
       execute("Bitcast", [input], type: type)
-    end
-
-    def bitwise_and(x, y)
-      execute("BitwiseAnd", [x, y])
-    end
-
-    def bitwise_or(x, y)
-      execute("BitwiseOr", [x, y])
-    end
-
-    def bitwise_xor(x, y)
-      execute("BitwiseXor", [x, y])
     end
 
     def broadcast_to(input, shape)
@@ -105,10 +77,6 @@ module TensorFlow
       execute("Cast", [x])
     end
 
-    def ceil(x)
-      execute("Ceil", [x])
-    end
-
     def clip_by_value(t, clip_value_min, clip_value_max)
       execute("ClipByValue", [t, clip_value_min, clip_value_max])
     end
@@ -117,16 +85,8 @@ module TensorFlow
       execute("Complex", [real, imag])
     end
 
-    def complex_abs(x)
-      execute("ComplexAbs", [x])
-    end
-
     def concat(concat_dim, values)
       execute("Concat", [concat_dim, values])
-    end
-
-    def conjugate_transpose(x, perm)
-      execute("ConjugateTranspose", [x, perm])
     end
 
     def cos(x)
@@ -137,36 +97,12 @@ module TensorFlow
       execute("Cosh", [x])
     end
 
-    def cumprod(x, axis, exclusive: nil, reverse: nil)
-      execute("Cumprod", [x, axis], exclusive: exclusive, reverse: reverse)
-    end
-
     def cumsum(x, axis, exclusive: nil, reverse: nil)
       execute("Cumsum", [x, axis], exclusive: exclusive, reverse: reverse)
     end
 
-    def data_format_dim_map(x, src_format: nil, dst_format: nil)
-      execute("DataFormatDimMap", [x], src_format: src_format, dst_format: dst_format)
-    end
-
-    def data_format_vec_permute(x, src_format: nil, dst_format: nil)
-      execute("DataFormatVecPermute", [x], src_format: src_format, dst_format: dst_format)
-    end
-
-    def deep_copy(x)
-      execute("DeepCopy", [x])
-    end
-
-    def digamma(x)
-      execute("Digamma", [x])
-    end
-
     def divide(x, y)
       execute("Div", [x, y])
-    end
-
-    def div_no_nan(x, y)
-      execute("DivNoNan", [x, y])
     end
 
     def dynamic_partition(data, partitions, num_partitions: nil)
@@ -189,24 +125,12 @@ module TensorFlow
       execute("Equal", [x, y])
     end
 
-    def erf(x)
-      execute("Erf", [x])
-    end
-
-    def erfc(x)
-      execute("Erfc", [x])
-    end
-
     def exp(x)
       execute("Exp", [x])
     end
 
     def expand_dims(input, dim)
       execute("ExpandDims", [input, dim])
-    end
-
-    def expm1(x)
-      execute("Expm1", [x])
     end
 
     def extract_volume_patches(input, ksizes: nil, strides: nil, padding: nil)
@@ -225,16 +149,8 @@ module TensorFlow
       execute("Floor", [x])
     end
 
-    def floordiv(x, y)
-      execute("FloorDiv", [x, y])
-    end
-
     def floormod(x, y)
       execute("FloorMod", [x, y])
-    end
-
-    def fused_batch_norm(x, scale, offset, mean, variance, epsilon: nil, data_format: nil, is_training: nil)
-      execute("FusedBatchNorm", [x, scale, offset, mean, variance], epsilon: epsilon, data_format: data_format, is_training: is_training)
     end
 
     def gather(params, indices, validate_indices: nil)
@@ -269,68 +185,12 @@ module TensorFlow
       execute("IdentityN", [input])
     end
 
-    def inplace_add(x, i, v)
-      execute("InplaceAdd", [x, i, v])
-    end
-
-    def inplace_sub(x, i, v)
-      execute("InplaceSub", [x, i, v])
-    end
-
-    def inplace_update(x, i, v)
-      execute("InplaceUpdate", [x, i, v])
-    end
-
-    def inv(x)
-      execute("Inv", [x])
-    end
-
-    def invert(x)
-      execute("Invert", [x])
-    end
-
-    def invert_permutation(x)
-      execute("InvertPermutation", [x])
-    end
-
-    def is_finite(x)
-      execute("IsFinite", [x])
-    end
-
-    def is_inf(x)
-      execute("IsInf", [x])
-    end
-
-    def is_nan(x)
-      execute("IsNan", [x])
-    end
-
-    def left_shift(x, y)
-      execute("LeftShift", [x, y])
-    end
-
     def less(x, y)
       execute("Less", [x, y])
     end
 
     def less_equal(x, y)
       execute("LessEqual", [x, y])
-    end
-
-    def lgamma(x)
-      execute("Lgamma", [x])
-    end
-
-    def list_diff(x, y, out_idx: nil)
-      execute("ListDiff", [x, y], out_idx: out_idx)
-    end
-
-    def log(x)
-      execute("Log", [x])
-    end
-
-    def log1p(x)
-      execute("Log1p", [x])
     end
 
     def logical_and(x, y)
@@ -361,20 +221,8 @@ module TensorFlow
       execute("Minimum", [x, y])
     end
 
-    def mod(x, y)
-      execute("Mod", [x, y])
-    end
-
     def multiply(x, y)
       execute("Mul", [x, y])
-    end
-
-    def mul_no_nan(x, y)
-      execute("MulNoNan", [x, y])
-    end
-
-    def neg(x)
-      execute("Neg", [x])
     end
 
     def no_op
@@ -397,28 +245,12 @@ module TensorFlow
       execute("Pad", [input, paddings])
     end
 
-    def population_count(x)
-      execute("PopulationCount", [x])
-    end
-
     def pow(x, y)
       execute("Pow", [x, y])
     end
 
     def print(input, data, message: nil, first_n: nil, summarize: nil)
       execute("Print", [input, data], message: message, first_n: first_n, summarize: summarize)
-    end
-
-    def quantized_add(x, y, min_x, max_x, min_y, max_y)
-      execute("QuantizedAdd", [x, y, min_x, max_x, min_y, max_y])
-    end
-
-    def quantized_instance_norm(x, x_min, x_max, output_range_given: nil, given_y_min: nil, given_y_max: nil, variance_epsilon: nil, min_separation: nil)
-      execute("QuantizedInstanceNorm", [x, x_min, x_max], output_range_given: output_range_given, given_y_min: given_y_min, given_y_max: given_y_max, variance_epsilon: variance_epsilon, min_separation: min_separation)
-    end
-
-    def quantized_mul(x, y, min_x, max_x, min_y, max_y)
-      execute("QuantizedMul", [x, y, min_x, max_x, min_y, max_y])
     end
 
     def range(start, limit, delta)
@@ -433,14 +265,6 @@ module TensorFlow
       execute("ReadVariableOp", [resource], dtype: dtype)
     end
 
-    def real_div(x, y)
-      execute("RealDiv", [x, y])
-    end
-
-    def reciprocal(x)
-      execute("Reciprocal", [x])
-    end
-
     def reshape(tensor, shape)
       execute("Reshape", [tensor, shape])
     end
@@ -453,24 +277,12 @@ module TensorFlow
       execute("ReverseSequence", [input, seq_lengths], seq_dim: seq_dim, batch_dim: batch_dim)
     end
 
-    def right_shift(x, y)
-      execute("RightShift", [x, y])
-    end
-
-    def rint(x)
-      execute("Rint", [x])
-    end
-
     def roll(input, shift, axis)
       execute("Roll", [input, shift, axis])
     end
 
     def round(x)
       execute("Round", [x])
-    end
-
-    def rsqrt(x)
-      execute("Rsqrt", [x])
     end
 
     def scatter_nd(indices, updates, shape)
@@ -529,10 +341,6 @@ module TensorFlow
       execute("Square", [x])
     end
 
-    def squared_difference(x, y)
-      execute("SquaredDifference", [x, y])
-    end
-
     def squeeze(input, squeeze_dims: nil)
       execute("Squeeze", [input], squeeze_dims: squeeze_dims)
     end
@@ -573,14 +381,6 @@ module TensorFlow
       execute("Transpose", [x, perm])
     end
 
-    def truncate_div(x, y)
-      execute("TruncateDiv", [x, y])
-    end
-
-    def truncate_mod(x, y)
-      execute("TruncateMod", [x, y])
-    end
-
     def unique(x, out_idx: nil)
       execute("Unique", [x], out_idx: out_idx)
     end
@@ -605,20 +405,8 @@ module TensorFlow
       execute("Where", [input])
     end
 
-    def xdivy(x, y)
-      execute("Xdivy", [x, y])
-    end
-
-    def xlogy(x, y)
-      execute("Xlogy", [x, y])
-    end
-
     def zeros_like(x)
       execute("ZerosLike", [x])
-    end
-
-    def zeta(x, q)
-      execute("Zeta", [x, q])
     end
   end
 end
