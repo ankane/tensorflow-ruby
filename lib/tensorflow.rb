@@ -4,14 +4,16 @@ require "npy"
 
 # stdlib
 require "fileutils"
+require "forwardable"
 require "net/http"
 require "tempfile"
 
 # modules
 require "tensorflow/utils"
 require "tensorflow/context"
-require "tensorflow/generated_ops"
+require "tensorflow/math"
 require "tensorflow/ops"
+require "tensorflow/raw_ops"
 require "tensorflow/tensor"
 require "tensorflow/variable"
 require "tensorflow/version"
@@ -35,9 +37,11 @@ module TensorFlow
   autoload :FFI, "tensorflow/ffi"
 
   class << self
-    include GeneratedOps
     include Ops
     include Utils
+
+    extend Forwardable
+    def_delegators Math, :abs, :acos, :acosh, :add, :add_n, :argmax, :argmin, :asin, :asinh, :atan, :atan2, :atanh, :cos, :cosh, :cumsum, :divide, :equal, :exp, :floor, :greater, :greater_equal, :less, :less_equal, :logical_and, :logical_not, :logical_or, :maximum, :minimum, :multiply, :negative, :not_equal, :pow, :reduce_all, :reduce_any, :reduce_logsumexp, :reduce_max, :reduce_mean, :reduce_min, :reduce_prod, :reduce_sum, :round, :scalar_mul, :sigmoid, :sign, :sin, :sinh, :sqrt, :square, :subtract, :tan, :tanh, :truediv
 
     def library_version
       FFI.TF_Version
@@ -50,79 +54,6 @@ module TensorFlow
     def convert_to_tensor(value, dtype: nil)
       value = Tensor.new(value, dtype: dtype) unless value.is_a?(Tensor)
       value
-    end
-
-    private
-
-    def default_context
-      @default_context ||= Context.new
-    end
-
-    def execute(op_name, inputs = [], **attrs)
-      context = default_context
-      status = FFI.TF_NewStatus # TODO reuse status between ops?
-      op = FFI.TFE_NewOp(context, op_name, status)
-      check_status status
-
-      attrs.each do |attr_name, attr_value|
-        next if attr_value.nil?
-
-        attr_name = attr_name.to_s
-
-        is_list = ::FFI::MemoryPointer.new(:int)
-        type = FFI.TFE_OpGetAttrType(op, attr_name, is_list, status)
-        check_status status
-
-        case FFI::AttrType[type]
-        when :string
-          FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
-        # when :int
-        # when :float
-        # when :bool
-        when :type
-          FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
-        when :shape
-          # TODO set value properly
-          FFI.TFE_OpSetAttrShape(op, attr_name, nil, 0, status)
-          check_status status
-        # when :tensor
-        # when :placeholder
-        # when :func
-        else
-          raise "Unknown type: #{FFI::AttrType[type]}"
-        end
-      end
-
-      inputs.each do |input|
-        input = convert_to_tensor(input) unless input.respond_to?(:to_ptr)
-        FFI.TFE_OpAddInput(op, input, status)
-        check_status status
-      end
-
-      retvals = ::FFI::MemoryPointer.new(:pointer)
-      num_retvals = ::FFI::MemoryPointer.new(:int)
-      num_retvals.write_int(retvals.size)
-      FFI.TFE_Execute(op, retvals, num_retvals, status)
-      check_status status
-
-      if num_retvals.read_int > 0
-        handle = retvals.read_pointer
-        type = FFI.TFE_TensorHandleDataType(handle)
-
-        case FFI::DataType[type]
-        when :resource
-          handle
-        else
-          Tensor.new(pointer: handle)
-        end
-      end
-    ensure
-      FFI.TF_DeleteStatus(status) if status
-      FFI.TFE_DeleteOp(op) if op
-    end
-
-    def check_status(status)
-      Utils.check_status(status)
     end
   end
 end

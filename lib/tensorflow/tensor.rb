@@ -56,23 +56,23 @@ module TensorFlow
     end
 
     def +(other)
-      TensorFlow.add(self, other)
+      Math.add(self, other)
     end
 
     def -(other)
-      TensorFlow.subtract(self, other)
+      Math.subtract(self, other)
     end
 
     def *(other)
-      TensorFlow.multiply(self, other)
+      Math.multiply(self, other)
     end
 
     def /(other)
-      TensorFlow.divide(self, other)
+      Math.divide(self, other)
     end
 
     def %(other)
-      TensorFlow.floormod(self, other)
+      Math.floormod(self, other)
     end
 
     def value

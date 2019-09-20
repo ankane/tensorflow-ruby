@@ -2,30 +2,30 @@ module TensorFlow
   class Variable
     def initialize(initial_value, dtype: nil)
       @dtype = dtype || Utils.infer_type(Array(initial_value).flatten)
-      @pointer = TensorFlow.var_handle_op(dtype: type_enum, shape: [], shared_name: TensorFlow.send(:default_context).shared_name)
+      @pointer = RawOps.var_handle_op(dtype: type_enum, shape: [], shared_name: Utils.default_context.shared_name)
       assign(initial_value)
     end
 
     def assign(value)
       value = TensorFlow.convert_to_tensor(value, dtype: @dtype)
-      TensorFlow.assign_variable_op(@pointer, value)
+      RawOps.assign_variable_op(resource: @pointer, value: value)
       self
     end
 
     def assign_add(value)
       value = TensorFlow.convert_to_tensor(value, dtype: @dtype)
-      TensorFlow.assign_add_variable_op(@pointer, value)
+      RawOps.assign_add_variable_op(resource: @pointer, value: value)
       self
     end
 
     def assign_sub(value)
       value = TensorFlow.convert_to_tensor(value, dtype: @dtype)
-      TensorFlow.assign_sub_variable_op(@pointer, value)
+      RawOps.assign_sub_variable_op(resource: @pointer, value: value)
       self
     end
 
     def read_value
-      TensorFlow.read_variable_op(@pointer, dtype: type_enum)
+      RawOps.read_variable_op(resource: @pointer, dtype: type_enum)
     end
 
     def +(other)

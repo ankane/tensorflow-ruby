@@ -11,10 +11,6 @@ class OperationsTest < Minitest::Test
     a = Tf.constant(2)
     b = Tf.constant(3)
     assert_equal 5, (a + b).value
-
-    a = Tf.constant([[1, 2], [3, 4]])
-    b = Tf.add(a, 1)
-    assert_equal [[2, 6], [12, 20]], (a * b).value
   end
 
   def test_divide
@@ -74,6 +70,10 @@ class OperationsTest < Minitest::Test
     b = Tf.constant(3)
     assert_equal 6, (a * b).value
     assert_equal 6, Tf.multiply(a, b).value
+
+    a = Tf.constant([[1, 2], [3, 4]])
+    b = Tf.add(a, 1)
+    assert_equal [[2, 6], [12, 20]], (a * b).value
   end
 
   def test_ones

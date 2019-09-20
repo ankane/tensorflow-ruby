@@ -8,7 +8,26 @@ Rake::TestTask.new do |t|
   t.warning = false
 end
 
-task :generate_ops do
+# -- TODO: put everything below somewhere better --
+
+# based on ActiveSupport underscore
+def underscore(str)
+  str.gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
+end
+
+def arg_name(name)
+  # start and stop choosen as they are used for some operations
+  case name
+  when "begin"
+    "start"
+  when "end"
+    "stop"
+  else
+    name
+  end
+end
+
+def read_op_def
   require "tensorflow"
 
   # TODO pull these into project?
@@ -19,79 +38,96 @@ task :generate_ops do
   buffer = TensorFlow::FFI.TF_GetAllOpList
   encoded = buffer[:data].read_bytes(buffer[:length])
 
-  # based on ActiveSupport underscore
-  def underscore(str)
-    str.gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
-  end
+  Tensorflow::OpList.decode(encoded).op.sort_by(&:name)
+end
 
-  def arg_name(name)
-    # start and stop choosen as they are used for some operations
-    case name
-    when "begin"
-      "start"
-    when "end"
-      "stop"
-    else
-      name
-    end
-  end
-
-  name_map = {
-    "div" => "divide",
-    "floor_div" => "floordiv",
-    "floor_mod" => "floormod",
-    "mul" => "multiply",
-    "sub" => "subtract"
-  }
-  op_names = ["abs", "acos", "acosh", "add", "add_n", "argmax", "argmin", "argsort", "as_dtype", "as_string", "asin", "asinh", "assert_equal", "assert_greater", "assert_less", "assert_rank", "atan", "atan2", "atanh", "audio", "autograph", "batch_to_space", "bitcast", "bitwise", "boolean_mask", "broadcast_dynamic_shape", "broadcast_static_shape", "broadcast_to", "case", "cast", "clip_by_global_norm", "clip_by_norm", "clip_by_value", "compat", "complex", "concat", "cond", "config", "constant", "constant_initializer", "control_dependencies", "convert_to_tensor", "cos", "cosh", "cumsum", "custom_gradient", "data", "debugging", "device", "distribute", "divide", "dtypes", "dynamic_partition", "dynamic_stitch", "edit_distance", "einsum", "ensure_shape", "equal", "errors", "estimator", "executing_eagerly", "exp", "expand_dims", "experimental", "extract_volume_patches", "eye", "feature_column", "fill", "fingerprint", "floor", "foldl", "foldr", "function", "gather", "gather_nd", "get_logger", "get_static_value", "grad_pass_through", "gradients", "graph_util", "greater", "greater_equal", "group", "guarantee_const", "hessians", "histogram_fixed_width", "histogram_fixed_width_bins", "identity", "identity_n", "image", "import_graph_def", "init_scope", "initializers", "io", "is_tensor", "keras", "less", "less_equal", "linalg", "linspace", "lite", "load_library", "load_op_library", "logical_and", "logical_not", "logical_or", "lookup", "losses", "make_ndarray", "make_tensor_proto", "map_fn", "math", "matmul", "matrix_square_root", "maximum", "meshgrid", "metrics", "minimum", "multiply", "name_scope", "negative", "nest", "nn", "no_gradient", "no_op", "nondifferentiable_batch_function", "norm", "not_equal", "numpy_function", "one_hot", "ones", "ones_initializer", "ones_like", "optimizers", "pad", "parallel_stack", "pow", "print", "py_function", "quantization", "queue", "ragged", "random", "random_normal_initializer", "random_uniform_initializer", "range", "rank", "raw_ops", "realdiv", "recompute_grad", "reduce_all", "reduce_any", "reduce_logsumexp", "reduce_max", "reduce_mean", "reduce_min", "reduce_prod", "reduce_sum", "register_tensor_conversion_function", "required_space_to_batch_paddings", "reshape", "reverse", "reverse_sequence", "roll", "round", "saturate_cast", "saved_model", "scalar_mul", "scan", "scatter_nd", "searchsorted", "sequence_mask", "sets", "shape", "shape_n", "sigmoid", "sign", "signal", "sin", "sinh", "size", "slice", "sort", "space_to_batch", "space_to_batch_nd", "sparse", "split", "sqrt", "square", "squeeze", "stack", "stop_gradient", "strided_slice", "strings", "subtract", "summary", "switch_case", "sysconfig", "tan", "tanh", "tensor_scatter_nd_add", "tensor_scatter_nd_sub", "tensor_scatter_nd_update", "tensordot", "test", "tile", "timestamp", "tpu", "train", "transpose", "truediv", "truncatediv", "truncatemod", "tuple", "unique", "unique_with_counts", "unravel_index", "unstack", "variable_creator_scope", "vectorized_map", "version", "where", "while_loop", "xla", "zeros", "zeros_initializer", "zeros_like"] +
-    ["matrix_set_diag", "floormod", "assign_add_variable_op", "assign_sub_variable_op", "assign_variable_op", "var_is_initialized_op", "read_variable_op", "var_handle_op"]
-
+task :generate_ops do
   defs = []
-  Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
+  read_op_def.each do |op|
     input_names = op.input_arg.map { |v| arg_name(v.name) }
     options = op.attr.map { |v| arg_name(v.name) }.reject { |v| v[0] == v[0].upcase }
 
-    if op.name[0] != "_" && op.name !~ /V\d/
-      # TODO generate default values
-      def_name = underscore(op.name)
-      # if def_name =~ /v\d/ && def_name[-3] != "_"
-      #   def_name = "#{def_name[0..-3]}_#{def_name[-2..-1]}"
-      # end
-      def_name = name_map[def_name] if name_map[def_name]
-      def_options_str = options.map { |v| ", #{v}: nil" }.join
+    if op.name[0] != "_"
+      def_name = underscore(op.name).gsub(/2_d/, "2d").gsub(/3_d/, "3d")
+      def_options_str = (input_names + options).map { |v| ", #{v}: nil" }.join
       execute_options_str = options.map { |v| ", #{v}: #{v}" }.join
-
-      if op_names.include?(def_name)
-        defs << %!    def #{def_name}(#{input_names.join(", ")}#{def_options_str})
-      execute("#{op.name}", [#{input_names.join(", ")}]#{execute_options_str})
-    end!
-      end
+      defs << %!      def #{def_name}(#{def_options_str})
+        Utils.execute("#{op.name}", [#{input_names.join(", ")}]#{execute_options_str})
+      end!
     end
   end
 
   contents = %!# Generated by `rake generate_ops`
 module TensorFlow
-  module GeneratedOps
+  module RawOps
+    class << self
 #{defs.join("\n\n")}
+    end
   end
 end
 !
   contents = contents.gsub("()", "").gsub("(, ", "(")
   # puts contents
-  File.write("lib/tensorflow/generated_ops.rb", contents)
+  File.write("lib/tensorflow/raw_ops.rb", contents)
 end
 
-task :op_names do
-  require "open-uri"
+task :seed_ops do
   require "nokogiri"
+  require "open-uri"
 
-  def_names = []
-  doc = Nokogiri::HTML(open("https://www.tensorflow.org/versions/r2.0/api_docs/python"))
+  cached_path = "/tmp/ops.html"
+  unless File.exist?(cached_path)
+    url = "https://www.tensorflow.org/versions/r2.0/api_docs/python"
+    puts "Downloading #{url}"
+    File.write(cached_path, open(url).read)
+  end
+
+  ops = []
+  doc = Nokogiri::HTML(File.read(cached_path))
   doc.css("a").each do |node|
     text = node.text.strip
-    if text.start_with?("tf.") && text == text.downcase && text.count(".") == 1
-      def_names << text.split(".").last
+    if text.start_with?("tf.") && text == text.downcase && !text.include?(".compat.")
+      ops << text
     end
   end
-  p def_names
+
+  tf_ops = ops.select { |op| op.count(".") == 1 }.map { |v| v.sub("tf.", "") }
+  math_ops = ops.select { |op| op.start_with?("tf.math.") }.map { |v| v.sub("tf.math.", "") }
+
+  defs = []
+  op_def = read_op_def.map { |op| [underscore(op.name).gsub(/2_d/, "2d").gsub(/3_d/, "3d"), op] }.to_h
+
+  math_ops.each do |def_name|
+    op = op_def[def_name]
+
+    if !op
+      defs << %!      # def #{def_name}
+      # end!
+    else
+      input_names = op.input_arg.map { |v| arg_name(v.name) }
+      options = op.attr.map { |v| arg_name(v.name) }.reject { |v| v[0] == v[0].upcase }
+
+      input_names_str = input_names.join(", ")
+      def_options_str = options.map { |v| ", #{v}: nil" }.join
+      raw_options_str = (input_names + options).map { |v| "#{v}: #{v}" }.join(", ")
+      defs << %!      def #{def_name}(#{input_names_str}#{def_options_str})
+        RawOps.#{def_name}(#{raw_options_str})
+      end!
+    end
+  end
+
+  contents = %!module TensorFlow
+  module Math
+    class << self
+#{defs.join("\n\n")}
+    end
+  end
+end
+!
+  contents = contents.gsub("()", "").gsub("(, ", "(")
+  # puts contents
+  File.write("lib/tensorflow/math.rb", contents)
+
+  delegate_math_ops = tf_ops & math_ops
+  puts "def_delegators Math, #{delegate_math_ops.map { |v| v.to_sym.inspect }.join(", ")}"
 end
