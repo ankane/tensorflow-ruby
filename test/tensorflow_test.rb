@@ -17,6 +17,7 @@ class TensorFlowTest < Minitest::Test
 
   def test_infer_type
     assert_equal :float, Tf.constant(1.0).dtype
+    assert_equal :float, Tf.constant(1.234567890123456789).dtype
     assert_equal :bool, Tf.constant([true, false]).dtype
     assert_equal :int32, Tf.constant(1).dtype
     assert_equal :int32, Tf.constant(2147483647).dtype
