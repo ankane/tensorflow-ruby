@@ -18,7 +18,7 @@ module TensorFlow
 
         data = data.flatten
 
-        dtype ||= Utils.infer_type(value)
+        dtype ||= Utils.infer_type(data)
         type = FFI::DataType[dtype]
         case dtype
         when :string

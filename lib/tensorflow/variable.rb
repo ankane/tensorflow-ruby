@@ -1,7 +1,7 @@
 module TensorFlow
   class Variable
     def initialize(initial_value, dtype: nil)
-      @dtype = dtype || Utils.infer_type(initial_value)
+      @dtype = dtype || Utils.infer_type(Array(initial_value).flatten)
       @pointer = TensorFlow.var_handle_op(type_enum, nil, shared_name: TensorFlow.send(:default_context).shared_name)
       assign(initial_value)
     end

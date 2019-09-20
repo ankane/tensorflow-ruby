@@ -7,20 +7,16 @@ module TensorFlow
     end
 
     def self.infer_type(value)
-      # TODO check all values
-      while value.is_a?(Array)
-        value = value.first
-      end
-
-      case value
-      when String
+      if value.all? { |v| v.is_a?(String) }
         :string
-      when Float
-        :float
-      when true, false
+      elsif value.all? { |v| v == true || v == false }
         :bool
+      elsif value.all? { |v| v.is_a?(Integer) }
+        :int32 # TODO make sure under certain size
+      elsif value.all? { |v| v.is_a?(Numeric) }
+        :float
       else
-        :int32
+        raise Error, "Unable to infer data type"
       end
     end
 
