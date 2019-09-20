@@ -51,7 +51,7 @@ class OperationsTest < Minitest::Test
         when :complex64, :complex128
           Complex(2, 3)
         else
-          0
+          2
         end
 
       tensor = Tf.identity(Tf.constant(value, dtype: dtype))
