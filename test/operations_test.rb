@@ -19,6 +19,19 @@ class OperationsTest < Minitest::Test
     end
   end
 
+  def test_abs
+    assert_equal 1, Tf.abs(Tf.constant(-1)).value
+  end
+
+  def test_sqrt
+    assert_equal 3.0, Tf.sqrt(Tf.constant(9.0)).value
+  end
+
+  def test_matmul
+    x = [[2.0]]
+    assert_equal [[4.0]], Tf.matmul(x, x).value
+  end
+
   def test_fill
     assert_equal [[9, 9, 9], [9, 9, 9]], Tf.fill([2, 3], 9).value
     assert_equal [[0, 0, 0], [0, 0, 0]], Tf.zeros([2, 3]).value

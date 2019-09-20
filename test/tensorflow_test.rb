@@ -19,11 +19,6 @@ class TensorFlowTest < Minitest::Test
     assert_equal 6, (a * b).value
     assert_in_delta 0, (a / b).value
 
-    assert_equal 1, Tf.abs(Tf.constant(-1)).value
-    assert_equal 3.0, Tf.sqrt(Tf.constant(9.0)).value
-    x = [[2.0]]
-    assert_equal [[4.0]], Tf.matmul(x, x).value
-
     a = Tf.constant([[1, 2], [3, 4]])
     b = Tf.add(a, 1)
     assert_equal [[2, 6], [12, 20]], (a * b).value
