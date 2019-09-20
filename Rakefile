@@ -43,18 +43,23 @@ task :generate_ops do
     "mul" => "multiply",
     "sub" => "subtract"
   }
-  included_names = %w(Fill Range)
+  included_names =
+    ["fill", "range"] +
+    ["abs", "accumulate_n", "acos", "acosh", "add", "add_n", "angle", "argmax", "argmin", "asin", "asinh", "atan", "atan2", "atanh", "bessel_i0", "bessel_i0e", "bessel_i1", "bessel_i1e", "betainc", "bincount", "ceil", "confusion_matrix", "conj", "cos", "cosh", "count_nonzero", "cumprod", "cumsum", "cumulative_logsumexp", "digamma", "divide", "divide_no_nan", "equal", "erf", "erfc", "exp", "expm1", "floor", "floordiv", "floormod", "greater", "greater_equal", "igamma", "igammac", "imag", "invert_permutation", "in_top_k", "is_finite", "is_inf", "is_nan", "is_non_decreasing", "is_strictly_increasing", "l2_normalize", "lbeta", "less", "less_equal", "lgamma", "log", "log1p", "logical_and", "logical_not", "logical_or", "logical_xor", "log_sigmoid", "maximum", "minimum", "multiply", "multiply_no_nan", "negative", "nextafter", "not_equal", "polygamma", "polyval", "pow", "real", "reciprocal", "reciprocal_no_nan", "reduce_any", "reduce_euclidean_norm", "reduce_logsumexp", "reduce_max", "reduce_mean", "reduce_min", "reduce_prod", "reduce_std", "reduce_sum", "reduce_variance", "rint", "round", "rsqrt", "scalar_mul", "segment_max", "segment_mean", "segment_min", "segment_prod", "segment_sum", "sigmoid", "sign", "sin", "sinh", "softplus", "sqrt", "square", "squared_difference", "subtract", "tan", "tanh", "top_k", "truediv", "unsorted_segment_max", "unsorted_segment_mean", "unsorted_segment_min", "unsorted_segment_prod", "unsorted_segment_sqrt_n", "unsorted_segment_sum", "xdivy", "xlogy", "zero_fraction", "zeta"]
 
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
     input_names = op.input_arg.map { |v| arg_name(v.name) }
-    if op.name[0] != "_" && op.name[-2..-1] != "V2" && (input_names.first == "x" || included_names.include?(op.name))
+    if op.name[0] != "_" && op.name[-2..-1] != "V2"
       # TODO generate default values and optional arguments
       def_name = underscore(op.name)
       def_name = name_map[def_name] if name_map[def_name]
-      defs << %!    def #{def_name}(#{input_names.join(", ")})
+
+      if input_names.first == "x" || included_names.include?(def_name)
+        defs << %!    def #{def_name}(#{input_names.join(", ")})
       execute("#{op.name}", [#{input_names.join(", ")}])
     end!
+      end
     end
   end
 
@@ -67,4 +72,21 @@ end
 !
   # puts contents
   File.write("lib/tensorflow/generated_ops.rb", contents)
+end
+
+task :math_ops do
+  require "open-uri"
+  require "nokogiri"
+
+  def_names = []
+  doc = Nokogiri::HTML(open("https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/math"))
+  doc.css("a").each do |node|
+    next unless node.attribute("href")
+
+    href = node.attribute("href").value
+    if href.start_with?("/versions/r2.0/api_docs/python/tf/math/")
+      def_names << href.split("/").last
+    end
+  end
+  p def_names
 end

@@ -17,6 +17,14 @@ module TensorFlow
       execute("Add", [x, y])
     end
 
+    def add_n(inputs)
+      execute("AddN", [inputs])
+    end
+
+    def angle(input)
+      execute("Angle", [input])
+    end
+
     def approximate_equal(x, y)
       execute("ApproximateEqual", [x, y])
     end
@@ -33,6 +41,10 @@ module TensorFlow
       execute("Atan", [x])
     end
 
+    def atan2(y, x)
+      execute("Atan2", [y, x])
+    end
+
     def atanh(x)
       execute("Atanh", [x])
     end
@@ -47,6 +59,14 @@ module TensorFlow
 
     def bessel_i1e(x)
       execute("BesselI1e", [x])
+    end
+
+    def betainc(a, b, x)
+      execute("Betainc", [a, b, x])
+    end
+
+    def bincount(arr, size, weights)
+      execute("Bincount", [arr, size, weights])
     end
 
     def bitwise_and(x, y)
@@ -71,6 +91,10 @@ module TensorFlow
 
     def complex_abs(x)
       execute("ComplexAbs", [x])
+    end
+
+    def conj(input)
+      execute("Conj", [input])
     end
 
     def conjugate_transpose(x, perm)
@@ -167,6 +191,22 @@ module TensorFlow
 
     def greater_equal(x, y)
       execute("GreaterEqual", [x, y])
+    end
+
+    def igamma(a, x)
+      execute("Igamma", [a, x])
+    end
+
+    def igammac(a, x)
+      execute("Igammac", [a, x])
+    end
+
+    def imag(input)
+      execute("Imag", [input])
+    end
+
+    def in_top_k(predictions, targets)
+      execute("InTopK", [predictions, targets])
     end
 
     def inplace_add(x, i, v)
@@ -277,6 +317,10 @@ module TensorFlow
       execute("OnesLike", [x])
     end
 
+    def polygamma(a, x)
+      execute("Polygamma", [a, x])
+    end
+
     def population_count(x)
       execute("PopulationCount", [x])
     end
@@ -299,6 +343,10 @@ module TensorFlow
 
     def range(start, limit, delta)
       execute("Range", [start, limit, delta])
+    end
+
+    def real(input)
+      execute("Real", [input])
     end
 
     def real_div(x, y)
@@ -325,6 +373,26 @@ module TensorFlow
       execute("Rsqrt", [x])
     end
 
+    def segment_max(data, segment_ids)
+      execute("SegmentMax", [data, segment_ids])
+    end
+
+    def segment_mean(data, segment_ids)
+      execute("SegmentMean", [data, segment_ids])
+    end
+
+    def segment_min(data, segment_ids)
+      execute("SegmentMin", [data, segment_ids])
+    end
+
+    def segment_prod(data, segment_ids)
+      execute("SegmentProd", [data, segment_ids])
+    end
+
+    def segment_sum(data, segment_ids)
+      execute("SegmentSum", [data, segment_ids])
+    end
+
     def sigmoid(x)
       execute("Sigmoid", [x])
     end
@@ -339,6 +407,10 @@ module TensorFlow
 
     def sinh(x)
       execute("Sinh", [x])
+    end
+
+    def softplus(features)
+      execute("Softplus", [features])
     end
 
     def sqrt(x)
@@ -365,6 +437,10 @@ module TensorFlow
       execute("Tanh", [x])
     end
 
+    def top_k(input)
+      execute("TopK", [input])
+    end
+
     def transpose(x, perm)
       execute("Transpose", [x, perm])
     end
@@ -383,6 +459,22 @@ module TensorFlow
 
     def unique_with_counts(x)
       execute("UniqueWithCounts", [x])
+    end
+
+    def unsorted_segment_max(data, segment_ids, num_segments)
+      execute("UnsortedSegmentMax", [data, segment_ids, num_segments])
+    end
+
+    def unsorted_segment_min(data, segment_ids, num_segments)
+      execute("UnsortedSegmentMin", [data, segment_ids, num_segments])
+    end
+
+    def unsorted_segment_prod(data, segment_ids, num_segments)
+      execute("UnsortedSegmentProd", [data, segment_ids, num_segments])
+    end
+
+    def unsorted_segment_sum(data, segment_ids, num_segments)
+      execute("UnsortedSegmentSum", [data, segment_ids, num_segments])
     end
 
     def xdivy(x, y)
