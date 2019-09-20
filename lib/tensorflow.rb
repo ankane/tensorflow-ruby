@@ -52,14 +52,6 @@ module TensorFlow
       value
     end
 
-    def read_variable_op(resource, dtype)
-      execute("ReadVariableOp", [resource], dtype: dtype)
-    end
-
-    def var_handle_op(dtype, shape, container: "", shared_name: "")
-      execute("VarHandleOp", [], container: container, shared_name: shared_name, dtype: dtype, shape: shape)
-    end
-
     private
 
     def default_context
@@ -73,6 +65,8 @@ module TensorFlow
       check_status status
 
       attrs.each do |attr_name, attr_value|
+        next if attr_value.nil?
+
         attr_name = attr_name.to_s
 
         is_list = ::FFI::MemoryPointer.new(:int)
@@ -84,7 +78,7 @@ module TensorFlow
           FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
         when :shape
           # TODO set value properly
-          FFI.TFE_OpSetAttrShape(op, attr_name, attr_value, 0, status)
+          FFI.TFE_OpSetAttrShape(op, attr_name, nil, 0, status)
           check_status status
         when :string
           FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)

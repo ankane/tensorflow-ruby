@@ -2,7 +2,7 @@ module TensorFlow
   class Variable
     def initialize(initial_value, dtype: nil)
       @dtype = dtype || Utils.infer_type(Array(initial_value).flatten)
-      @pointer = TensorFlow.var_handle_op(type_enum, nil, shared_name: TensorFlow.send(:default_context).shared_name)
+      @pointer = TensorFlow.var_handle_op(dtype: type_enum, shape: [], shared_name: TensorFlow.send(:default_context).shared_name)
       assign(initial_value)
     end
 
@@ -25,7 +25,7 @@ module TensorFlow
     end
 
     def read_value
-      TensorFlow.read_variable_op(@pointer, type_enum)
+      TensorFlow.read_variable_op(@pointer, dtype: type_enum)
     end
 
     def +(other)

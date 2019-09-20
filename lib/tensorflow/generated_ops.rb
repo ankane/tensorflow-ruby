@@ -21,12 +21,12 @@ module TensorFlow
       execute("AddN", [inputs])
     end
 
-    def approximate_equal(x, y)
-      execute("ApproximateEqual", [x, y])
+    def approximate_equal(x, y, tolerance: nil)
+      execute("ApproximateEqual", [x, y], tolerance: tolerance)
     end
 
-    def as_string(input)
-      execute("AsString", [input])
+    def as_string(input, precision: nil, scientific: nil, shortest: nil, width: nil, fill: nil)
+      execute("AsString", [input], precision: precision, scientific: scientific, shortest: shortest, width: width, fill: fill)
     end
 
     def asin(x)
@@ -37,16 +37,16 @@ module TensorFlow
       execute("Asinh", [x])
     end
 
-    def assign_add_variable_op(resource, value)
-      execute("AssignAddVariableOp", [resource, value])
+    def assign_add_variable_op(resource, value, dtype: nil)
+      execute("AssignAddVariableOp", [resource, value], dtype: dtype)
     end
 
-    def assign_sub_variable_op(resource, value)
-      execute("AssignSubVariableOp", [resource, value])
+    def assign_sub_variable_op(resource, value, dtype: nil)
+      execute("AssignSubVariableOp", [resource, value], dtype: dtype)
     end
 
-    def assign_variable_op(resource, value)
-      execute("AssignVariableOp", [resource, value])
+    def assign_variable_op(resource, value, dtype: nil)
+      execute("AssignVariableOp", [resource, value], dtype: dtype)
     end
 
     def atan(x)
@@ -61,12 +61,12 @@ module TensorFlow
       execute("Atanh", [x])
     end
 
-    def batch_mat_mul(x, y)
-      execute("BatchMatMul", [x, y])
+    def batch_mat_mul(x, y, adj_x: nil, adj_y: nil)
+      execute("BatchMatMul", [x, y], adj_x: adj_x, adj_y: adj_y)
     end
 
-    def batch_to_space(input, crops)
-      execute("BatchToSpace", [input, crops])
+    def batch_to_space(input, crops, block_size: nil)
+      execute("BatchToSpace", [input, crops], block_size: block_size)
     end
 
     def bessel_i0e(x)
@@ -77,8 +77,8 @@ module TensorFlow
       execute("BesselI1e", [x])
     end
 
-    def bitcast(input)
-      execute("Bitcast", [input])
+    def bitcast(input, type: nil)
+      execute("Bitcast", [input], type: type)
     end
 
     def bitwise_and(x, y)
@@ -97,8 +97,8 @@ module TensorFlow
       execute("BroadcastTo", [input, shape])
     end
 
-    def case(branch_index, input)
-      execute("Case", [branch_index, input])
+    def case(branch_index, input, branches: nil, output_shapes: nil)
+      execute("Case", [branch_index, input], branches: branches, output_shapes: output_shapes)
     end
 
     def cast(x)
@@ -137,20 +137,20 @@ module TensorFlow
       execute("Cosh", [x])
     end
 
-    def cumprod(x, axis)
-      execute("Cumprod", [x, axis])
+    def cumprod(x, axis, exclusive: nil, reverse: nil)
+      execute("Cumprod", [x, axis], exclusive: exclusive, reverse: reverse)
     end
 
-    def cumsum(x, axis)
-      execute("Cumsum", [x, axis])
+    def cumsum(x, axis, exclusive: nil, reverse: nil)
+      execute("Cumsum", [x, axis], exclusive: exclusive, reverse: reverse)
     end
 
-    def data_format_dim_map(x)
-      execute("DataFormatDimMap", [x])
+    def data_format_dim_map(x, src_format: nil, dst_format: nil)
+      execute("DataFormatDimMap", [x], src_format: src_format, dst_format: dst_format)
     end
 
-    def data_format_vec_permute(x)
-      execute("DataFormatVecPermute", [x])
+    def data_format_vec_permute(x, src_format: nil, dst_format: nil)
+      execute("DataFormatVecPermute", [x], src_format: src_format, dst_format: dst_format)
     end
 
     def deep_copy(x)
@@ -169,20 +169,20 @@ module TensorFlow
       execute("DivNoNan", [x, y])
     end
 
-    def dynamic_partition(data, partitions)
-      execute("DynamicPartition", [data, partitions])
+    def dynamic_partition(data, partitions, num_partitions: nil)
+      execute("DynamicPartition", [data, partitions], num_partitions: num_partitions)
     end
 
     def dynamic_stitch(indices, data)
       execute("DynamicStitch", [indices, data])
     end
 
-    def edit_distance(hypothesis_indices, hypothesis_values, hypothesis_shape, truth_indices, truth_values, truth_shape)
-      execute("EditDistance", [hypothesis_indices, hypothesis_values, hypothesis_shape, truth_indices, truth_values, truth_shape])
+    def edit_distance(hypothesis_indices, hypothesis_values, hypothesis_shape, truth_indices, truth_values, truth_shape, normalize: nil)
+      execute("EditDistance", [hypothesis_indices, hypothesis_values, hypothesis_shape, truth_indices, truth_values, truth_shape], normalize: normalize)
     end
 
-    def ensure_shape(input)
-      execute("EnsureShape", [input])
+    def ensure_shape(input, shape: nil)
+      execute("EnsureShape", [input], shape: shape)
     end
 
     def equal(x, y)
@@ -209,12 +209,12 @@ module TensorFlow
       execute("Expm1", [x])
     end
 
-    def extract_volume_patches(input)
-      execute("ExtractVolumePatches", [input])
+    def extract_volume_patches(input, ksizes: nil, strides: nil, padding: nil)
+      execute("ExtractVolumePatches", [input], ksizes: ksizes, strides: strides, padding: padding)
     end
 
-    def fill(dims, value)
-      execute("Fill", [dims, value])
+    def fill(dims, value, index_type: nil)
+      execute("Fill", [dims, value], index_type: index_type)
     end
 
     def fingerprint(data, method)
@@ -233,16 +233,16 @@ module TensorFlow
       execute("FloorMod", [x, y])
     end
 
-    def fused_batch_norm(x, scale, offset, mean, variance)
-      execute("FusedBatchNorm", [x, scale, offset, mean, variance])
+    def fused_batch_norm(x, scale, offset, mean, variance, epsilon: nil, data_format: nil, is_training: nil)
+      execute("FusedBatchNorm", [x, scale, offset, mean, variance], epsilon: epsilon, data_format: data_format, is_training: is_training)
     end
 
-    def fused_batch_norm_v3(x, scale, offset, mean, variance)
-      execute("FusedBatchNormV3", [x, scale, offset, mean, variance])
+    def fused_batch_norm_v3(x, scale, offset, mean, variance, epsilon: nil, data_format: nil, is_training: nil)
+      execute("FusedBatchNormV3", [x, scale, offset, mean, variance], epsilon: epsilon, data_format: data_format, is_training: is_training)
     end
 
-    def gather(params, indices)
-      execute("Gather", [params, indices])
+    def gather(params, indices, validate_indices: nil)
+      execute("Gather", [params, indices], validate_indices: validate_indices)
     end
 
     def gather_nd(params, indices)
@@ -261,8 +261,8 @@ module TensorFlow
       execute("GuaranteeConst", [input])
     end
 
-    def histogram_fixed_width(values, value_range, nbins)
-      execute("HistogramFixedWidth", [values, value_range, nbins])
+    def histogram_fixed_width(values, value_range, nbins, dtype: nil)
+      execute("HistogramFixedWidth", [values, value_range, nbins], dtype: dtype)
     end
 
     def identity(input)
@@ -325,8 +325,8 @@ module TensorFlow
       execute("Lgamma", [x])
     end
 
-    def list_diff(x, y)
-      execute("ListDiff", [x, y])
+    def list_diff(x, y, out_idx: nil)
+      execute("ListDiff", [x, y], out_idx: out_idx)
     end
 
     def log(x)
@@ -389,8 +389,8 @@ module TensorFlow
       execute("NotEqual", [x, y])
     end
 
-    def one_hot(indices, depth, on_value, off_value)
-      execute("OneHot", [indices, depth, on_value, off_value])
+    def one_hot(indices, depth, on_value, off_value, axis: nil)
+      execute("OneHot", [indices, depth, on_value, off_value], axis: axis)
     end
 
     def ones_like(x)
@@ -409,16 +409,16 @@ module TensorFlow
       execute("Pow", [x, y])
     end
 
-    def print(input, data)
-      execute("Print", [input, data])
+    def print(input, data, message: nil, first_n: nil, summarize: nil)
+      execute("Print", [input, data], message: message, first_n: first_n, summarize: summarize)
     end
 
     def quantized_add(x, y, min_x, max_x, min_y, max_y)
       execute("QuantizedAdd", [x, y, min_x, max_x, min_y, max_y])
     end
 
-    def quantized_instance_norm(x, x_min, x_max)
-      execute("QuantizedInstanceNorm", [x, x_min, x_max])
+    def quantized_instance_norm(x, x_min, x_max, output_range_given: nil, given_y_min: nil, given_y_max: nil, variance_epsilon: nil, min_separation: nil)
+      execute("QuantizedInstanceNorm", [x, x_min, x_max], output_range_given: output_range_given, given_y_min: given_y_min, given_y_max: given_y_max, variance_epsilon: variance_epsilon, min_separation: min_separation)
     end
 
     def quantized_mul(x, y, min_x, max_x, min_y, max_y)
@@ -431,6 +431,10 @@ module TensorFlow
 
     def rank(input)
       execute("Rank", [input])
+    end
+
+    def read_variable_op(resource, dtype: nil)
+      execute("ReadVariableOp", [resource], dtype: dtype)
     end
 
     def real_div(x, y)
@@ -449,8 +453,8 @@ module TensorFlow
       execute("Reverse", [tensor, dims])
     end
 
-    def reverse_sequence(input, seq_lengths)
-      execute("ReverseSequence", [input, seq_lengths])
+    def reverse_sequence(input, seq_lengths, seq_dim: nil, batch_dim: nil)
+      execute("ReverseSequence", [input, seq_lengths], seq_dim: seq_dim, batch_dim: batch_dim)
     end
 
     def right_shift(x, y)
@@ -477,12 +481,12 @@ module TensorFlow
       execute("ScatterNd", [indices, updates, shape])
     end
 
-    def shape(input)
-      execute("Shape", [input])
+    def shape(input, out_type: nil)
+      execute("Shape", [input], out_type: out_type)
     end
 
-    def shape_n(input)
-      execute("ShapeN", [input])
+    def shape_n(input, out_type: nil)
+      execute("ShapeN", [input], out_type: out_type)
     end
 
     def sigmoid(x)
@@ -501,24 +505,24 @@ module TensorFlow
       execute("Sinh", [x])
     end
 
-    def size(input)
-      execute("Size", [input])
+    def size(input, out_type: nil)
+      execute("Size", [input], out_type: out_type)
     end
 
     def slice(input, begin_, size)
       execute("Slice", [input, begin_, size])
     end
 
-    def space_to_batch(input, paddings)
-      execute("SpaceToBatch", [input, paddings])
+    def space_to_batch(input, paddings, block_size: nil)
+      execute("SpaceToBatch", [input, paddings], block_size: block_size)
     end
 
     def space_to_batch_nd(input, block_shape, paddings)
       execute("SpaceToBatchND", [input, block_shape, paddings])
     end
 
-    def split(split_dim, value)
-      execute("Split", [split_dim, value])
+    def split(split_dim, value, num_split: nil)
+      execute("Split", [split_dim, value], num_split: num_split)
     end
 
     def sqrt(x)
@@ -533,20 +537,20 @@ module TensorFlow
       execute("SquaredDifference", [x, y])
     end
 
-    def squeeze(input)
-      execute("Squeeze", [input])
+    def squeeze(input, squeeze_dims: nil)
+      execute("Squeeze", [input], squeeze_dims: squeeze_dims)
     end
 
-    def stack
-      execute("Stack", [])
+    def stack(elem_type: nil, stack_name: nil)
+      execute("Stack", [], elem_type: elem_type, stack_name: stack_name)
     end
 
     def stop_gradient(input)
       execute("StopGradient", [input])
     end
 
-    def strided_slice(input, begin_, end_, strides)
-      execute("StridedSlice", [input, begin_, end_, strides])
+    def strided_slice(input, begin_, end_, strides, begin_mask: nil, end_mask: nil, ellipsis_mask: nil, new_axis_mask: nil, shrink_axis_mask: nil)
+      execute("StridedSlice", [input, begin_, end_, strides], begin_mask: begin_mask, end_mask: end_mask, ellipsis_mask: ellipsis_mask, new_axis_mask: new_axis_mask, shrink_axis_mask: shrink_axis_mask)
     end
 
     def subtract(x, y)
@@ -581,16 +585,20 @@ module TensorFlow
       execute("TruncateMod", [x, y])
     end
 
-    def unique(x)
-      execute("Unique", [x])
+    def unique(x, out_idx: nil)
+      execute("Unique", [x], out_idx: out_idx)
     end
 
-    def unique_with_counts(x)
-      execute("UniqueWithCounts", [x])
+    def unique_with_counts(x, out_idx: nil)
+      execute("UniqueWithCounts", [x], out_idx: out_idx)
     end
 
     def unravel_index(indices, dims)
       execute("UnravelIndex", [indices, dims])
+    end
+
+    def var_handle_op(container: nil, shared_name: nil, dtype: nil, shape: nil)
+      execute("VarHandleOp", [], container: container, shared_name: shared_name, dtype: dtype, shape: shape)
     end
 
     def var_is_initialized_op(resource)
