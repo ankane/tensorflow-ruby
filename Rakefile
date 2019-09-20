@@ -28,10 +28,17 @@ task :generate_ops do
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
     input_names = op.input_arg.map(&:name)
     if op.name[0] != "_" && op.name[-2..-1] != "V2" && input_names.first == "x"
-      defs << %!def #{underscore(op.name)}(#{input_names.join(", ")})
-  execute("#{op.name}", [#{input_names.join(", ")}])
-end!
+      defs << %!    def #{underscore(op.name)}(#{input_names.join(", ")})
+      execute("#{op.name}", [#{input_names.join(", ")}])
+    end!
     end
   end
-  puts defs.join("\n\n")
+
+  contents = %!module TensorFlow
+  module GeneratedOps
+#{defs.join("\n\n")}
+  end
+end
+!
+  puts contents
 end
