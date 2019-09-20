@@ -32,6 +32,10 @@ class OperationsTest < Minitest::Test
     assert_equal [true, true], Tf.equal(x, y).value
   end
 
+  def test_eye
+    assert_equal [[1, 0], [0, 1]], Tf.eye(2).value
+  end
+
   def test_fill
     assert_equal [[9, 9, 9], [9, 9, 9]], Tf.fill([2, 3], 9).value
   end

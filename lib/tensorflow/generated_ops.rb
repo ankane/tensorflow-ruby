@@ -337,6 +337,10 @@ module TensorFlow
       execute("LogicalOr", [x, y])
     end
 
+    def matrix_set_diag(input, diagonal)
+      execute("MatrixSetDiag", [input, diagonal])
+    end
+
     def matrix_square_root(input)
       execute("MatrixSquareRoot", [input])
     end

@@ -66,6 +66,13 @@ module TensorFlow
       fill(dims, 1)
     end
 
+    def eye(num_rows,  num_columns: nil)
+      num_columns ||= num_rows
+      zeros = self.zeros([num_rows, num_columns])
+      ones = self.ones([num_rows])
+      matrix_set_diag(zeros, ones)
+    end
+
     def assign_add_variable_op(resource, value)
       execute("AssignAddVariableOp", [resource, value])
     end
