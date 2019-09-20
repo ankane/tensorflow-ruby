@@ -19,11 +19,16 @@ task :generate_ops do
   buffer = TensorFlow::FFI.TF_GetAllOpList
   encoded = buffer[:data].read_bytes(buffer[:length])
 
+  # based on ActiveSupport underscore
+  def underscore(str)
+    str.gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
+  end
+
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
     input_names = op.input_arg.map(&:name)
-    if op.name[0] != "_" && input_names.first == "x"
-      defs << %!def #{op.name.downcase}(#{input_names.join(", ")})
+    if op.name[0] != "_" && op.name[-2..-1] != "V2" && input_names.first == "x"
+      defs << %!def #{underscore(op.name)}(#{input_names.join(", ")})
   execute("#{op.name}", [#{input_names.join(", ")}])
 end!
     end
