@@ -68,6 +68,7 @@ module TensorFlow
   end
 end
 !
+  contents = contents.gsub("()", "")
   # puts contents
   File.write("lib/tensorflow/generated_ops.rb", contents)
 end

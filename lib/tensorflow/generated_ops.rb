@@ -365,7 +365,7 @@ module TensorFlow
       execute("Neg", [x])
     end
 
-    def no_op()
+    def no_op
       execute("NoOp", [])
     end
 
@@ -521,7 +521,7 @@ module TensorFlow
       execute("Squeeze", [input])
     end
 
-    def stack()
+    def stack
       execute("Stack", [])
     end
 
@@ -549,7 +549,7 @@ module TensorFlow
       execute("Tile", [input, multiples])
     end
 
-    def timestamp()
+    def timestamp
       execute("Timestamp", [])
     end
 
