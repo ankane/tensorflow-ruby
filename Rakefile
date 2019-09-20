@@ -51,7 +51,7 @@ task :generate_ops do
     input_names = op.input_arg.map { |v| arg_name(v.name) }
     options = op.attr.map(&:name).reject { |v| v[0] == v[0].upcase }
 
-    if op.name[0] != "_" && op.name[-2..-1] != "V2"
+    if op.name[0] != "_" && op.name[-2..-1] !~ /V\d/
       # TODO generate default values and optional arguments
       def_name = underscore(op.name)
       def_name = name_map[def_name] if name_map[def_name]

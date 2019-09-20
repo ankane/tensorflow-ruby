@@ -237,10 +237,6 @@ module TensorFlow
       execute("FusedBatchNorm", [x, scale, offset, mean, variance], epsilon: epsilon, data_format: data_format, is_training: is_training)
     end
 
-    def fused_batch_norm_v3(x, scale, offset, mean, variance, epsilon: nil, data_format: nil, is_training: nil)
-      execute("FusedBatchNormV3", [x, scale, offset, mean, variance], epsilon: epsilon, data_format: data_format, is_training: is_training)
-    end
-
     def gather(params, indices, validate_indices: nil)
       execute("Gather", [params, indices], validate_indices: validate_indices)
     end
