@@ -24,6 +24,18 @@ task :generate_ops do
     str.gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
   end
 
+  def arg_name(name)
+    # TODO better names
+    case name
+    when "begin"
+      "begin_"
+    when "end"
+      "end_"
+    else
+      name
+    end
+  end
+
   name_map = {
     "div" => "divide",
     "floor_div" => "floordiv",
@@ -35,7 +47,7 @@ task :generate_ops do
 
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
-    input_names = op.input_arg.map(&:name)
+    input_names = op.input_arg.map { |v| arg_name(v.name) }
     if op.name[0] != "_" && op.name[-2..-1] != "V2" && (input_names.first == "x" || included_names.include?(op.name))
       # TODO generate default values and optional arguments
       def_name = underscore(op.name)
