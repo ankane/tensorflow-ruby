@@ -54,10 +54,6 @@ module TensorFlow
       execute("MatMul", [x, y])
     end
 
-    def range(start, limit, delta)
-      execute("Range", [start, limit, delta])
-    end
-
     def transpose(x, perm: [1, 0])
       execute("Transpose", [x, perm])
     end

@@ -297,6 +297,10 @@ module TensorFlow
       execute("QuantizedMul", [x, y, min_x, max_x, min_y, max_y])
     end
 
+    def range(start, limit, delta)
+      execute("Range", [start, limit, delta])
+    end
+
     def real_div(x, y)
       execute("RealDiv", [x, y])
     end

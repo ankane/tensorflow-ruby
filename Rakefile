@@ -30,7 +30,7 @@ task :generate_ops do
     "mul" => "multiply",
     "sub" => "subtract"
   }
-  included_names = %w(Fill)
+  included_names = %w(Fill Range)
 
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
