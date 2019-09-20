@@ -41,7 +41,7 @@ class OperationsTest < Minitest::Test
   end
 
   def test_identity
-    [:float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64, :bool, :string, :complex64, :complex128].each do |dtype|
+    [:float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64, :bool, :string, :complex64, :complex128, :bfloat16].each do |dtype|
       value =
         case dtype
         when :string
@@ -50,7 +50,7 @@ class OperationsTest < Minitest::Test
           [true, false]
         when :complex64, :complex128
           [Complex(2, 3), Complex(1, 2)]
-        when :float, :double
+        when :float, :double, :bfloat16
           [2.5, 3.5]
         else
           [1, 2]

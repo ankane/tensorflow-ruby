@@ -24,6 +24,9 @@ module TensorFlow
         when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
           data_ptr = ::FFI::MemoryPointer.new(dtype, data.size)
           data_ptr.send("write_array_of_#{dtype}", data)
+        when :bfloat16
+          data_ptr = ::FFI::MemoryPointer.new(:int8, data.size * 2)
+          data_ptr.write_bytes(data.map { |v| [v].pack("g")[0..1] }.join)
         when :complex64
           data_ptr = ::FFI::MemoryPointer.new(:float, data.size * 2)
           data_ptr.write_array_of_float(data.flat_map { |v| [v.real, v.imaginary] })
@@ -76,6 +79,9 @@ module TensorFlow
         case dtype
         when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
           data_pointer.send("read_array_of_#{dtype}", element_count)
+        when :bfloat16
+          byte_str = data_pointer.read_bytes(element_count * 2)
+          element_count.times.map { |i| "#{byte_str[(2 * i)..(2 * i + 1)]}\x00\x00".unpack1("g") }
         when :complex64
           data_pointer.read_array_of_float(element_count * 2).each_slice(2).map { |v| Complex(*v) }
         when :complex128
