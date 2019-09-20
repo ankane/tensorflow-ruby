@@ -25,6 +25,7 @@ module TensorFlow
           data_ptr = ::FFI::MemoryPointer.new(dtype, data.size)
           data_ptr.send("write_array_of_#{dtype}", data)
         when :bfloat16
+          # https://en.wikipedia.org/wiki/Bfloat16_floating-point_format
           data_ptr = ::FFI::MemoryPointer.new(:int8, data.size * 2)
           data_ptr.write_bytes(data.map { |v| [v].pack("g")[0..1] }.join)
         when :complex64
