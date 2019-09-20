@@ -26,6 +26,7 @@ task :generate_ops do
 
   name_map = {
     "div" => "divide",
+    "floor_div" => "floordiv",
     "floor_mod" => "floormod",
     "mul" => "multiply",
     "sub" => "subtract"

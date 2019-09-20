@@ -145,7 +145,7 @@ module TensorFlow
       execute("Floor", [x])
     end
 
-    def floor_div(x, y)
+    def floordiv(x, y)
       execute("FloorDiv", [x, y])
     end
 
