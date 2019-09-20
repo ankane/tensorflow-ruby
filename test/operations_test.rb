@@ -45,7 +45,7 @@ class OperationsTest < Minitest::Test
       value =
         case dtype
         when :string
-          ["hello"]
+          ["hello", "world"]
         when :bool
           [true, false]
         when :complex64, :complex128

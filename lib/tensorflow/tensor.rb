@@ -187,7 +187,7 @@ module TensorFlow
       start_offset_size = data.size * 8
       offsets = [0]
       data.each do |str|
-        offsets << str.bytesize + 1
+        offsets << offsets.last + str.bytesize + 1
       end
       data_ptr = ::FFI::MemoryPointer.new(:char, start_offset_size + offsets.pop)
       data_ptr.write_array_of_uint64(offsets)
