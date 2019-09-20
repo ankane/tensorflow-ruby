@@ -10,6 +10,7 @@ require "tempfile"
 # modules
 require "tensorflow/utils"
 require "tensorflow/context"
+require "tensorflow/generated_ops"
 require "tensorflow/tensor"
 require "tensorflow/variable"
 require "tensorflow/version"
@@ -34,6 +35,7 @@ module TensorFlow
 
   class << self
     include Utils
+    include GeneratedOps
 
     def library_version
       FFI.TF_Version
@@ -48,36 +50,13 @@ module TensorFlow
       value
     end
 
-    def add(x, y)
-      execute("Add", [x, y])
-    end
-
-    def subtract(x, y)
-      execute("Sub", [x, y])
-    end
-
-    def multiply(x, y)
-      execute("Mul", [x, y])
-    end
-
-    def divide(x, y)
-      execute("Div", [x, y])
-    end
-
-    def abs(x)
-      execute("Abs", [x])
-    end
-
-    def sqrt(x)
-      execute("Sqrt", [x])
-    end
+    alias_method :subtract, :sub
+    alias_method :multiply, :mul
+    alias_method :divide, :div
+    alias_method :floormod, :floor_mod
 
     def matmul(x, y)
       execute("MatMul", [x, y])
-    end
-
-    def floormod(x, y)
-      execute("Mod", [x, y])
     end
 
     def range(start, limit, delta)
@@ -86,14 +65,6 @@ module TensorFlow
 
     def transpose(x, perm: [1, 0])
       execute("Transpose", [x, perm])
-    end
-
-    def equal(x, y)
-      execute("Equal", [x, y])
-    end
-
-    def zeros_like(x)
-      execute("ZerosLike", [x])
     end
 
     def fill(dims, value)
