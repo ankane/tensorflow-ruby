@@ -137,6 +137,10 @@ module TensorFlow
       execute("Expm1", [x])
     end
 
+    def fill(dims, value)
+      execute("Fill", [dims, value])
+    end
+
     def floor(x)
       execute("Floor", [x])
     end

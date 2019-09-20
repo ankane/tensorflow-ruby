@@ -30,11 +30,12 @@ task :generate_ops do
     "mul" => "multiply",
     "sub" => "subtract"
   }
+  included_names = %w(Fill)
 
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
     input_names = op.input_arg.map(&:name)
-    if op.name[0] != "_" && op.name[-2..-1] != "V2" && input_names.first == "x"
+    if op.name[0] != "_" && op.name[-2..-1] != "V2" && (input_names.first == "x" || included_names.include?(op.name))
       # TODO generate default values and optional arguments
       def_name = underscore(op.name)
       def_name = name_map[def_name] if name_map[def_name]
@@ -51,5 +52,6 @@ module TensorFlow
   end
 end
 !
+  # puts contents
   File.write("lib/tensorflow/generated_ops.rb", contents)
 end

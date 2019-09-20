@@ -62,10 +62,6 @@ module TensorFlow
       execute("Transpose", [x, perm])
     end
 
-    def fill(dims, value)
-      execute("Fill", [dims, value])
-    end
-
     def zeros(dims)
       fill(dims, 0)
     end
