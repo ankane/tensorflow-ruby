@@ -19,6 +19,7 @@ class OperationsTest < Minitest::Test
     a = Tf.constant(2)
     b = Tf.constant(3)
     assert_in_delta 0, (a / b).value
+    assert_in_delta 0, Tf.divide(a, b).value
   end
 
   def test_equal
@@ -62,6 +63,7 @@ class OperationsTest < Minitest::Test
     a = Tf.constant(2)
     b = Tf.constant(3)
     assert_equal 6, (a * b).value
+    assert_equal 6, Tf.multiply(a, b).value
   end
 
   def test_ones
@@ -84,6 +86,7 @@ class OperationsTest < Minitest::Test
     a = Tf.constant(2)
     b = Tf.constant(3)
     assert_equal -1, (a - b).value
+    assert_equal -1, Tf.subtract(a, b).value
   end
 
   def test_timestamp
