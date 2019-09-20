@@ -505,8 +505,8 @@ module TensorFlow
       execute("Size", [input], out_type: out_type)
     end
 
-    def slice(input, begin_, size)
-      execute("Slice", [input, begin_, size])
+    def slice(input, start, size)
+      execute("Slice", [input, start, size])
     end
 
     def space_to_batch(input, paddings, block_size: nil)
@@ -545,8 +545,8 @@ module TensorFlow
       execute("StopGradient", [input])
     end
 
-    def strided_slice(input, begin_, end_, strides, begin_mask: nil, end_mask: nil, ellipsis_mask: nil, new_axis_mask: nil, shrink_axis_mask: nil)
-      execute("StridedSlice", [input, begin_, end_, strides], begin_mask: begin_mask, end_mask: end_mask, ellipsis_mask: ellipsis_mask, new_axis_mask: new_axis_mask, shrink_axis_mask: shrink_axis_mask)
+    def strided_slice(input, start, stop, strides, begin_mask: nil, end_mask: nil, ellipsis_mask: nil, new_axis_mask: nil, shrink_axis_mask: nil)
+      execute("StridedSlice", [input, start, stop, strides], begin_mask: begin_mask, end_mask: end_mask, ellipsis_mask: ellipsis_mask, new_axis_mask: new_axis_mask, shrink_axis_mask: shrink_axis_mask)
     end
 
     def subtract(x, y)

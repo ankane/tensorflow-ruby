@@ -25,12 +25,12 @@ task :generate_ops do
   end
 
   def arg_name(name)
-    # TODO better names
+    # start and stop choosen as they are used for some operations
     case name
     when "begin"
-      "begin_"
+      "start"
     when "end"
-      "end_"
+      "stop"
     else
       name
     end
@@ -49,11 +49,14 @@ task :generate_ops do
   defs = []
   Tensorflow::OpList.decode(encoded).op.sort_by(&:name).each do |op|
     input_names = op.input_arg.map { |v| arg_name(v.name) }
-    options = op.attr.map(&:name).reject { |v| v[0] == v[0].upcase }
+    options = op.attr.map { |v| arg_name(v.name) }.reject { |v| v[0] == v[0].upcase }
 
-    if op.name[0] != "_" && op.name[-2..-1] !~ /V\d/
-      # TODO generate default values and optional arguments
+    if op.name[0] != "_" && op.name !~ /V\d/
+      # TODO generate default values
       def_name = underscore(op.name)
+      # if def_name =~ /v\d/ && def_name[-3] != "_"
+      #   def_name = "#{def_name[0..-3]}_#{def_name[-2..-1]}"
+      # end
       def_name = name_map[def_name] if name_map[def_name]
       def_options_str = options.map { |v| ", #{v}: nil" }.join
       execute_options_str = options.map { |v| ", #{v}: #{v}" }.join
