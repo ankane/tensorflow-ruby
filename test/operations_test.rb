@@ -1,6 +1,8 @@
 require_relative "test_helper"
 
 class OperationsTest < Minitest::Test
+  # keep in alphabetical order
+
   def test_abs
     assert_equal 1, Tf.abs(Tf.constant(-1)).value
   end
