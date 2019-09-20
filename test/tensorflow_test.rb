@@ -29,6 +29,10 @@ class TensorFlowTest < Minitest::Test
     assert_equal [[1, 4], [2, 5], [3, 6]], Tf.transpose([[1, 2, 3], [4, 5, 6]]).value
   end
 
+  def test_timestamp
+    assert_in_delta Time.now.to_f, Tf.timestamp.value, 1
+  end
+
   def test_equal
     x = Tf.constant([2, 4])
     y = Tf.constant(2)

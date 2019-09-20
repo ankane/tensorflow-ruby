@@ -70,6 +70,8 @@ module TensorFlow
         case dtype
         when :float
           data_pointer.read_array_of_float(element_count)
+        when :double
+          data_pointer.read_array_of_double(element_count)
         when :int32
           data_pointer.read_array_of_int32(element_count)
         when :string
