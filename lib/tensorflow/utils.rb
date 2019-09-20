@@ -17,6 +17,8 @@ module TensorFlow
         else
           :int64
         end
+      elsif value.all? { |v| v.is_a?(Complex) }
+        :complex128
       elsif value.all? { |v| v.is_a?(Numeric) }
         :float
       else

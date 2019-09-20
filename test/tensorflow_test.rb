@@ -23,6 +23,7 @@ class TensorFlowTest < Minitest::Test
     assert_equal :int32, Tf.constant(-2147483648).dtype
     assert_equal :int64, Tf.constant(2147483648).dtype
     assert_equal :int64, Tf.constant(-2147483649).dtype
+    assert_equal :complex128, Tf.constant(Complex(2, 3)).dtype
   end
 
   def test_variable
