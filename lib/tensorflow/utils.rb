@@ -7,6 +7,11 @@ module TensorFlow
     end
 
     def self.infer_type(value)
+      # TODO check all values
+      while value.is_a?(Array)
+        value = value.first
+      end
+
       case value
       when String
         :string

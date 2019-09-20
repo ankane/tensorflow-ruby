@@ -21,6 +21,10 @@ class TensorFlowTest < Minitest::Test
     assert_equal [3, 6, 9, 12, 15], Tf.range(3, 18, 3).value
   end
 
+  def test_sin
+    assert_equal [0, 1], Tf.sin([0.0, 0.5 * Math::PI]).value
+  end
+
   def test_transpose
     assert_equal [[1, 4], [2, 5], [3, 6]], Tf.transpose([[1, 2, 3], [4, 5, 6]]).value
   end
