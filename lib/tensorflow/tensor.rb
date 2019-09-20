@@ -21,14 +21,11 @@ module TensorFlow
         dtype ||= Utils.infer_type(data)
         type = FFI::DataType[dtype]
         case dtype
+        when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
+          data_ptr = ::FFI::MemoryPointer.new(dtype, data.size)
+          data_ptr.send("write_array_of_#{dtype}", data)
         when :string
           data_ptr = string_ptr(data)
-        when :float
-          data_ptr = ::FFI::MemoryPointer.new(:float, data.size)
-          data_ptr.write_array_of_float(data)
-        when :int32
-          data_ptr = ::FFI::MemoryPointer.new(:int32, data.size)
-          data_ptr.write_array_of_int32(data)
         else
           raise "Unknown type: #{dtype}"
         end
@@ -68,12 +65,8 @@ module TensorFlow
     def value
       value =
         case dtype
-        when :float
-          data_pointer.read_array_of_float(element_count)
-        when :double
-          data_pointer.read_array_of_double(element_count)
-        when :int32
-          data_pointer.read_array_of_int32(element_count)
+        when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
+          data_pointer.send("read_array_of_#{dtype}", element_count)
         when :string
           # string tensor format
           # https://github.com/tensorflow/tensorflow/blob/5453aee48858fd375172d7ae22fad1557e8557d6/tensorflow/c/tf_tensor.h#L57

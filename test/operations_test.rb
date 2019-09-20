@@ -1,6 +1,14 @@
 require_relative "test_helper"
 
 class OperationsTest < Minitest::Test
+  def test_identity
+    [:float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64].each do |dtype|
+      tensor = Tf.identity(Tf.constant(0, dtype: dtype))
+      assert_equal 0, tensor.value
+      assert_equal dtype, tensor.dtype
+    end
+  end
+
   def test_fill
     assert_equal [[9, 9, 9], [9, 9, 9]], Tf.fill([2, 3], 9).value
     assert_equal [[0, 0, 0], [0, 0, 0]], Tf.zeros([2, 3]).value
