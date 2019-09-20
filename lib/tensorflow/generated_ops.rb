@@ -37,6 +37,18 @@ module TensorFlow
       execute("Asinh", [x])
     end
 
+    def assign_add_variable_op(resource, value)
+      execute("AssignAddVariableOp", [resource, value])
+    end
+
+    def assign_sub_variable_op(resource, value)
+      execute("AssignSubVariableOp", [resource, value])
+    end
+
+    def assign_variable_op(resource, value)
+      execute("AssignVariableOp", [resource, value])
+    end
+
     def atan(x)
       execute("Atan", [x])
     end
@@ -579,6 +591,10 @@ module TensorFlow
 
     def unravel_index(indices, dims)
       execute("UnravelIndex", [indices, dims])
+    end
+
+    def var_is_initialized_op(resource)
+      execute("VarIsInitializedOp", [resource])
     end
 
     def where(input)

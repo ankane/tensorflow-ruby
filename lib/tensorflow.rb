@@ -52,28 +52,12 @@ module TensorFlow
       value
     end
 
-    def assign_add_variable_op(resource, value)
-      execute("AssignAddVariableOp", [resource, value])
-    end
-
-    def assign_sub_variable_op(resource, value)
-      execute("AssignSubVariableOp", [resource, value])
-    end
-
-    def assign_variable_op(resource, value)
-      execute("AssignVariableOp", [resource, value])
-    end
-
     def read_variable_op(resource, dtype)
       execute("ReadVariableOp", [resource], dtype: dtype)
     end
 
     def var_handle_op(dtype, shape, container: "", shared_name: "")
       execute("VarHandleOp", [], container: container, shared_name: shared_name, dtype: dtype, shape: shape)
-    end
-
-    def var_is_initialized_op(resource)
-      execute("VarIsInitializedOp", [resource])
     end
 
     private
