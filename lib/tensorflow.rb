@@ -11,6 +11,7 @@ require "tempfile"
 require "tensorflow/utils"
 require "tensorflow/context"
 require "tensorflow/generated_ops"
+require "tensorflow/ops"
 require "tensorflow/tensor"
 require "tensorflow/variable"
 require "tensorflow/version"
@@ -34,8 +35,9 @@ module TensorFlow
   autoload :FFI, "tensorflow/ffi"
 
   class << self
-    include Utils
     include GeneratedOps
+    include Ops
+    include Utils
 
     def library_version
       FFI.TF_Version
@@ -48,29 +50,6 @@ module TensorFlow
     def convert_to_tensor(value, dtype: nil)
       value = Tensor.new(value, dtype: dtype) unless value.is_a?(Tensor)
       value
-    end
-
-    def matmul(x, y)
-      execute("MatMul", [x, y])
-    end
-
-    def transpose(x, perm: [1, 0])
-      execute("Transpose", [x, perm])
-    end
-
-    def zeros(dims)
-      fill(dims, 0)
-    end
-
-    def ones(dims)
-      fill(dims, 1)
-    end
-
-    def eye(num_rows,  num_columns: nil)
-      num_columns ||= num_rows
-      zeros = self.zeros([num_rows, num_columns])
-      ones = self.ones([num_rows])
-      matrix_set_diag(zeros, ones)
     end
 
     def assign_add_variable_op(resource, value)
