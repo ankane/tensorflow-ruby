@@ -22,5 +22,13 @@ module TensorFlow
       ones = self.ones([num_rows])
       matrix_set_diag(zeros, ones)
     end
+
+    def range(start, limit = nil, delta = 1)
+      unless limit
+        limit = start
+        start = 0
+      end
+      super(start, limit, delta)
+    end
   end
 end

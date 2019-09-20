@@ -79,6 +79,7 @@ class OperationsTest < Minitest::Test
   end
 
   def test_range
+    assert_equal [0, 1, 2], Tf.range(3).value
     assert_equal [3, 6, 9, 12, 15], Tf.range(3, 18, 3).value
   end
 
