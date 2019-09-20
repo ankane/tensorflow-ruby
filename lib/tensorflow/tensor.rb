@@ -197,8 +197,8 @@ module TensorFlow
       end
       data_ptr = ::FFI::MemoryPointer.new(:char, start_offset_size + offsets.pop)
       data_ptr.write_array_of_uint64(offsets)
-      data.zip(offsets) do |str, off|
-        (data_ptr + start_offset_size + off).write_string(str)
+      data.zip(offsets) do |str, offset|
+        (data_ptr + start_offset_size + offset).write_string(str)
       end
       data_ptr
     end
