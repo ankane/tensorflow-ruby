@@ -35,6 +35,10 @@ module TensorFlow
     attach_function :TF_NewTensor, %i[int pointer int pointer size_t pointer pointer], :pointer
     attach_function :TF_DeleteTensor, %i[pointer], :void
     attach_function :TF_TensorData, %i[pointer], :pointer
+    attach_function :TF_TensorByteSize, %i[pointer], :size_t
+    attach_function :TF_StringEncode, %i[string size_t pointer size_t pointer], :size_t
+    attach_function :TF_StringDecode, %i[string size_t pointer pointer pointer], :size_t
+    attach_function :TF_StringEncodedSize, %i[size_t], :size_t
 
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/eager/c_api.h
     attach_function :TFE_NewContextOptions, %i[], :pointer

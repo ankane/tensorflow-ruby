@@ -15,6 +15,6 @@ class Minitest::Test
   end
 
   def tempdir
-    @tempdir ||= "tmp" # File.dirname(Tempfile.new("tensorflow"))
+    @tempdir ||= File.dirname(Tempfile.new("tensorflow"))
   end
 end

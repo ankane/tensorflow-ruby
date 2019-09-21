@@ -92,7 +92,16 @@ module TensorFlow
           # https://github.com/tensorflow/tensorflow/blob/5453aee48858fd375172d7ae22fad1557e8557d6/tensorflow/c/tf_tensor.h#L57
           start_offset_size = element_count * 8
           offsets = data_pointer.read_array_of_uint64(element_count)
-          element_count.times.map { |i| (data_pointer + start_offset_size + offsets[i]).read_string }
+          byte_size = FFI.TF_TensorByteSize(tensor_pointer)
+          element_count.times.map do |i|
+            str_len = (offsets[i + 1] || (byte_size - start_offset_size)) - offsets[i]
+            str = (data_pointer + start_offset_size + offsets[i]).read_bytes(str_len)
+            dst = ::FFI::MemoryPointer.new(:char, str.bytesize + 100)
+            dst_len = ::FFI::MemoryPointer.new(:size_t)
+            FFI.TF_StringDecode(str, str.bytesize, dst, dst_len, @status)
+            check_status @status
+            dst.read_pointer.read_bytes(dst_len.read_int32)
+          end
         when :bool
           data_pointer.read_array_of_int8(element_count).map { |v| v == 1 }
         when :resource
@@ -164,9 +173,13 @@ module TensorFlow
     end
 
     def data_pointer
+      FFI.TF_TensorData(tensor_pointer)
+    end
+
+    def tensor_pointer
       tensor = FFI.TFE_TensorHandleResolve(@pointer, @status)
       check_status @status
-      FFI.TF_TensorData(tensor)
+      tensor
     end
 
     def reshape(arr, dims)
@@ -199,7 +212,9 @@ module TensorFlow
       data_ptr = ::FFI::MemoryPointer.new(:char, start_offset_size + offsets.pop)
       data_ptr.write_array_of_uint64(offsets)
       data.zip(offsets) do |str, offset|
-        (data_ptr + start_offset_size + offset).write_string(str)
+        dst_len = FFI.TF_StringEncodedSize(str.bytesize)
+        FFI.TF_StringEncode(str, str.bytesize, data_ptr + start_offset_size + offset, dst_len, @status)
+        check_status @status
       end
       data_ptr
     end
