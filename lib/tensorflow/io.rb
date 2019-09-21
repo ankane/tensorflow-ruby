@@ -1,5 +1,5 @@
 module TensorFlow
-  module Io
+  module IO
     class << self
       def decode_and_crop_jpeg(contents, crop_window, channels: nil, ratio: nil, fancy_upscaling: nil, try_recover_truncated: nil, acceptable_fraction: nil, dct_method: nil)
         RawOps.decode_and_crop_jpeg(contents: contents, crop_window: crop_window, channels: channels, ratio: ratio, fancy_upscaling: fancy_upscaling, try_recover_truncated: try_recover_truncated, acceptable_fraction: acceptable_fraction, dct_method: dct_method)
