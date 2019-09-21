@@ -31,7 +31,8 @@ module TensorFlow
             FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
           # when :int
           # when :float
-          # when :bool
+          when :bool
+            FFI.TFE_OpSetAttrBool(op, attr_name, attr_value ? 1 : 0)
           when :type
             FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
           when :shape

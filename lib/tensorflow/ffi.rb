@@ -58,6 +58,7 @@ module TensorFlow
     attach_function :TFE_OpSetDevice, %i[pointer string pointer], :pointer
     attach_function :TFE_OpGetDevice, %i[pointer pointer], :string
     attach_function :TFE_OpAddInput, %i[pointer pointer pointer], :void
+    attach_function :TFE_OpSetAttrBool, %i[pointer string uint8], :void
     attach_function :TFE_OpGetAttrType, %i[pointer string pointer pointer], :int
     attach_function :TFE_OpSetAttrString, %i[pointer string pointer size_t], :void
     attach_function :TFE_OpSetAttrType, %i[pointer string int], :void
