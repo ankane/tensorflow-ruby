@@ -42,8 +42,7 @@ w = v + 1
 ## Math
 
 ```ruby
-a = Tf.constant(-2)
-Tf::Math.abs(a)
+Tf::Math.abs(-2)
 ```
 
 ## FizzBuzz
