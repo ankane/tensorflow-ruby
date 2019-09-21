@@ -52,8 +52,8 @@ class MathTest < Minitest::Test
   end
 
   def test_sqrt
-    assert_equal 3.0, Tf.sqrt(Tf.constant(9.0)).value
-    assert_equal 3.0, Tf::Math.sqrt(Tf.constant(9.0)).value
+    assert_equal [2.0, 3.0], Tf.sqrt([4.0, 9.0]).value
+    assert_equal [2.0, 3.0], Tf::Math.sqrt([4.0, 9.0]).value
   end
 
   def test_subtract
