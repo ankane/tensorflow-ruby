@@ -16,10 +16,6 @@ module TensorFlow
       RawOps.identity(input: input)
     end
 
-    def matmul(a, b)
-      RawOps.mat_mul(a: a, b: b)
-    end
-
     def ones(dims)
       fill(dims, 1)
     end

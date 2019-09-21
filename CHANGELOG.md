@@ -1,6 +1,10 @@
+## 0.1.2 [unreleased]
+
+- Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, and `Strings` modules
+
 ## 0.1.1
 
-- Added more operations
+- Added `Math` and `RawOps` modules
 - Added support for more data types
 - Added MNIST dataset
 

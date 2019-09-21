@@ -91,43 +91,60 @@ task :seed_ops do
     end
   end
 
-  tf_ops = ops.select { |op| op.count(".") == 1 }.map { |v| v.sub("tf.", "") }
-  math_ops = ops.select { |op| op.start_with?("tf.math.") }.map { |v| v.sub("tf.math.", "") }
-
-  defs = []
+  # op defs
   op_def = read_op_def.map { |op| [underscore(op.name).gsub(/2_d/, "2d").gsub(/3_d/, "3d"), op] }.to_h
 
-  math_ops.each do |def_name|
-    op = op_def[def_name]
+  # top level ops
+  tf_ops = ops.select { |op| op.count(".") == 1 }.map { |v| v.sub("tf.", "") }
 
-    if !op
-      defs << %!      # def #{def_name}
+  # determine modules
+  modules = ops.select { |op| op.count(".") == 2 }.map { |v| v.split(".")[1] }.uniq
+
+  modules.each do |mod|
+    next unless ["audio", "bitwise", "image", "io", "linalg", "strings"].include?(mod)
+
+    mod_ops = ops.select { |op| op.start_with?("tf.#{mod}.") && op.count(".") == 2 }.map { |v| v.sub("tf.#{mod}.", "") }
+    mod_class = mod.capitalize
+
+    next if mod_ops.include?("experimental")
+
+    # puts mod
+    # p mod_ops
+
+    defs = []
+    mod_ops.each do |def_name|
+      op = op_def[def_name]
+
+      if !op
+        defs << %!      # def #{def_name}
       # end!
-    else
-      input_names = op.input_arg.map { |v| arg_name(v.name) }
-      options = op.attr.map { |v| arg_name(v.name) }.reject { |v| v[0] == v[0].upcase }
+      else
+        input_names = op.input_arg.map { |v| arg_name(v.name) }
+        options = op.attr.map { |v| arg_name(v.name) }.reject { |v| v[0] == v[0].upcase }
 
-      input_names_str = input_names.join(", ")
-      def_options_str = options.map { |v| ", #{v}: nil" }.join
-      raw_options_str = (input_names + options).map { |v| "#{v}: #{v}" }.join(", ")
-      defs << %!      def #{def_name}(#{input_names_str}#{def_options_str})
+        input_names_str = input_names.join(", ")
+        def_options_str = options.map { |v| ", #{v}: nil" }.join
+        raw_options_str = (input_names + options).map { |v| "#{v}: #{v}" }.join(", ")
+        defs << %!      def #{def_name}(#{input_names_str}#{def_options_str})
         RawOps.#{def_name}(#{raw_options_str})
       end!
+      end
     end
-  end
 
-  contents = %!module TensorFlow
-  module Math
+    contents = %!module TensorFlow
+  module #{mod_class}
     class << self
 #{defs.join("\n\n")}
     end
   end
-end
-!
-  contents = contents.gsub("()", "").gsub("(, ", "(")
-  # puts contents
-  File.write("lib/tensorflow/math.rb", contents)
+end!
+    contents = contents.gsub("()", "").gsub("(, ", "(")
+    # puts contents
+    File.write("lib/tensorflow/#{mod}.rb", contents)
 
-  delegate_math_ops = tf_ops & math_ops
-  puts "def_delegators Math, #{delegate_math_ops.map { |v| v.to_sym.inspect }.join(", ")}"
+    delegate_mod_ops = tf_ops & mod_ops
+    if delegate_mod_ops.any?
+      puts "def_delegators #{mod_class}, #{delegate_mod_ops.map { |v| v.to_sym.inspect }.join(", ")}"
+    end
+  end
 end
