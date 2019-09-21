@@ -137,7 +137,8 @@ task :seed_ops do
 #{defs.join("\n\n")}
     end
   end
-end!
+end
+!
     contents = contents.gsub("()", "").gsub("(, ", "(")
     # puts contents
     File.write("lib/tensorflow/#{mod}.rb", contents)

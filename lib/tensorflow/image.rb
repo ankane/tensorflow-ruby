@@ -192,9 +192,8 @@ module TensorFlow
       # def total_variation
       # end
 
-      def transpose(x, perm)
-        RawOps.transpose(x: x, perm: perm)
-      end
+      # def transpose
+      # end
 
       # def yiq_to_rgb
       # end
