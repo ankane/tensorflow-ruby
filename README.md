@@ -43,6 +43,7 @@ w = v + 1
 
 ```ruby
 Tf::Math.abs(-2)
+Tf::Math.sqrt(4)
 ```
 
 ## FizzBuzz
