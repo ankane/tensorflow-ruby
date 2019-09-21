@@ -39,6 +39,13 @@ v = Tf::Variable.new(0.0)
 w = v + 1
 ```
 
+## Math
+
+```ruby
+a = Tf.constant(-2)
+Tf::Math.abs(a)
+```
+
 ## FizzBuzz
 
 ```ruby
