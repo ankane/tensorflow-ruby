@@ -1,16 +1,6 @@
 require_relative "test_helper"
 
 class OperationsTest < Minitest::Test
-  def test_equal
-    x = Tf.constant([2, 4])
-    y = Tf.constant(2)
-    assert_equal [true, false], Tf.equal(x, y).value
-
-    x = Tf.constant([2, 4])
-    y = Tf.constant([2, 4])
-    assert_equal [true, true], Tf.equal(x, y).value
-  end
-
   def test_eye
     assert_equal [[1, 0], [0, 1]], Tf.eye(2).value
   end

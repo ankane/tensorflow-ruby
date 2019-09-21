@@ -22,6 +22,18 @@ class MathTest < Minitest::Test
     assert_in_delta 1.5, Tf::Math.divide(a, b).value
   end
 
+  def test_equal
+    x = Tf.constant([2, 4])
+    y = Tf.constant(2)
+    assert_equal [true, false], Tf.equal(x, y).value
+    assert_equal [true, false], Tf::Math.equal(x, y).value
+
+    x = Tf.constant([2, 4])
+    y = Tf.constant([2, 4])
+    assert_equal [true, true], Tf.equal(x, y).value
+    assert_equal [true, true], Tf::Math.equal(x, y).value
+  end
+
   def test_multiply
     a = Tf.constant(2)
     b = Tf.constant(3)
