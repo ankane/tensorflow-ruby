@@ -3,7 +3,7 @@ require_relative "test_helper"
 class IOTest < Minitest::Test
   def test_decode_base64
     message = "hello"
-    encoded = Base64.strict_encode64(message)
+    encoded = Base64.urlsafe_encode64(message)
     assert_equal message, Tf::IO.decode_base64(encoded).value
   end
 
