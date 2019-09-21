@@ -17,8 +17,9 @@ module TensorFlow
       # def length
       # end
 
-      # def lower
-      # end
+      def lower(input, encoding: "")
+        RawOps.string_lower(input: input, encoding: encoding)
+      end
 
       # def ngrams
       # end
