@@ -29,8 +29,10 @@ module TensorFlow
           case FFI::AttrType[type]
           when :string
             FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
-          # when :int
-          # when :float
+          when :int
+            FFI.TFE_OpSetAttrInt(op, attr_name, attr_value)
+          when :float
+            FFI.TFE_OpSetAttrFloat(op, attr_name, attr_value)
           when :bool
             FFI.TFE_OpSetAttrBool(op, attr_name, attr_value ? 1 : 0)
           when :type
