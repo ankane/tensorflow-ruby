@@ -64,8 +64,8 @@ module TensorFlow
     attach_function :TFE_OpAddInput, %i[pointer pointer pointer], :void
     attach_function :TFE_OpGetAttrType, %i[pointer string pointer pointer], :int
     attach_function :TFE_OpSetAttrString, %i[pointer string pointer size_t], :void
-    attach_function :TFE_OpSetAttrInt, %i[pointer string pointer int64_t], :void
-    attach_function :TFE_OpSetAttrFloat, %i[pointer string pointer float], :void
+    attach_function :TFE_OpSetAttrInt, %i[pointer string int64_t], :void
+    attach_function :TFE_OpSetAttrFloat, %i[pointer string float], :void
     attach_function :TFE_OpSetAttrBool, %i[pointer string uint8], :void
     attach_function :TFE_OpSetAttrType, %i[pointer string int], :void
     attach_function :TFE_OpSetAttrShape, %i[pointer string pointer int pointer], :void
