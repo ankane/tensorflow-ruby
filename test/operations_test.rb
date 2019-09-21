@@ -31,11 +31,6 @@ class OperationsTest < Minitest::Test
     end
   end
 
-  def test_matmul
-    x = [[2.0]]
-    assert_equal [[4.0]], Tf.matmul(x, x).value
-  end
-
   def test_ones
     assert_equal [[1, 1, 1], [1, 1, 1]], Tf.ones([2, 3]).value
   end
