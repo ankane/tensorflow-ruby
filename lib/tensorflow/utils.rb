@@ -1,5 +1,18 @@
 module TensorFlow
   module Utils
+    NUMO_TYPE_MAP = {
+      int8: Numo::Int8,
+      int16: Numo::Int16,
+      int32: Numo::Int32,
+      int64: Numo::Int64,
+      uint8: Numo::UInt8,
+      uint16: Numo::UInt16,
+      uint32: Numo::UInt32,
+      uint64: Numo::UInt64,
+      float: Numo::SFloat,
+      double: Numo::DFloat
+    }
+
     class << self
       def check_status(status)
         if FFI.TF_GetCode(status) != 0
@@ -78,7 +91,9 @@ module TensorFlow
       end
 
       def infer_type(value)
-        if value.all? { |v| v.is_a?(String) }
+        if value.is_a?(Numo::NArray) && (type = NUMO_TYPE_MAP.find { |k, v| value.is_a?(v) })
+          type.first
+        elsif value.all? { |v| v.is_a?(String) }
           :string
         elsif value.all? { |v| v == true || v == false }
           :bool

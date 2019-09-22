@@ -1,6 +1,7 @@
 ## 0.1.2 [unreleased]
 
 - Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, and `Strings` modules
+- Added `numo` method to tensors
 - Fixed string encoding
 
 ## 0.1.1

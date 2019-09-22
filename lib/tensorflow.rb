@@ -1,6 +1,7 @@
 # dependencies
 require "ffi"
 require "npy"
+require "numo/narray"
 
 # stdlib
 require "fileutils"

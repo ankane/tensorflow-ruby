@@ -59,4 +59,19 @@ class TensorFlowTest < Minitest::Test
     end
     assert_equal [1, 2, "Fizz", 4, "Buzz", "Fizz", 7, 8, "Fizz", "Buzz", 11, "Fizz", 13, 14, "FizzBuzz"], ret
   end
+
+  def test_numo
+    TensorFlow::Utils::NUMO_TYPE_MAP.each do |k, v|
+      value =
+        case k
+        when :float, :double
+          [2.5, 3.5]
+        else
+          [1, 2]
+        end
+
+      a = v.cast(value)
+      assert_equal a, Tf.identity(a).numo
+    end
+  end
 end

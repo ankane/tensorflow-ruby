@@ -144,6 +144,12 @@ module TensorFlow
       @pointer
     end
 
+    def numo
+      klass = Utils::NUMO_TYPE_MAP[dtype]
+      raise "Unknown type: #{dtype}" unless klass
+      klass.cast(value)
+    end
+
     def inspect
       inspection = %w(value shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
       "#<#{self.class} #{inspection.join(", ")}>"
@@ -192,6 +198,8 @@ module TensorFlow
     end
 
     def calculate_shape(value)
+      return value.shape if value.respond_to?(:shape)
+
       shape = []
       d = value
       while d.is_a?(Array)
