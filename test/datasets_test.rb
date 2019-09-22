@@ -11,6 +11,26 @@ class DatasetsTest < Minitest::Test
     assert_equal [102], y_test.shape
   end
 
+  # def test_cifar10
+  #   cifar10 = Tf::Keras::Datasets::CIFAR10
+  #   (x_train, y_train), (x_test, y_test) = cifar10.load_data
+
+  #   assert_equal [50000, 32, 32, 3], x_train.shape
+  #   assert_equal [50000, 1], y_train.shape
+  #   assert_equal [10000, 32, 32, 3], x_test.shape
+  #   assert_equal [10000, 1], y_test.shape
+  # end
+
+  # def test_cifar100
+  #   cifar100 = Tf::Keras::Datasets::CIFAR100
+  #   (x_train, y_train), (x_test, y_test) = cifar100.load_data
+
+  #   assert_equal [50000, 32, 32, 3], x_train.shape
+  #   assert_equal [50000, 1], y_train.shape
+  #   assert_equal [10000, 32, 32, 3], x_test.shape
+  #   assert_equal [10000, 1], y_test.shape
+  # end
+
   # def test_fashion_mnist
   #   fashion_mnist = Tf::Keras::Datasets::FashionMNIST
   #   (x_train, y_train), (x_test, y_test) = mnist.load_data

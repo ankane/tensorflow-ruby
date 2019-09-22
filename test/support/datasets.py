@@ -5,15 +5,15 @@ boston_housing = tf.keras.datasets.boston_housing
 (x_train, y_train),(x_test, y_test) = boston_housing.load_data()
 print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
 
-# print("cifar10")
-# cifar10 = tf.keras.datasets.cifar10
-# (x_train, y_train),(x_test, y_test) = cifar10.load_data()
-# print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
+print("cifar10")
+cifar10 = tf.keras.datasets.cifar10
+(x_train, y_train),(x_test, y_test) = cifar10.load_data()
+print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
 
-# print("cifar100")
-# cifar100 = tf.keras.datasets.cifar100
-# (x_train, y_train),(x_test, y_test) = cifar100.load_data()
-# print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
+print("cifar100")
+cifar100 = tf.keras.datasets.cifar100
+(x_train, y_train),(x_test, y_test) = cifar100.load_data()
+print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
 
 print("fashion_mnist")
 fashion_mnist = tf.keras.datasets.fashion_mnist
