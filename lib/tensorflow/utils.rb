@@ -134,7 +134,7 @@ module TensorFlow
         temp_dir ||= File.dirname(Tempfile.new("tensorflow"))
         temp_path = "#{temp_dir}/#{Time.now.to_f}" # TODO better name
 
-        sha2 = Digest::SHA2.new
+        digest = file_hash&.size == 32 ? Digest::MD5.new : Digest::SHA2.new
 
         # Net::HTTP automatically adds Accept-Encoding for compression
         # of response bodies and automatically decompresses gzip
@@ -149,7 +149,7 @@ module TensorFlow
             http.request(request) do |response|
               response.read_body do |chunk|
                 f.write(chunk)
-                sha2.update(chunk)
+                digest.update(chunk)
 
                 # print progress
                 putc "." if i % 50 == 0
@@ -160,7 +160,7 @@ module TensorFlow
           end
         end
 
-        if file_hash && sha2.hexdigest != file_hash
+        if file_hash && digest.hexdigest != file_hash
           raise Error, "Bad hash"
         end
 
