@@ -3,7 +3,6 @@ module TensorFlow
     module Datasets
       module BostonHousing
         def self.load_data(path: "boston_housing.npz", test_split: 0.2, seed: 113)
-          # TODO verify hash
           data = Utils.load_dataset(
             path,
             "https://storage.googleapis.com/tensorflow/tf-keras-datasets/boston_housing.npz",
