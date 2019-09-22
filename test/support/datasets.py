@@ -24,6 +24,7 @@ print("imdb")
 imdb = tf.keras.datasets.imdb
 (x_train, y_train),(x_test, y_test) = imdb.load_data()
 print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
+print(len(imdb.get_word_index()))
 
 print("mnist")
 mnist = tf.keras.datasets.mnist

@@ -28,6 +28,7 @@ require "tensorflow/version"
 
 # keras
 require "tensorflow/keras/datasets/boston_housing"
+require "tensorflow/keras/datasets/imdb"
 require "tensorflow/keras/datasets/mnist"
 require "tensorflow/keras/datasets/reuters"
 require "tensorflow/keras/layers/dense"

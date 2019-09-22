@@ -21,15 +21,17 @@ class DatasetsTest < Minitest::Test
   #   assert_equal [10000], y_test.shape
   # end
 
-  # def test_imdb
-  #   imdb = Tf::Keras::Datasets::IMDB
-  #   (x_train, y_train), (x_test, y_test) = imdb.load_data
+  def test_imdb
+    imdb = Tf::Keras::Datasets::IMDB
+    # (x_train, y_train), (x_test, y_test) = imdb.load_data
 
-  #   assert_equal [25000], x_train.shape
-  #   assert_equal [25000], y_train.shape
-  #   assert_equal [25000], x_test.shape
-  #   assert_equal [25000], y_test.shape
-  # end
+    # assert_equal [25000], x_train.shape
+    # assert_equal [25000], y_train.shape
+    # assert_equal [25000], x_test.shape
+    # assert_equal [25000], y_test.shape
+
+    assert_equal 88584, imdb.get_word_index.size
+  end
 
   def test_mnist
     mnist = Tf::Keras::Datasets::MNIST
