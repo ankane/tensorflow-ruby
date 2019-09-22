@@ -34,3 +34,4 @@ print("reuters")
 reuters = tf.keras.datasets.reuters
 (x_train, y_train),(x_test, y_test) = reuters.load_data()
 print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
+print(len(reuters.get_word_index()))

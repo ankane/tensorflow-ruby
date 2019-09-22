@@ -120,7 +120,12 @@ module TensorFlow
 
         path = "#{datasets_dir}/#{path}"
         Utils.download_file(url, path) unless File.exist?(path)
-        Npy.load_npz(path)
+
+        if url.end_with?(".json")
+          JSON.parse(File.read(path))
+        else
+          Npy.load_npz(path)
+        end
       end
 
       def download_file(url, dest)

@@ -41,13 +41,15 @@ class DatasetsTest < Minitest::Test
     assert_equal [10000], y_test.shape
   end
 
-  # def test_reuters
-  #   reuters = Tf::Keras::Datasets::Reuters
-  #   (x_train, y_train), (x_test, y_test) = reuters.load_data
+  def test_reuters
+    reuters = Tf::Keras::Datasets::Reuters
+    # (x_train, y_train), (x_test, y_test) = reuters.load_data
 
-  #   assert_equal [8982], x_train.shape
-  #   assert_equal [8982], y_train.shape
-  #   assert_equal [2246], x_test.shape
-  #   assert_equal [2246], y_test.shape
-  # end
+    # assert_equal [8982], x_train.shape
+    # assert_equal [8982], y_train.shape
+    # assert_equal [2246], x_test.shape
+    # assert_equal [2246], y_test.shape
+
+    assert_equal 30979, reuters.get_word_index.size
+  end
 end

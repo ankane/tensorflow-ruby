@@ -6,6 +6,7 @@ require "numo/narray"
 # stdlib
 require "fileutils"
 require "forwardable"
+require "json"
 require "net/http"
 require "tempfile"
 
@@ -28,6 +29,7 @@ require "tensorflow/version"
 # keras
 require "tensorflow/keras/datasets/boston_housing"
 require "tensorflow/keras/datasets/mnist"
+require "tensorflow/keras/datasets/reuters"
 require "tensorflow/keras/layers/dense"
 require "tensorflow/keras/layers/dropout"
 require "tensorflow/keras/layers/flatten"
