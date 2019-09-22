@@ -61,16 +61,16 @@ class TensorFlowTest < Minitest::Test
   end
 
   def test_numo
-    TensorFlow::Utils::NUMO_TYPE_MAP.each do |k, v|
+    TensorFlow::Utils::NUMO_TYPE_MAP.each do |type, klass|
       value =
-        case k
+        case type
         when :float, :double
           [2.5, 3.5]
         else
           [1, 2]
         end
 
-      a = v.cast(value)
+      a = klass.cast(value)
       assert_equal a, Tf.identity(a).numo
     end
   end
