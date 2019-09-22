@@ -151,7 +151,7 @@ module TensorFlow
     end
 
     def inspect
-      inspection = %w(value shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
+      inspection = %w(numo shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
       "#<#{self.class} #{inspection.join(", ")}>"
     end
 
