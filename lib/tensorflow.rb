@@ -28,6 +28,9 @@ require "tensorflow/version"
 
 # keras
 require "tensorflow/keras/datasets/boston_housing"
+require "tensorflow/keras/datasets/cifar10"
+require "tensorflow/keras/datasets/cifar100"
+require "tensorflow/keras/datasets/fashion_mnist"
 require "tensorflow/keras/datasets/imdb"
 require "tensorflow/keras/datasets/mnist"
 require "tensorflow/keras/datasets/reuters"
