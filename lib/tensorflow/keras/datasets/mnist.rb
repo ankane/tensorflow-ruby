@@ -2,10 +2,10 @@ module TensorFlow
   module Keras
     module Datasets
       module MNIST
-        def self.load_data
+        def self.load_data(path: "mnist.npz")
           # TODO verify hash
           data = Utils.load_dataset(
-            "mnist.npz",
+            path,
             "https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz"
           )
 

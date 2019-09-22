@@ -2,6 +2,7 @@
 
 - Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, and `Strings` modules
 - Added `numo` method to tensors
+- Added Boston housing dataset
 - Fixed string encoding
 
 ## 0.1.1

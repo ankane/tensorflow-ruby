@@ -26,6 +26,7 @@ require "tensorflow/variable"
 require "tensorflow/version"
 
 # keras
+require "tensorflow/keras/datasets/boston_housing"
 require "tensorflow/keras/datasets/mnist"
 require "tensorflow/keras/layers/dense"
 require "tensorflow/keras/layers/dropout"
