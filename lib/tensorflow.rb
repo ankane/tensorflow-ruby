@@ -10,6 +10,7 @@ require "forwardable"
 require "json"
 require "net/http"
 require "tempfile"
+require "zlib"
 
 # modules
 require "tensorflow/audio"

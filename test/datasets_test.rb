@@ -31,15 +31,15 @@ class DatasetsTest < Minitest::Test
   #   assert_equal [10000, 1], y_test.shape
   # end
 
-  # def test_fashion_mnist
-  #   fashion_mnist = Tf::Keras::Datasets::FashionMNIST
-  #   (x_train, y_train), (x_test, y_test) = mnist.load_data
+  def test_fashion_mnist
+    fashion_mnist = Tf::Keras::Datasets::FashionMNIST
+    (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data
 
-  #   assert_equal [60000, 28, 28], x_train.shape
-  #   assert_equal [60000], y_train.shape
-  #   assert_equal [10000, 28, 28], x_test.shape
-  #   assert_equal [10000], y_test.shape
-  # end
+    assert_equal [60000, 28, 28], x_train.shape
+    assert_equal [60000], y_train.shape
+    assert_equal [10000, 28, 28], x_test.shape
+    assert_equal [10000], y_test.shape
+  end
 
   def test_imdb
     imdb = Tf::Keras::Datasets::IMDB
