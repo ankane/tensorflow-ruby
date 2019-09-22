@@ -2,6 +2,9 @@ module TensorFlow
   module Keras
     module Datasets
       module Reuters
+        # def self.load_data
+        # end
+
         def self.get_word_index(path: "reuters_word_index.json")
           Utils.load_dataset(
             path,

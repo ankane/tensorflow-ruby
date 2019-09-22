@@ -112,7 +112,7 @@ module TensorFlow
         end
       end
 
-      def load_dataset(path, url, file_hash = nil)
+      def load_dataset(path, url, file_hash)
         # TODO handle this better
         raise "No HOME" unless ENV["HOME"]
         datasets_dir = "#{ENV["HOME"]}/.keras/datasets"
@@ -134,7 +134,7 @@ module TensorFlow
         temp_dir ||= File.dirname(Tempfile.new("tensorflow"))
         temp_path = "#{temp_dir}/#{Time.now.to_f}" # TODO better name
 
-        digest = file_hash&.size == 32 ? Digest::MD5.new : Digest::SHA2.new
+        digest = file_hash.size == 32 ? Digest::MD5.new : Digest::SHA2.new
 
         # Net::HTTP automatically adds Accept-Encoding for compression
         # of response bodies and automatically decompresses gzip

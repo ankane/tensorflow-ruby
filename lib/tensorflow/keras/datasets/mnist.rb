@@ -6,7 +6,8 @@ module TensorFlow
           # TODO verify hash
           data = Utils.load_dataset(
             path,
-            "https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz"
+            "https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz",
+            "731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1"
           )
 
           [[data["x_train"], data["y_train"]], [data["x_test"], data["y_test"]]]
