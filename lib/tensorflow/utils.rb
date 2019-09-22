@@ -112,14 +112,14 @@ module TensorFlow
         end
       end
 
-      def load_dataset(path, url)
+      def load_dataset(path, url, file_hash = nil)
         # TODO handle this better
         raise "No HOME" unless ENV["HOME"]
         datasets_dir = "#{ENV["HOME"]}/.keras/datasets"
         FileUtils.mkdir_p(datasets_dir)
 
         path = "#{datasets_dir}/#{path}"
-        Utils.download_file(url, path) unless File.exist?(path)
+        Utils.download_file(url, path, file_hash) unless File.exist?(path)
 
         if url.end_with?(".json")
           JSON.parse(File.read(path))
@@ -128,11 +128,13 @@ module TensorFlow
         end
       end
 
-      def download_file(url, dest)
+      def download_file(url, dest, file_hash)
         uri = URI(url)
 
         temp_dir ||= File.dirname(Tempfile.new("tensorflow"))
         temp_path = "#{temp_dir}/#{Time.now.to_f}" # TODO better name
+
+        sha2 = Digest::SHA2.new
 
         # Net::HTTP automatically adds Accept-Encoding for compression
         # of response bodies and automatically decompresses gzip
@@ -147,6 +149,7 @@ module TensorFlow
             http.request(request) do |response|
               response.read_body do |chunk|
                 f.write(chunk)
+                sha2.update(chunk)
 
                 # print progress
                 putc "." if i % 50 == 0
@@ -155,6 +158,10 @@ module TensorFlow
             end
             puts # newline
           end
+        end
+
+        if file_hash && sha2.hexdigest != file_hash
+          raise Error, "Bad hash"
         end
 
         FileUtils.mv(temp_path, dest)

@@ -4,6 +4,7 @@ require "npy"
 require "numo/narray"
 
 # stdlib
+require "digest"
 require "fileutils"
 require "forwardable"
 require "json"
