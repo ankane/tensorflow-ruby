@@ -300,8 +300,11 @@ module TensorFlow
       # def reduce_all
       # end
 
-      # def reduce_any
-      # end
+      def reduce_any(input_tensor, axis: nil, keepdims: false)
+        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        axis ||= reduction_dims(input_tensor)
+        RawOps.any(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
+      end
 
       # def reduce_euclidean_norm
       # end

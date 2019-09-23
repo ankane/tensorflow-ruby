@@ -46,6 +46,13 @@ class MathTest < Minitest::Test
     assert_equal [[2, 6], [12, 20]], (a * b).value
   end
 
+  def test_reduce_any
+    x = Tf.constant([[true, true], [false, false]])
+    assert_equal true, Tf.reduce_any(x).value
+    assert_equal [true, true], Tf.reduce_any(x, axis: 0).value
+    assert_equal [true, false], Tf.reduce_any(x, axis: 1).value
+  end
+
   def test_reduce_max
     x = Tf.constant([[1, 2], [3, 4]])
     assert_equal 4, Tf.reduce_max(x).value
