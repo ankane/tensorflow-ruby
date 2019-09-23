@@ -34,6 +34,12 @@ class MathTest < Minitest::Test
     assert_equal [true, true], Tf::Math.equal(x, y).value
   end
 
+  def test_logical_xor
+    x = Tf.constant([false, false, true, true])
+    y = Tf.constant([false, true, false, true])
+    assert_equal [false, true, true, false], Tf::Math.logical_xor(x, y).value
+  end
+
   def test_multiply
     a = Tf.constant(2)
     b = Tf.constant(3)

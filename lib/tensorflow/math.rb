@@ -243,8 +243,9 @@ module TensorFlow
         RawOps.logical_or(x: x, y: y)
       end
 
-      # def logical_xor
-      # end
+      def logical_xor(x, y)
+        logical_and(logical_or(x, y), logical_not(logical_and(x, y)))
+      end
 
       def maximum(x, y)
         RawOps.maximum(x: x, y: y)
