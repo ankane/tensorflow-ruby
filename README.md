@@ -77,6 +77,11 @@ test_dataset = Tf::Data::Dataset.from_tensor_slices([test_examples, test_labels]
 # shuffle and batch
 train_dataset = train_dataset.shuffle(100).batch(32)
 test_dataset = test_dataset.batch(32)
+
+# iterate
+train_dataset.each do |examples, labels|
+  # ...
+end
 ```
 
 ## Keras [coming soon]
