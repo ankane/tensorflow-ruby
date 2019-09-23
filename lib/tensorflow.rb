@@ -45,6 +45,7 @@ require "tensorflow/keras/datasets/reuters"
 require "tensorflow/keras/layers/dense"
 require "tensorflow/keras/layers/dropout"
 require "tensorflow/keras/layers/flatten"
+require "tensorflow/keras/metrics/mean"
 require "tensorflow/keras/models/sequential"
 
 module TensorFlow

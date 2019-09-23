@@ -21,4 +21,10 @@ class KerasTest < Minitest::Test
     model.fit(x_train, y_train, epochs: 5)
     model.evaluate(x_test, y_test)
   end
+
+  def test_metrics
+    m = Tf::Keras::Metrics::Mean.new
+    m.update_state([1, 3, 5, 7])
+    assert_equal 4, m.result.value
+  end
 end
