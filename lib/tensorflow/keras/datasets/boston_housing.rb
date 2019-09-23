@@ -3,11 +3,13 @@ module TensorFlow
     module Datasets
       module BostonHousing
         def self.load_data(path: "boston_housing.npz", test_split: 0.2, seed: 113)
-          data = Utils.load_dataset(
+          file = Utils.get_file(
             path,
             "https://storage.googleapis.com/tensorflow/tf-keras-datasets/boston_housing.npz",
-            "f553886a1f8d56431e820c5b82552d9d95cfcb96d1e678153f8839538947dff5"
+            file_hash: "f553886a1f8d56431e820c5b82552d9d95cfcb96d1e678153f8839538947dff5"
           )
+
+          data = Npy.load_npz(file)
 
           x = data["x"]
           y = data["y"]

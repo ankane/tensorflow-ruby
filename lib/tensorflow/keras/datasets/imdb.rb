@@ -17,11 +17,12 @@ module TensorFlow
         # end
 
         def self.get_word_index(path: "imdb_word_index.json")
-          Utils.load_dataset(
+          file = Utils.get_file(
             path,
             "https://storage.googleapis.com/tensorflow/tf-keras-datasets/imdb_word_index.json",
-            "bfafd718b763782e994055a2d397834f"
+            file_hash: "bfafd718b763782e994055a2d397834f"
           )
+          JSON.parse(File.read(file))
         end
       end
     end

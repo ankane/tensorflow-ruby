@@ -27,4 +27,9 @@ class KerasTest < Minitest::Test
     m.update_state([1, 3, 5, 7])
     assert_equal 4, m.result.value
   end
+
+  def test_get_file
+    csv_file = Tf::Keras::Utils.get_file("heart.csv", "https://storage.googleapis.com/applied-dl/heart.csv")
+    assert_equal "heart.csv", csv_file.split("/").last
+  end
 end

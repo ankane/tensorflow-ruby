@@ -47,6 +47,7 @@ require "tensorflow/keras/layers/dropout"
 require "tensorflow/keras/layers/flatten"
 require "tensorflow/keras/metrics/mean"
 require "tensorflow/keras/models/sequential"
+require "tensorflow/keras/utils"
 
 module TensorFlow
   class Error < StandardError; end

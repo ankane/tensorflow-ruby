@@ -3,9 +3,6 @@ module TensorFlow
     module Datasets
       module FashionMNIST
         def self.load_data
-          base_path = "#{Utils.datasets_path}/fashion-mnist"
-          FileUtils.mkdir_p(base_path)
-
           base_url = "https://storage.googleapis.com/tensorflow/tf-keras-datasets"
           files = [
             "train-labels-idx1-ubyte.gz", "train-images-idx3-ubyte.gz",
@@ -14,10 +11,7 @@ module TensorFlow
 
           paths = []
           files.each do |file|
-            path = "#{base_path}/#{file}"
-            url = "#{base_url}/#{file}"
-            Utils.download_file(url, path) unless File.exist?(path)
-            paths << path
+            paths << Utils.get_file(file, "#{base_url}/#{file}", cache_subdir: "datasets/fashion-mnist")
           end
 
           x_train, y_train, x_test, y_test = nil
