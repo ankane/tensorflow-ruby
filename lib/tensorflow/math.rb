@@ -312,8 +312,11 @@ module TensorFlow
       # def reduce_max
       # end
 
-      # def reduce_mean
-      # end
+      def reduce_mean(input_tensor, axis: nil, keepdims: false)
+        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        axis ||= reduction_dims(input_tensor)
+        RawOps.mean(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
+      end
 
       # def reduce_min
       # end
@@ -324,17 +327,17 @@ module TensorFlow
       # def reduce_std
       # end
 
-      def reduce_sum(input_tensor, axis = nil, keepdims: false)
+      def reduce_sum(input_tensor, axis: nil, keepdims: false)
         input_tensor = TensorFlow.convert_to_tensor(input_tensor)
-        unless axis
-          rank = RawOps.rank(input: input_tensor).value
-          axis = (0...rank).to_a
-        end
+        axis ||= reduction_dims(input_tensor)
         RawOps.sum(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
 
-      # def reduce_variance
-      # end
+      def reduce_variance(input_tensor, axis: nil, keepdims: false)
+        means = reduce_mean(input_tensor, axis: axis, keepdims: true)
+        squared_deviations = RawOps.square(x: input_tensor - means)
+        reduce_mean(squared_deviations, axis: axis, keepdims: keepdims)
+      end
 
       def rint(x)
         RawOps.rint(x: x)
@@ -465,6 +468,13 @@ module TensorFlow
 
       def zeta(x, q)
         RawOps.zeta(x: x, q: q)
+      end
+
+      private
+
+      def reduction_dims(input_tensor)
+        rank = RawOps.rank(input: input_tensor).value
+        (0...rank).to_a
       end
     end
   end

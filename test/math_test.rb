@@ -46,13 +46,27 @@ class MathTest < Minitest::Test
     assert_equal [[2, 6], [12, 20]], (a * b).value
   end
 
+  def test_reduce_mean
+    x = Tf.constant([[1.0, 1.0], [2.0, 2.0]])
+    assert_equal 1.5, Tf.reduce_mean(x).value
+    assert_equal [1.5, 1.5], Tf.reduce_mean(x, axis: 0).value
+    assert_equal [1.0, 2.0], Tf.reduce_mean(x, axis: 1).value
+  end
+
   def test_reduce_sum
     x = Tf.constant([[1, 1, 1], [1, 1, 1]])
     assert_equal 6, Tf.reduce_sum(x).value
-    assert_equal [2, 2, 2], Tf.reduce_sum(x, 0).value
-    assert_equal [3, 3], Tf.reduce_sum(x, 1).value
-    assert_equal [[3], [3]], Tf.reduce_sum(x, 1, keepdims: true).value
-    assert_equal 6, Tf.reduce_sum(x, [0, 1]).value
+    assert_equal [2, 2, 2], Tf.reduce_sum(x, axis: 0).value
+    assert_equal [3, 3], Tf.reduce_sum(x, axis: 1).value
+    assert_equal [[3], [3]], Tf.reduce_sum(x, axis: 1, keepdims: true).value
+    assert_equal 6, Tf.reduce_sum(x, axis: [0, 1]).value
+  end
+
+  def test_reduce_variance
+    x = Tf.constant([[1.0, 2.0], [3.0, 4.0]])
+    assert_equal 1.25, Tf::Math.reduce_variance(x).value
+    assert_equal [1, 1], Tf::Math.reduce_variance(x, axis: 0).value
+    assert_equal [0.25, 0.25], Tf::Math.reduce_variance(x, axis: 1).value
   end
 
   def test_sin
