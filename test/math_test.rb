@@ -40,6 +40,10 @@ class MathTest < Minitest::Test
     assert_equal [false, true, true, false], Tf::Math.logical_xor(x, y).value
   end
 
+  def test_log_sigmoid
+    assert_in_delta -0.31326166, Tf::Math.log_sigmoid(1.0).value
+  end
+
   def test_multiply
     a = Tf.constant(2)
     b = Tf.constant(3)
@@ -50,6 +54,10 @@ class MathTest < Minitest::Test
     a = Tf.constant([[1, 2], [3, 4]])
     b = Tf.add(a, 1)
     assert_equal [[2, 6], [12, 20]], (a * b).value
+  end
+
+  def test_negative
+    assert_equal [-1, -2], Tf.negative([1, 2]).value
   end
 
   def test_reduce_any

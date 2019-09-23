@@ -75,6 +75,10 @@ module TensorFlow
       Math.floormod(self, other)
     end
 
+    def -@
+      Math.negative(self)
+    end
+
     def value
       value =
         case dtype

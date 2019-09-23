@@ -224,8 +224,10 @@ module TensorFlow
         RawOps.log1p(x: x)
       end
 
-      # def log_sigmoid
-      # end
+      def log_sigmoid(x)
+        x = TensorFlow.convert_to_tensor(x)
+        negative(RawOps.softplus(features: -x))
+      end
 
       def log_softmax(logits)
         RawOps.log_softmax(logits: logits)
@@ -266,8 +268,9 @@ module TensorFlow
       # def multiply_no_nan
       # end
 
-      # def negative
-      # end
+      def negative(x)
+        RawOps.neg(x: x)
+      end
 
       # def nextafter
       # end
