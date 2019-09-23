@@ -53,6 +53,13 @@ class MathTest < Minitest::Test
     assert_equal [1.0, 2.0], Tf.reduce_mean(x, axis: 1).value
   end
 
+  def test_reduce_std
+    x = Tf.constant([[1.0, 2.0], [3.0, 4.0]])
+    assert_in_delta 1.1180339887498949, Tf::Math.reduce_std(x).value
+    assert_equal [1.0, 1.0], Tf::Math.reduce_std(x, axis: 0).value
+    assert_equal [0.5, 0.5], Tf::Math.reduce_std(x, axis: 1).value
+  end
+
   def test_reduce_sum
     x = Tf.constant([[1, 1, 1], [1, 1, 1]])
     assert_equal 6, Tf.reduce_sum(x).value

@@ -324,8 +324,10 @@ module TensorFlow
       # def reduce_prod
       # end
 
-      # def reduce_std
-      # end
+      def reduce_std(input_tensor, axis: nil, keepdims: false)
+        variance = reduce_variance(input_tensor, axis: axis, keepdims: keepdims)
+        sqrt(variance)
+      end
 
       def reduce_sum(input_tensor, axis: nil, keepdims: false)
         input_tensor = TensorFlow.convert_to_tensor(input_tensor)
