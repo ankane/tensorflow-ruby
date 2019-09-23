@@ -1,6 +1,8 @@
 module TensorFlow
   module Data
     class Dataset
+      include Enumerable
+
       # TODO remove
       attr_reader :output_types, :output_shapes
 
