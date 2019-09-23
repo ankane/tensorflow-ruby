@@ -39,51 +39,109 @@ module TensorFlow
           type = FFI.TFE_OpGetAttrType(op, attr_name, is_list, status)
           check_status status
 
-          case FFI::AttrType[type]
-          when :string
-            FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
-          when :int
-            FFI.TFE_OpSetAttrInt(op, attr_name, attr_value)
-          when :float
-            FFI.TFE_OpSetAttrFloat(op, attr_name, attr_value)
-          when :bool
-            FFI.TFE_OpSetAttrBool(op, attr_name, attr_value ? 1 : 0)
-          when :type
-            FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
-          when :shape
-            # TODO set value properly
-            FFI.TFE_OpSetAttrShape(op, attr_name, nil, 0, status)
-            check_status status
-          # when :tensor
-          # when :placeholder
-          # when :func
+          if is_list.read_int == 1
+            case FFI::AttrType[type]
+            when :shape
+              num_values = attr_value.size
+              dims_ptrs =
+                attr_value.map do |shape|
+                  ptr = ::FFI::MemoryPointer.new(:int64, shape.size)
+                  ptr.write_array_of_int64(shape)
+                end
+              dims = ::FFI::MemoryPointer.new(:pointer, num_values)
+              dims.write_array_of_pointer(dims_ptrs)
+
+              num_dims = ::FFI::MemoryPointer.new(:int, num_values)
+              num_dims.write_array_of_int(attr_value.map(&:size))
+
+              FFI.TFE_OpSetAttrShapeList(op, attr_name, dims, num_dims, num_values, status)
+            when :type
+              num_values = attr_value.size
+              values = ::FFI::MemoryPointer.new(:int, num_values)
+              types =
+                attr_value.map do |v|
+                  if v.is_a?(Symbol)
+                    FFI::DataType[v]
+                  else
+                    v
+                  end
+                end
+              values.write_array_of_int(types)
+              FFI.TFE_OpSetAttrTypeList(op, attr_name, values, num_values)
+            else
+              raise "Unknown list type: #{FFI::AttrType[type]}"
+            end
           else
-            raise "Unknown type: #{FFI::AttrType[type]}"
+            case FFI::AttrType[type]
+            when :string
+              FFI.TFE_OpSetAttrString(op, attr_name, attr_value, attr_value.bytesize)
+            when :int
+              FFI.TFE_OpSetAttrInt(op, attr_name, attr_value)
+            when :float
+              FFI.TFE_OpSetAttrFloat(op, attr_name, attr_value)
+            when :bool
+              FFI.TFE_OpSetAttrBool(op, attr_name, attr_value ? 1 : 0)
+            when :type
+              attr_value = FFI::DataType[attr_value] if attr_value.is_a?(Symbol)
+              FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
+            when :shape
+              # TODO set value properly
+              FFI.TFE_OpSetAttrShape(op, attr_name, nil, 0, status)
+              check_status status
+            # when :tensor
+            # when :placeholder
+            # when :func
+            else
+              raise "Unknown type: #{FFI::AttrType[type]}"
+            end
           end
         end
 
-        inputs.each do |input|
-          input = TensorFlow.convert_to_tensor(input) unless input.respond_to?(:to_ptr)
-          FFI.TFE_OpAddInput(op, input, status)
+        inputs.each_with_index do |input, i|
+          # TODO handle this better
+          if op_name == "TensorSliceDataset" && i == 0
+            input =
+              input.map do |inp|
+                if inp.respond_to?(:to_ptr)
+                  inp
+                else
+                  TensorFlow.convert_to_tensor(inp)
+                end
+              end
+
+            input_ptr = ::FFI::MemoryPointer.new(:pointer, input.size)
+            input_ptr.write_array_of_pointer(input)
+            FFI.TFE_OpAddInputList(op, input_ptr, input.size, status)
+          else
+            raise "Missing argument" if input.nil?
+
+            input = TensorFlow.convert_to_tensor(input) unless input.respond_to?(:to_ptr)
+            FFI.TFE_OpAddInput(op, input, status)
+          end
           check_status status
         end
 
-        retvals = ::FFI::MemoryPointer.new(:pointer)
+        retvals = ::FFI::MemoryPointer.new(:pointer, 2)
         num_retvals = ::FFI::MemoryPointer.new(:int)
         num_retvals.write_int(retvals.size)
         FFI.TFE_Execute(op, retvals, num_retvals, status)
         check_status status
 
-        if num_retvals.read_int > 0
-          handle = retvals.read_pointer
-          type = FFI.TFE_TensorHandleDataType(handle)
+        n = num_retvals.read_int
+        if n > 0
+          retvals =
+            retvals.read_array_of_pointer(n).map do |handle|
+              type = FFI.TFE_TensorHandleDataType(handle)
 
-          case FFI::DataType[type]
-          when :resource
-            handle
-          else
-            Tensor.new(pointer: handle)
-          end
+              case FFI::DataType[type]
+              when :resource, :variant
+                handle
+              else
+                Tensor.new(pointer: handle)
+              end
+            end
+
+          n == 1 ? retvals.first : retvals
         end
       ensure
         FFI.TF_DeleteStatus(status) if status
@@ -116,6 +174,16 @@ module TensorFlow
           :float
         else
           raise Error, "Unable to infer data type"
+        end
+      end
+
+      def to_tensor_array(values)
+        values.map do |v|
+          if v.is_a?(Tensor)
+            v
+          else
+            TensorFlow.convert_to_tensor(v)
+          end
         end
       end
 

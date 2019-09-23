@@ -28,6 +28,12 @@ require "tensorflow/utils"
 require "tensorflow/variable"
 require "tensorflow/version"
 
+# data
+require "tensorflow/data/dataset"
+require "tensorflow/data/batch_dataset"
+require "tensorflow/data/shuffle_dataset"
+require "tensorflow/data/tensor_slice_dataset"
+
 # keras
 require "tensorflow/keras/datasets/boston_housing"
 require "tensorflow/keras/datasets/cifar10"

@@ -116,7 +116,7 @@ module TensorFlow
           end
         when :bool
           data_pointer.read_array_of_int8(element_count).map { |v| v == 1 }
-        when :resource
+        when :resource, :variant
           return data_pointer
         else
           raise "Unknown type: #{dtype}"
@@ -163,7 +163,7 @@ module TensorFlow
     end
 
     def inspect
-      inspection = %w(numo shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
+      inspection = %w(value shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
       "#<#{self.class} #{inspection.join(", ")}>"
     end
 

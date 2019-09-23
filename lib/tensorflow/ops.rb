@@ -1,6 +1,10 @@
 # keep in alphabetical order
 module TensorFlow
   module Ops
+    def cast(x, dtype)
+      Utils.execute("Cast", [x], DstT: FFI::DataType[dtype])
+    end
+
     def eye(num_rows,  num_columns: nil)
       num_columns ||= num_rows
       zeros = self.zeros([num_rows, num_columns])

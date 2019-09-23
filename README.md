@@ -67,9 +67,19 @@ end
 fizzbuzz(15)
 ```
 
-## Keras
+## Data::Dataset [master]
 
-Coming soon
+```ruby
+# load
+train_dataset = Tf::Data::Dataset.from_tensor_slices([train_examples, train_labels])
+test_dataset = Tf::Data::Dataset.from_tensor_slices([test_examples, test_labels])
+
+# shuffle and batch
+train_dataset = train_dataset.shuffle(100).batch(32)
+test_dataset = test_dataset.batch(32)
+```
+
+## Keras [coming soon]
 
 ```ruby
 mnist = Tf::Keras::Datasets::MNIST
