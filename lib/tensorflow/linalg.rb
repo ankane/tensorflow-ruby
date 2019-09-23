@@ -41,8 +41,12 @@ module TensorFlow
       # def expm
       # end
 
-      # def eye
-      # end
+      def eye(num_rows, num_columns: nil)
+        num_columns ||= num_rows
+        zeros = TensorFlow.zeros([num_rows, num_columns])
+        ones = TensorFlow.ones([num_rows])
+        RawOps.matrix_set_diag(input: zeros, diagonal: ones)
+      end
 
       # def global_norm
       # end

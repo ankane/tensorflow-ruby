@@ -9,13 +9,6 @@ module TensorFlow
       RawOps.expand_dims(input: input, dim: axis)
     end
 
-    def eye(num_rows,  num_columns: nil)
-      num_columns ||= num_rows
-      zeros = self.zeros([num_rows, num_columns])
-      ones = self.ones([num_rows])
-      RawOps.matrix_set_diag(input: zeros, diagonal: ones)
-    end
-
     def fill(dims, value)
       RawOps.fill(dims: dims, value: value)
     end
