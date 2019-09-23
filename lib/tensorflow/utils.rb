@@ -121,6 +121,7 @@ module TensorFlow
           check_status status
         end
 
+        # TODO decide how many retvals to allocate
         retvals = ::FFI::MemoryPointer.new(:pointer, 2)
         num_retvals = ::FFI::MemoryPointer.new(:int)
         num_retvals.write_int(retvals.size)
@@ -141,6 +142,7 @@ module TensorFlow
               end
             end
 
+          # TODO handle case where n = 1 and still want an array for retvals
           n == 1 ? retvals.first : retvals
         end
       ensure
