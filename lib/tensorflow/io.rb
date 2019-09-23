@@ -70,8 +70,9 @@ module TensorFlow
       # def gfile
       # end
 
-      # def is_jpeg
-      # end
+      def is_jpeg(contents)
+        Image.is_jpeg(contents)
+      end
 
       # def match_filenames_once
       # end

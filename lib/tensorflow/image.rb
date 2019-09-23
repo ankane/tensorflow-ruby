@@ -101,8 +101,10 @@ module TensorFlow
       # def image_gradients
       # end
 
-      # def is_jpeg
-      # end
+      def is_jpeg(contents)
+        substr = Strings.substr(contents, 0, 3)
+        Math.equal(substr, "\xff\xd8\xff")
+      end
 
       def non_max_suppression(boxes, scores, max_output_size, iou_threshold: nil)
         RawOps.non_max_suppression(boxes: boxes, scores: scores, max_output_size: max_output_size, iou_threshold: iou_threshold)
