@@ -265,8 +265,9 @@ module TensorFlow
         RawOps.mul(x: x, y: y)
       end
 
-      # def multiply_no_nan
-      # end
+      def multiply_no_nan(x, y)
+        RawOps.mul_no_nan(x: x, y: y)
+      end
 
       def negative(x)
         RawOps.neg(x: x)
