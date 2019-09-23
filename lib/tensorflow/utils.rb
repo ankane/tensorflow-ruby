@@ -91,13 +91,18 @@ module TensorFlow
       end
 
       def infer_type(value)
-        if value.is_a?(Numo::NArray) && (type = NUMO_TYPE_MAP.find { |k, v| value.is_a?(v) })
-          type.first
+        if value.is_a?(Numo::NArray)
+          type = NUMO_TYPE_MAP.find { |k, v| value.is_a?(v) }
+          if type
+            type.first
+          else
+            raise Error, "Unable to infer data type"
+          end
         elsif value.empty?
           raise Error, "Unable to infer data type"
         elsif value.all? { |v| v.is_a?(String) }
           :string
-        elsif value.all? { |v| v == true || v == false }
+        elsif value.all? { |v| v.is_a?(TrueClass) || v.is_a?(FalseClass) }
           :bool
         elsif value.all? { |v| v.is_a?(Integer) }
           if value.all? { |v| v >= -2147483648 && v <= 2147483647 }
