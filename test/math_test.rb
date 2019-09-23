@@ -46,6 +46,15 @@ class MathTest < Minitest::Test
     assert_equal [[2, 6], [12, 20]], (a * b).value
   end
 
+  def test_reduce_sum
+    x = Tf.constant([[1, 1, 1], [1, 1, 1]])
+    assert_equal 6, Tf.reduce_sum(x).value
+    assert_equal [2, 2, 2], Tf.reduce_sum(x, 0).value
+    assert_equal [3, 3], Tf.reduce_sum(x, 1).value
+    assert_equal [[3], [3]], Tf.reduce_sum(x, 1, keepdims: true).value
+    assert_equal 6, Tf.reduce_sum(x, [0, 1]).value
+  end
+
   def test_sin
     assert_equal [0, 1], Tf.sin([0.0, 0.5 * Math::PI]).value
     assert_equal [0, 1], Tf::Math.sin([0.0, 0.5 * Math::PI]).value

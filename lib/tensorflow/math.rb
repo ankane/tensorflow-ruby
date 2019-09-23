@@ -324,8 +324,14 @@ module TensorFlow
       # def reduce_std
       # end
 
-      # def reduce_sum
-      # end
+      def reduce_sum(input_tensor, axis = nil, keepdims: false)
+        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        unless axis
+          rank = RawOps.rank(input: input_tensor).value
+          axis = (0...rank).to_a
+        end
+        RawOps.sum(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
+      end
 
       # def reduce_variance
       # end
