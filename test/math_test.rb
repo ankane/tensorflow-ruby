@@ -67,6 +67,13 @@ class MathTest < Minitest::Test
     assert_equal [1, 3], Tf.reduce_min(x, axis: 1).value
   end
 
+  def test_reduce_prod
+    x = Tf.constant([[1, 2], [3, 4]])
+    assert_equal 24, Tf.reduce_prod(x).value
+    assert_equal [3, 8], Tf.reduce_prod(x, axis: 0).value
+    assert_equal [2, 12], Tf.reduce_prod(x, axis: 1).value
+  end
+
   def test_reduce_std
     x = Tf.constant([[1.0, 2.0], [3.0, 4.0]])
     assert_in_delta 1.1180339887498949, Tf::Math.reduce_std(x).value
