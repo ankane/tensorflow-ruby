@@ -93,8 +93,9 @@ module TensorFlow
               attr_value = FFI::DataType[attr_value] if attr_value.is_a?(Symbol)
               FFI.TFE_OpSetAttrType(op, attr_name, attr_value)
             when :shape
-              # TODO set value properly
-              FFI.TFE_OpSetAttrShape(op, attr_name, nil, 0, status)
+              ptr = ::FFI::MemoryPointer.new(:int64, attr_value.size)
+              ptr.write_array_of_int64(attr_value)
+              FFI.TFE_OpSetAttrShape(op, attr_name, ptr, attr_value.size, status)
               check_status status
             # when :tensor
             # when :placeholder
