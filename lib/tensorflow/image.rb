@@ -151,8 +151,19 @@ module TensorFlow
       # def random_saturation
       # end
 
-      # def resize
-      # end
+      def resize(images, size)
+        images = TensorFlow.convert_to_tensor(images)
+
+        batch = images.shape.size != 3
+        images = TensorFlow.expand_dims(images, 0) unless batch
+
+        # TODO support more methods
+        images = RawOps.resize_bilinear(images: images, size: size)
+
+        images = TensorFlow.squeeze(images, axis: [0]) unless batch
+
+        images
+      end
 
       # def resize_with_crop_or_pad
       # end

@@ -70,6 +70,7 @@ module TensorFlow
     attach_function :TFE_OpSetAttrBool, %i[pointer string uint8], :void
     attach_function :TFE_OpSetAttrType, %i[pointer string int], :void
     attach_function :TFE_OpSetAttrShape, %i[pointer string pointer int pointer], :void
+    attach_function :TFE_OpSetAttrIntList, %i[pointer string pointer int], :void
     attach_function :TFE_OpSetAttrTypeList, %i[pointer string pointer int], :void
     attach_function :TFE_OpSetAttrShapeList, %i[pointer string pointer pointer int pointer], :void
     attach_function :TFE_Execute, %i[pointer pointer pointer pointer], :pointer

@@ -40,9 +40,14 @@ module TensorFlow
           check_status status
 
           if is_list.read_int == 1
+            num_values = attr_value.size
+
             case FFI::AttrType[type]
+            when :int
+              values = ::FFI::MemoryPointer.new(:int64, num_values)
+              values.write_array_of_int64(attr_value)
+              FFI.TFE_OpSetAttrIntList(op, attr_name, values, num_values)
             when :shape
-              num_values = attr_value.size
               dims_ptrs =
                 attr_value.map do |shape|
                   ptr = ::FFI::MemoryPointer.new(:int64, shape.size)
@@ -56,7 +61,6 @@ module TensorFlow
 
               FFI.TFE_OpSetAttrShapeList(op, attr_name, dims, num_dims, num_values, status)
             when :type
-              num_values = attr_value.size
               values = ::FFI::MemoryPointer.new(:int, num_values)
               types =
                 attr_value.map do |v|

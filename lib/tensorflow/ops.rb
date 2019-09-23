@@ -5,6 +5,10 @@ module TensorFlow
       Utils.execute("Cast", [x], DstT: FFI::DataType[dtype])
     end
 
+    def expand_dims(input, axis)
+      RawOps.expand_dims(input: input, dim: axis)
+    end
+
     def eye(num_rows,  num_columns: nil)
       num_columns ||= num_rows
       zeros = self.zeros([num_rows, num_columns])
@@ -30,6 +34,10 @@ module TensorFlow
         start = 0
       end
       RawOps.range(start: start, limit: limit, delta: delta)
+    end
+
+    def squeeze(input, axis: nil)
+      RawOps.squeeze(input: input, squeeze_dims: axis)
     end
 
     def timestamp
