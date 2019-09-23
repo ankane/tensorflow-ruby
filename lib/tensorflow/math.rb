@@ -309,8 +309,11 @@ module TensorFlow
       # def reduce_logsumexp
       # end
 
-      # def reduce_max
-      # end
+      def reduce_max(input_tensor, axis: nil, keepdims: false)
+        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        axis ||= reduction_dims(input_tensor)
+        RawOps.max(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
+      end
 
       def reduce_mean(input_tensor, axis: nil, keepdims: false)
         input_tensor = TensorFlow.convert_to_tensor(input_tensor)
@@ -318,8 +321,11 @@ module TensorFlow
         RawOps.mean(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
 
-      # def reduce_min
-      # end
+      def reduce_min(input_tensor, axis: nil, keepdims: false)
+        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        axis ||= reduction_dims(input_tensor)
+        RawOps.min(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
+      end
 
       # def reduce_prod
       # end
