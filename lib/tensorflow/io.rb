@@ -67,9 +67,6 @@ module TensorFlow
         RawOps.extract_jpeg_shape(contents: contents, output_type: output_type)
       end
 
-      # def gfile
-      # end
-
       def is_jpeg(contents)
         Image.is_jpeg(contents)
       end
