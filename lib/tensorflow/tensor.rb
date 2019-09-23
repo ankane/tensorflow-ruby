@@ -6,7 +6,8 @@ module TensorFlow
       if pointer
         @pointer = pointer
       else
-        data = Array(value)
+        data = value
+        data = Array(data) unless data.is_a?(Array) || data.is_a?(Numo::NArray)
         shape ||= calculate_shape(value)
 
         if shape.size > 0
@@ -16,32 +17,39 @@ module TensorFlow
           dims_ptr = nil
         end
 
-        data = data.flatten
-
-        dtype ||= Utils.infer_type(data)
-        type = FFI::DataType[dtype]
-        case dtype
-        when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
-          data_ptr = ::FFI::MemoryPointer.new(dtype, data.size)
-          data_ptr.send("write_array_of_#{dtype}", data)
-        when :bfloat16
-          # https://en.wikipedia.org/wiki/Bfloat16_floating-point_format
-          data_ptr = ::FFI::MemoryPointer.new(:int8, data.size * 2)
-          data_ptr.write_bytes(data.map { |v| [v].pack("g")[0..1] }.join)
-        when :complex64
-          data_ptr = ::FFI::MemoryPointer.new(:float, data.size * 2)
-          data_ptr.write_array_of_float(data.flat_map { |v| [v.real, v.imaginary] })
-        when :complex128
-          data_ptr = ::FFI::MemoryPointer.new(:double, data.size * 2)
-          data_ptr.write_array_of_double(data.flat_map { |v| [v.real, v.imaginary] })
-        when :string
-          data_ptr = string_ptr(data)
-        when :bool
-          data_ptr = ::FFI::MemoryPointer.new(:int8, data.size)
-          data_ptr.write_array_of_int8(data.map { |v| v ? 1 : 0 })
+        if data.is_a?(Numo::NArray)
+          dtype ||= Utils.infer_type(data)
+          # TODO use Numo read pointer?
+          data_ptr = ::FFI::MemoryPointer.new(:uchar, data.byte_size)
+          data_ptr.write_bytes(data.to_string)
         else
-          raise "Unknown type: #{dtype}"
+          data = data.flatten
+          dtype ||= Utils.infer_type(data)
+          case dtype
+          when :float, :double, :int32, :uint8, :int16, :int8, :int64, :uint16, :uint32, :uint64
+            data_ptr = ::FFI::MemoryPointer.new(dtype, data.size)
+            data_ptr.send("write_array_of_#{dtype}", data)
+          when :bfloat16
+            # https://en.wikipedia.org/wiki/Bfloat16_floating-point_format
+            data_ptr = ::FFI::MemoryPointer.new(:int8, data.size * 2)
+            data_ptr.write_bytes(data.map { |v| [v].pack("g")[0..1] }.join)
+          when :complex64
+            data_ptr = ::FFI::MemoryPointer.new(:float, data.size * 2)
+            data_ptr.write_array_of_float(data.flat_map { |v| [v.real, v.imaginary] })
+          when :complex128
+            data_ptr = ::FFI::MemoryPointer.new(:double, data.size * 2)
+            data_ptr.write_array_of_double(data.flat_map { |v| [v.real, v.imaginary] })
+          when :string
+            data_ptr = string_ptr(data)
+          when :bool
+            data_ptr = ::FFI::MemoryPointer.new(:int8, data.size)
+            data_ptr.write_array_of_int8(data.map { |v| v ? 1 : 0 })
+          else
+            raise "Unknown type: #{dtype}"
+          end
         end
+
+        type = FFI::DataType[dtype]
 
         callback = ::FFI::Function.new(:void, [:pointer, :size_t, :pointer]) do |data, len, arg|
           # FFI handles deallocation
