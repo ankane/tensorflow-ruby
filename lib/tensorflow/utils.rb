@@ -47,6 +47,10 @@ module TensorFlow
               values = ::FFI::MemoryPointer.new(:int64, num_values)
               values.write_array_of_int64(attr_value)
               FFI.TFE_OpSetAttrIntList(op, attr_name, values, num_values)
+            when :float
+              values = ::FFI::MemoryPointer.new(:float, num_values)
+              values.write_array_of_float(attr_value)
+              FFI.TFE_OpSetAttrFloatList(op, attr_name, values, num_values)
             when :shape
               dims_ptrs =
                 attr_value.map do |shape|
