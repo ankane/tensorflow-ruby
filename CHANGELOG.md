@@ -1,6 +1,6 @@
 ## 0.1.2 [unreleased]
 
-- Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, `Strings`, and `Data::Dataset` modules
+- Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, `NN`, `Strings`, and `Data::Dataset` modules
 - Added `numo` method to tensors
 - Added Boston housing dataset
 - Fixed string encoding
