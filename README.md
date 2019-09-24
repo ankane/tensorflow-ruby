@@ -67,7 +67,7 @@ end
 fizzbuzz(15)
 ```
 
-## Data::Dataset [master]
+## Data::Dataset
 
 ```ruby
 # load

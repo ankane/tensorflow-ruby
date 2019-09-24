@@ -1,4 +1,4 @@
-## 0.1.2 [unreleased]
+## 0.1.2
 
 - Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, `NN`, `Strings`, and `Data::Dataset` modules
 - Added `numo` method to tensors
