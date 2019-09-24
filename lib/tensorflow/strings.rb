@@ -88,8 +88,9 @@ module TensorFlow
       # def unsorted_segment_join
       # end
 
-      # def upper
-      # end
+      def upper(input, encoding: "")
+        RawOps.string_upper(input: input, encoding: encoding)
+      end
     end
   end
 end
