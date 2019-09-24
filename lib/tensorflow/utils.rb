@@ -141,14 +141,7 @@ module TensorFlow
         if n > 0
           retvals =
             retvals.read_array_of_pointer(n).map do |handle|
-              type = FFI.TFE_TensorHandleDataType(handle)
-
-              case FFI::DataType[type]
-              when :resource, :variant
-                handle
-              else
-                Tensor.new(pointer: handle)
-              end
+              Tensor.new(pointer: handle)
             end
 
           # TODO handle case where n = 1 and still want an array for retvals
