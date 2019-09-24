@@ -44,7 +44,7 @@ module TensorFlow
 
     def inspect
       value = read_value
-      inspection = %w(value shape dtype).map { |v| "#{v}: #{value.send(v).inspect}"}
+      inspection = %w(numo shape dtype).map { |v| "#{v}: #{value.send(v).inspect}"}
       "#<#{self.class} #{inspection.join(", ")}>"
     end
 

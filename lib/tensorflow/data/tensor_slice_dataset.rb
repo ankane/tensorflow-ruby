@@ -3,6 +3,7 @@ module TensorFlow
     class TensorSliceDataset < Dataset
       def initialize(element)
         tensors = Utils.to_tensor_array(element)
+        @tensors = tensors # keep reference for memory
         @output_types = tensors.map(&:dtype)
         @output_shapes = tensors.map { |t| t.shape[1..-1] }
 

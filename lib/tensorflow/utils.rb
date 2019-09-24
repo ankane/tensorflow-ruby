@@ -109,15 +109,6 @@ module TensorFlow
         inputs.each_with_index do |input, i|
           # TODO handle this better
           if op_name == "TensorSliceDataset" && i == 0
-            input =
-              input.map do |inp|
-                if inp.respond_to?(:to_ptr)
-                  inp
-                else
-                  TensorFlow.convert_to_tensor(inp)
-                end
-              end
-
             input_ptr = ::FFI::MemoryPointer.new(:pointer, input.size)
             input_ptr.write_array_of_pointer(input)
             FFI.TFE_OpAddInputList(op, input_ptr, input.size, status)

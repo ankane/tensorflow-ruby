@@ -2,6 +2,7 @@ module TensorFlow
   module Data
     class BatchDataset < Dataset
       def initialize(input_dataset, batch_size, drop_remainder)
+        @input_dataset = input_dataset # keep reference for memory
         @output_types = input_dataset.output_types
         @output_shapes = input_dataset.output_shapes.map { |s| [batch_size] + s }
 

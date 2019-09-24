@@ -57,6 +57,8 @@ module TensorFlow
 
         # keep data pointer alive for duration of object
         @data_ptr = data_ptr
+        @dims_ptr = dims_ptr
+        @callback = callback
 
         tensor = FFI.TF_NewTensor(type, dims_ptr, shape.size, data_ptr, data_ptr.size, callback, nil)
         @pointer = FFI.TFE_NewTensorHandle(tensor, @status)
@@ -166,7 +168,7 @@ module TensorFlow
     end
 
     def inspect
-      inspection = %w(value shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
+      inspection = %w(numo shape dtype).map { |v| "#{v}: #{send(v).inspect}"}
       "#<#{self.class} #{inspection.join(", ")}>"
     end
 
