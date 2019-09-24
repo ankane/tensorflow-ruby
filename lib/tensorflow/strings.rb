@@ -42,8 +42,9 @@ module TensorFlow
         RawOps.split(split_dim: split_dim, value: value, num_split: num_split)
       end
 
-      # def strip
-      # end
+      def strip(input)
+        RawOps.string_strip(input: input)
+      end
 
       def substr(input, pos, len, unit: nil)
         RawOps.substr(input: input, pos: pos, len: len, unit: unit)
