@@ -32,7 +32,7 @@ module TensorFlow
         begin
           loop do
             values = RawOps.iterator_get_next_sync(iterator: iterator, output_types: @output_types, output_shapes: @output_shapes)
-            yield *values
+            yield values
           end
         rescue Error => e
           # iterate until end of sequence error
