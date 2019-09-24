@@ -5,6 +5,9 @@ class DataDatasetTest < Minitest::Test
     mnist = Tf::Keras::Datasets::MNIST
     (x_train, y_train), (x_test, y_test) = mnist.load_data
 
+    x_train = x_train / 255.0
+    x_test = x_test / 255.0
+
     image_shapes = []
     label_shapes = []
 

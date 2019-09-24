@@ -55,6 +55,9 @@ module TensorFlow
           # FFI handles deallocation
         end
 
+        # keep data pointer alive for duration of object
+        @data_ptr = data_ptr
+
         tensor = FFI.TF_NewTensor(type, dims_ptr, shape.size, data_ptr, data_ptr.size, callback, nil)
         @pointer = FFI.TFE_NewTensorHandle(tensor, @status)
         check_status @status
