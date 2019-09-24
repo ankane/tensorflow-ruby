@@ -14,6 +14,10 @@ class StringsTest < Minitest::Test
     assert_equal "hello", Tf::Strings.lower("HELLO").value
   end
 
+  def test_to_number
+    assert_equal 123, Tf::Strings.to_number("123").value
+  end
+
   def test_strip
     assert_equal "hello", Tf::Strings.strip(" hello ").value
   end

@@ -59,8 +59,9 @@ module TensorFlow
       # def to_hash_bucket_strong
       # end
 
-      # def to_number
-      # end
+      def to_number(input, out_type: :float)
+        RawOps.string_to_number(string_tensor: input, out_type: out_type)
+      end
 
       def unicode_decode(input, input_encoding: nil, errors: nil, replacement_char: nil, replace_control_characters: nil)
         RawOps.unicode_decode(input: input, input_encoding: input_encoding, errors: errors, replacement_char: replacement_char, replace_control_characters: replace_control_characters)
