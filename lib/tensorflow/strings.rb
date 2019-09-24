@@ -14,8 +14,9 @@ module TensorFlow
       # def join
       # end
 
-      # def length
-      # end
+      def length(input, unit: "BYTE")
+        RawOps.string_length(input: input, unit: unit)
+      end
 
       def lower(input, encoding: "")
         RawOps.string_lower(input: input, encoding: encoding)
