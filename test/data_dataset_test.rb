@@ -12,8 +12,6 @@ class DataDatasetTest < Minitest::Test
     train_ds.each_with_index do |(images, labels), i|
       image_shapes << images.shape
       label_shapes << labels.shape
-      assert_equal [32, 28, 28], images.shape
-      assert_equal [32], labels.shape
     end
 
     assert_equal [[32, 28, 28]] * 1875, image_shapes
