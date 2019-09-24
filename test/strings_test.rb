@@ -1,6 +1,11 @@
 require_relative "test_helper"
 
 class StringsTest < Minitest::Test
+  def test_join
+    assert_equal "helloworld", Tf::Strings.join(["hello", "world"]).value
+    assert_equal "hello world", Tf::Strings.join(["hello", "world"], separator: " ").value
+  end
+
   def test_length
     assert_equal 5, Tf::Strings.length("hello").value
   end

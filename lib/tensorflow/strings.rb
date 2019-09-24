@@ -11,8 +11,9 @@ module TensorFlow
       # def format
       # end
 
-      # def join
-      # end
+      def join(inputs, separator: "")
+        Utils.execute("StringJoin", inputs, separator: separator, N: inputs.size)
+      end
 
       def length(input, unit: "BYTE")
         RawOps.string_length(input: input, unit: unit)
