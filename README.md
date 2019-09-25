@@ -27,8 +27,8 @@ This library follows the TensorFlow 2.0 [Python API](https://www.tensorflow.org/
 ## Constants
 
 ```ruby
-a = Tf.constant(2)
-b = Tf.constant(3)
+a = Tf.constant([1, 2, 3])
+b = Tf.constant([4, 5, 6])
 a + b
 ```
 
@@ -42,8 +42,8 @@ w = v + 1
 ## Math
 
 ```ruby
-Tf::Math.abs(-2)
-Tf::Math.sqrt(4)
+Tf::Math.abs([-1, -2])
+Tf::Math.sqrt([1.0, 4.0, 9.0])
 ```
 
 ## FizzBuzz
