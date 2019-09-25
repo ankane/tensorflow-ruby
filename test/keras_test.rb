@@ -47,12 +47,13 @@ class KerasTest < Minitest::Test
     test_accuracy = Tf::Keras::Metrics::SparseCategoricalAccuracy.new(name: "test_accuracy")
 
     train_step = lambda do |images, labels|
+      predictions = nil
       loss = nil
       tape = Tf::GradientTape.new do
         predictions = model.call(images)
         loss = loss_object.call(labels, predictions)
       end
-      p tape
+      # p tape
       # p model.trainable_variables
       gradients = tape.gradient(loss, model.trainable_variables)
       # optimizer.apply_gradients(zip(gradients, model.trainable_variables))
