@@ -13,6 +13,10 @@ module TensorFlow
       FFI.TFE_ContextStartStep(@pointer)
     end
 
+    def end_step
+      FFI.TFE_ContextEndStep(@pointer)
+    end
+
     def self.finalize(pointer)
       # must use proc instead of stabby lambda
       proc { FFI.TFE_DeleteContext(pointer) }
