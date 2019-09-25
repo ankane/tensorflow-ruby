@@ -2,6 +2,8 @@ module TensorFlow
   module Keras
     module Layers
       class Dense
+        attr_reader :trainable_variables
+
         def initialize(units, activation: nil, use_bias: true, kernel_initializer: "glorot_uniform", bias_initializer: "zeros", dtype: :float)
           @units = units
           @activation = activation
@@ -10,14 +12,17 @@ module TensorFlow
           @bias_initializer = bias_initializer
           @dtype = dtype
           @built = false
+          @trainable_variables = []
         end
 
         def build(input_shape)
           last_dim = input_shape.last
           @kernel = Utils.add_weight(name: "kernel", shape: [last_dim, @units], initializer: @kernel_initializer, dtype: @dtype)
+          @trainable_variables << @kernel
 
           if @use_bias
             @bias = Utils.add_weight(name: "bias", shape: [@units], initializer: @bias_initializer, dtype: @dtype)
+            @trainable_variables << @bias
           else
             @bias = nil
           end

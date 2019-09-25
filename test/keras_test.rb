@@ -50,6 +50,7 @@ class KerasTest < Minitest::Test
       # tape = Tf::GradientTape.new
       predictions = model.call(images)
       loss = loss_object.call(labels, predictions)
+      p model.trainable_variables
       # gradients = tape.gradient(loss, model.trainable_variables)
       # optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 
