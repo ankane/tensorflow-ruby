@@ -22,6 +22,66 @@ class KerasTest < Minitest::Test
     model.evaluate(x_test, y_test)
   end
 
+  def test_subclassing
+    mnist = Tf::Keras::Datasets::MNIST
+    (x_train, y_train), (x_test, y_test) = mnist.load_data
+    x_train = x_train / 255.0
+    x_test = x_test / 255.0
+
+    x_train = x_train.expand_dims(3)
+    x_test = x_test.expand_dims(3)
+
+    train_ds = Tf::Data::Dataset.from_tensor_slices([x_train, y_train]).batch(32)
+    test_ds = Tf::Data::Dataset.from_tensor_slices([x_test, y_test]).batch(32)
+
+    # Create an instance of the model
+    model = MyModel.new
+
+    loss_object = Tf::Keras::Losses::SparseCategoricalCrossentropy.new
+    optimizer = Tf::Keras::Optimizers::Adam.new
+
+    train_loss = Tf::Keras::Metrics::Mean.new(name: "train_loss")
+    train_accuracy = Tf::Keras::Metrics::SparseCategoricalAccuracy.new(name: "train_accuracy")
+
+    test_loss = Tf::Keras::Metrics::Mean.new(name: "test_loss")
+    test_accuracy = Tf::Keras::Metrics::SparseCategoricalAccuracy.new(name: "test_accuracy")
+
+    train_step = lambda do |images, labels|
+      # tape = Tf::GradientTape.new
+      predictions = model.call(images)
+      loss = loss_object.call(labels, predictions)
+      # gradients = tape.gradient(loss, model.trainable_variables)
+      # optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+      train_loss.call(loss)
+      train_accuracy.call(labels, predictions)
+    end
+
+    test_step = lambda do |images, labels|
+      predictions = model.call(images)
+      t_loss = loss_object.call(labels, predictions)
+
+      test_loss.call(t_loss)
+      test_accuracy.call(labels, predictions)
+    end
+
+    epochs = 1
+    epochs.times do |epoch|
+      train_ds.each do |images, labels|
+        train_step.call(images, labels)
+      end
+
+      test_ds.each do |test_images, test_labels|
+        test_step.call(test_images, test_labels)
+      end
+
+      train_loss.reset_states
+      train_accuracy.reset_states
+      test_loss.reset_states
+      test_accuracy.reset_states
+    end
+  end
+
   def test_metrics
     m = Tf::Keras::Metrics::Mean.new
     m.update_state([1, 3, 5, 7])

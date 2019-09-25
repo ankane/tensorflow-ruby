@@ -43,11 +43,17 @@ require "tensorflow/keras/datasets/fashion_mnist"
 require "tensorflow/keras/datasets/imdb"
 require "tensorflow/keras/datasets/mnist"
 require "tensorflow/keras/datasets/reuters"
+require "tensorflow/keras/layers/conv"
+require "tensorflow/keras/layers/conv2d"
 require "tensorflow/keras/layers/dense"
 require "tensorflow/keras/layers/dropout"
 require "tensorflow/keras/layers/flatten"
+require "tensorflow/keras/losses/sparse_categorical_crossentropy"
 require "tensorflow/keras/metrics/mean"
+require "tensorflow/keras/metrics/sparse_categorical_accuracy"
+require "tensorflow/keras/model"
 require "tensorflow/keras/models/sequential"
+require "tensorflow/keras/optimizers/adam"
 require "tensorflow/keras/utils"
 
 module TensorFlow
@@ -80,6 +86,9 @@ module TensorFlow
 
     def convert_to_tensor(value, dtype: nil)
       value = Tensor.new(value, dtype: dtype) unless value.is_a?(Tensor)
+      if dtype && value.dtype != dtype
+        raise Error, "Tensor conversion requested dtype #{dtype} for Tensor with dtype #{value.dtype}"
+      end
       value
     end
   end

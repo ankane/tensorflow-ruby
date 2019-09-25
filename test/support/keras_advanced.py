@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import tensorflow as tf
 
-from tensorflow.keras.layers import Dense, Flatten, Conv2D
+from tensorflow.keras.layers import Dense, Flatten, Dropout
 from tensorflow.keras import Model
 
 mnist = tf.keras.datasets.mnist
@@ -15,22 +15,22 @@ x_train = x_train[..., tf.newaxis]
 x_test = x_test[..., tf.newaxis]
 
 train_ds = tf.data.Dataset.from_tensor_slices(
-    (x_train, y_train)).shuffle(10000).batch(32)
+    (x_train, y_train)).batch(32)
 
 test_ds = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 
 class MyModel(Model):
   def __init__(self):
     super(MyModel, self).__init__()
-    self.conv1 = Conv2D(32, 3, activation='relu')
-    self.flatten = Flatten()
+    self.flatten = Flatten(input_shape=[28, 28])
     self.d1 = Dense(128, activation='relu')
+    self.dropout = Dropout(0.2)
     self.d2 = Dense(10, activation='softmax')
 
   def call(self, x):
-    x = self.conv1(x)
     x = self.flatten(x)
     x = self.d1(x)
+    x = self.dropout(x)
     return self.d2(x)
 
 # Create an instance of the model
@@ -65,7 +65,7 @@ def test_step(images, labels):
   test_loss(t_loss)
   test_accuracy(labels, predictions)
 
-EPOCHS = 5
+EPOCHS = 1
 
 for epoch in range(EPOCHS):
   for images, labels in train_ds:

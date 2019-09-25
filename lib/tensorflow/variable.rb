@@ -1,9 +1,13 @@
 module TensorFlow
   class Variable
-    def initialize(initial_value, dtype: nil)
+    attr_reader :name
+
+    def initialize(initial_value = nil, dtype: nil, shape: nil, name: nil)
       @dtype = dtype || Utils.infer_type(Array(initial_value).flatten)
+      @shape = shape
+      @name = name
       @pointer = RawOps.var_handle_op(dtype: type_enum, shape: [], shared_name: Utils.default_context.shared_name)
-      assign(initial_value)
+      assign(initial_value) if initial_value
     end
 
     def assign(value)
@@ -42,10 +46,19 @@ module TensorFlow
       inspect
     end
 
+    def shape
+      read_value.shape
+    end
+
     def inspect
       value = read_value
       inspection = %w(numo shape dtype).map { |v| "#{v}: #{value.send(v).inspect}"}
+      inspection.unshift("name: #{name}") if name
       "#<#{self.class} #{inspection.join(", ")}>"
+    end
+
+    def to_ptr
+      read_value.to_ptr
     end
 
     private

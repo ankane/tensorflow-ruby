@@ -29,6 +29,10 @@ module TensorFlow
       RawOps.range(start: start, limit: limit, delta: delta)
     end
 
+    def reshape(tensor, shape)
+      RawOps.reshape(tensor: tensor, shape: shape)
+    end
+
     def squeeze(input, axis: nil)
       RawOps.squeeze(input: input, squeeze_dims: axis)
     end
