@@ -2,7 +2,7 @@ module TensorFlow
   class GradientTape
     def initialize
       context = Utils.default_context
-      FFI.TFE_ContextStartStep(context)
+      context.start_step
 
       yield
     end
