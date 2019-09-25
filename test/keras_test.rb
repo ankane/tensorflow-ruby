@@ -58,6 +58,8 @@ class KerasTest < Minitest::Test
       gradients = tape.gradient(loss, model.trainable_variables)
       optimizer.apply_gradients(gradients.zip(model.trainable_variables))
 
+      abort "done"
+
       train_loss.call(loss)
       train_accuracy.call(labels, predictions)
     end

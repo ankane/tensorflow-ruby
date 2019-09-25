@@ -75,5 +75,6 @@ module TensorFlow
     attach_function :TFE_OpSetAttrTypeList, %i[pointer string pointer int], :void
     attach_function :TFE_OpSetAttrShapeList, %i[pointer string pointer pointer int pointer], :void
     attach_function :TFE_Execute, %i[pointer pointer pointer pointer], :pointer
+    attach_function :TFE_ContextStartStep, %[pointer], :void
   end
 end
