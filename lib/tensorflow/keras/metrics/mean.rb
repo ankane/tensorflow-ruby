@@ -8,8 +8,8 @@ module TensorFlow
           @count = Utils.add_weight(name: "count", initializer: "zeros", dtype: @dtype)
         end
 
-        def call(values)
-          update_state(values)
+        def call(*args)
+          update_state(*args)
         end
 
         def update_state(values)

@@ -2,10 +2,6 @@ module TensorFlow
   module Keras
     module Metrics
       class SparseCategoricalAccuracy < Mean
-        def call(y_true, y_pred)
-          update_state(y_true, y_pred)
-        end
-
         def update_state(y_true, y_pred)
           y_true = TensorFlow.convert_to_tensor(y_true)
           y_pred = TensorFlow.convert_to_tensor(y_pred)
