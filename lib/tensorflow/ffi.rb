@@ -41,6 +41,8 @@ module TensorFlow
     attach_function :TF_StringEncodedSize, %i[size_t], :size_t
 
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/eager/c_api.h
+    ContextDevicePlacementPolicy = enum(:explicit, :warn, :silent, :silent_for_int32)
+
     attach_function :TFE_NewContextOptions, %i[], :pointer
     attach_function :TFE_ContextOptionsSetAsync, %i[pointer char], :void
     attach_function :TFE_DeleteContextOptions, %i[pointer], :void
@@ -75,5 +77,10 @@ module TensorFlow
     attach_function :TFE_OpSetAttrTypeList, %i[pointer string pointer int], :void
     attach_function :TFE_OpSetAttrShapeList, %i[pointer string pointer pointer int pointer], :void
     attach_function :TFE_Execute, %i[pointer pointer pointer pointer], :pointer
+    attach_function :TFE_ContextHasFunction, %i[pointer string], :uchar
+    attach_function :TFE_ContextEnableRunMetadata, %i[pointer], :void
+    attach_function :TFE_ContextDisableRunMetadata, %i[pointer], :void
+    attach_function :TFE_ContextStartStep, %i[pointer], :void
+    attach_function :TFE_ContextEndStep, %i[pointer], :void
   end
 end
