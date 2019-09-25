@@ -82,10 +82,16 @@ class KerasTest < Minitest::Test
     end
   end
 
-  def test_metrics
+  def test_metrics_mean
     m = Tf::Keras::Metrics::Mean.new
     m.update_state([1, 3, 5, 7])
     assert_equal 4, m.result.value
+  end
+
+  def test_metrics_sparse_categorical_accuracy
+    m = Tf::Keras::Metrics::SparseCategoricalAccuracy.new
+    m.update_state([[2], [1]], [[0.1, 0.9, 0.8], [0.05, 0.95, 0]])
+    assert_in_delta 0.5, m.result.value
   end
 
   def test_get_file
