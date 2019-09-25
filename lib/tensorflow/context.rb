@@ -9,6 +9,22 @@ module TensorFlow
       FFI.TFE_DeleteContextOptions(options)
     end
 
+    def function?(name)
+      FFI.TFE_ContextHasFunction(@pointer, name) != 0
+    end
+
+    def device_policy
+      FFI::ContextDevicePlacementPolicy[FFI.TFE_ContextGetDevicePlacementPolicy(@pointer)]
+    end
+
+    def enable_run_metadata
+      FFI.TFE_ContextEnableRunMetadata(@pointer)
+    end
+
+    def disable_run_metadata
+      FFI.TFE_ContextDisableRunMetadata(@pointer)
+    end
+
     def start_step
       FFI.TFE_ContextStartStep(@pointer)
     end
