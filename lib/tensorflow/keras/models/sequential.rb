@@ -23,11 +23,12 @@ module TensorFlow
           epochs.times do |epoch|
             puts "Epoch #{epoch + 1}/#{epochs}"
 
-            title = "Progress"
-            progressbar = ProgressBar.create(total: sample_size, length: 30 + 4 + title.size, format: "%t: [%B]", remainder_mark: ".")
-            sample_size.times do
+            samples_width = sample_size.to_s.size
+            title = "%#{samples_width}d/#{sample_size}" % [1]
+            progressbar = ProgressBar.create(total: sample_size, length: 30 + 3 + title.size, format: "%t [%B]", remainder_mark: ".")
+            sample_size.times do |i|
+              progressbar.title = "%#{samples_width}d/#{sample_size}" % [i + 1]
               progressbar.increment
-              # sleep(0.001)
             end
           end
         end
