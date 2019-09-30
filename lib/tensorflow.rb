@@ -54,6 +54,7 @@ require "tensorflow/keras/metrics/sparse_categorical_accuracy"
 require "tensorflow/keras/model"
 require "tensorflow/keras/models/sequential"
 require "tensorflow/keras/optimizers/adam"
+require "tensorflow/keras/preprocessing/image"
 require "tensorflow/keras/utils"
 
 module TensorFlow
