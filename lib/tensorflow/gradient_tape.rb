@@ -19,6 +19,9 @@ module TensorFlow
     end
 
     def gradient(target, sources)
+      p target
+      p sources
+      "hi"
     end
   end
 end

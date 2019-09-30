@@ -12,4 +12,9 @@ class GradientTapeTest < Minitest::Test
     dy_dx = g.gradient(y, x)
     p dy_dx
   end
+
+  def test_compute_gradient
+    test_func = ->(x) { x * x }
+    p Tf::Test.compute_gradient(test_func, [3.0])
+  end
 end
