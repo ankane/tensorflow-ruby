@@ -6,9 +6,9 @@ module TensorFlow
           def load_img(path, target_size: nil)
             img = MiniMagick::Image.open(path)
             if target_size
-              size_str = target_size.map(&:to_i).join("x")
-              img.resize "#{size_str}^", "-gravity", "center", "-extent", size_str
+              img.resize "#{target_size.map(&:to_i).join("x")}!", "-filter", "point"
             end
+            # img.write("/tmp/resized.jpg")
             img
           end
 
