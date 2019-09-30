@@ -48,17 +48,16 @@ module TensorFlow
           epochs.times do |epoch|
             puts "Epoch #{epoch + 1}/#{epochs}"
 
+            current_batch_size = 32
+            dataset = Data::Dataset.from_tensor_slices([x, y]).batch(current_batch_size)
+
             samples_width = sample_size.to_s.size
             title = "%#{samples_width}d/#{sample_size}" % [0]
             progressbar = ProgressBar.create(total: sample_size, length: 47 + title.size, format: "%t [%B] %e", remainder_mark: ".")
 
-            current_batch_size = 32
-            steps = (sample_size / current_batch_size.to_f).ceil
-
-            steps.times do |i|
+            dataset.each do |inputs, labels|
               progressbar.title = "%#{samples_width}d/#{sample_size}" % [progressbar.progress + current_batch_size]
               progressbar.progress += current_batch_size
-              sleep(0.0001)
             end
 
             reset_metrics
