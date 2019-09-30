@@ -25,10 +25,11 @@ module TensorFlow
 
             samples_width = sample_size.to_s.size
             title = "%#{samples_width}d/#{sample_size}" % [1]
-            progressbar = ProgressBar.create(total: sample_size, length: 30 + 3 + title.size, format: "%t [%B]", remainder_mark: ".")
+            progressbar = ProgressBar.create(total: sample_size, length: 49 + title.size, format: "%t [%B] -%e", remainder_mark: ".")
             sample_size.times do |i|
               progressbar.title = "%#{samples_width}d/#{sample_size}" % [i + 1]
               progressbar.increment
+              sleep(0.0001)
             end
           end
         end
