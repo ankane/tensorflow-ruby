@@ -19,17 +19,70 @@ module TensorFlow
       private
 
       def load_function_def_library(library)
+        library_function_names = Set.new(library.function.map { |fdef| fdef.signature.name })
         functions = {}
 
-        library.function.each do |fdef|
-          p fdef.signature.name
-
+        sort_function_defs(library, library_function_names).each do |fdef|
           functions[fdef.signature.name] = nil
         end
 
-        p functions
+        functions.keys.each do |key|
+          puts key
+        end
 
         functions
+      end
+
+      def sort_function_defs(library, library_function_names)
+        edges = Hash.new { |hash, key| hash[key] = [] }
+        in_count = Hash.new(0)
+
+        library.function.each do |fdef|
+          list_function_deps(fdef, library_function_names).each do |dep|
+            edges[dep] << fdef.signature.name
+            in_count[fdef.signature.name] += 1
+          end
+        end
+
+        ready = library.function.map { |fdef| fdef.signature.name }.select { |name| in_count[name] == 0 }
+        output = []
+
+        while ready.any?
+          node = ready.pop
+          output << node
+
+          edges[node].each do |dest|
+            in_count[dest] -= 1
+            if in_count[dest] == 0
+              ready << dest
+            end
+          end
+        end
+
+        if output.size != library.function.size
+          failed_to_resolve = (in_count.keys - output).sort
+          raise Error, "There is a cyclic-dependency between functions. Could not resolve #{failed_to_resolve.join(", ")}."
+        end
+
+        reverse = library.function.map { |fdef| [fdef.signature.name, fdef] }.to_h
+        output.map { |x| reverse[x] }
+      end
+
+      def list_function_deps(fdef, library_function_names)
+        deps = Set.new
+
+        fdef.node_def.each do |node_def|
+          if library_function_names.include?(node_def.op)
+            deps << node_def.op
+          else
+            node_def.attr.each do |_, attr_value|
+              if attr_value.func
+                deps << attr_value.func.name
+              end
+            end
+          end
+        end
+        deps
       end
     end
   end
