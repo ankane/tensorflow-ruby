@@ -18,9 +18,17 @@ module TensorFlow
         end
 
         def fit(x, y, epochs: nil)
-          puts "Train on %d samples" % [y.size]
+          sample_size = y.size
+          puts "Train on %d samples" % [sample_size]
           epochs.times do |epoch|
             puts "Epoch #{epoch + 1}/#{epochs}"
+
+            title = "Progress"
+            progressbar = ProgressBar.create(total: sample_size, length: 30 + 4 + title.size, format: "%t: [%B]", remainder_mark: ".")
+            sample_size.times do
+              progressbar.increment
+              # sleep(0.001)
+            end
           end
         end
 

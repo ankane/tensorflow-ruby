@@ -2,6 +2,7 @@
 require "ffi"
 require "npy"
 require "numo/narray"
+require "ruby-progressbar"
 
 # stdlib
 require "digest"
