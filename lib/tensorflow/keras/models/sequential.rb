@@ -24,11 +24,15 @@ module TensorFlow
             puts "Epoch #{epoch + 1}/#{epochs}"
 
             samples_width = sample_size.to_s.size
-            title = "%#{samples_width}d/#{sample_size}" % [1]
+            title = "%#{samples_width}d/#{sample_size}" % [0]
             progressbar = ProgressBar.create(total: sample_size, length: 47 + title.size, format: "%t [%B] %e", remainder_mark: ".")
-            sample_size.times do |i|
-              progressbar.title = "%#{samples_width}d/#{sample_size}" % [i + 1]
-              progressbar.increment
+
+            current_batch_size = 32
+            steps = (sample_size / current_batch_size.to_f).ceil
+
+            steps.times do |i|
+              progressbar.title = "%#{samples_width}d/#{sample_size}" % [progressbar.progress + current_batch_size]
+              progressbar.progress += current_batch_size
               sleep(0.0001)
             end
           end
