@@ -15,11 +15,13 @@ module TensorFlow
         end
 
         def compile(optimizer: nil, loss: nil, metrics: nil)
-          raise "Not implemented"
         end
 
         def fit(x, y, epochs: nil)
-          raise "Not implemented"
+          puts "Train on %d samples" % [y.size]
+          epochs.times do |epoch|
+            puts "Epoch #{epoch + 1}/#{epochs}"
+          end
         end
 
         def evaluate(x, y)

@@ -13,7 +13,7 @@ model = tf.keras.models.Sequential([
 
 model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'])
+              metrics=['accuracy'], run_eagerly=True)
 
 model.fit(x_train, y_train, epochs=5)
 model.evaluate(x_test, y_test)
