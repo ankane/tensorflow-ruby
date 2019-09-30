@@ -9,6 +9,9 @@ class SavedModelTest < Minitest::Test
     x = Tf::Keras::Preprocessing::Image.img_to_array(img)
     p x
 
+    p x.shape
+    p x.expand_dims(0).shape
+
     # labels_path = Tf::Keras::Utils.get_file("ImageNetLabels.txt",
     #   "https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt")
     # imagenet_labels = File.readlines(labels_path).map(&:chomp)
