@@ -1,6 +1,5 @@
 # dependencies
 require "ffi"
-require "mini_magick"
 require "npy"
 require "numo/narray"
 

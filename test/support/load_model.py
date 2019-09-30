@@ -10,6 +10,15 @@ print(img)
 x = tf.keras.preprocessing.image.img_to_array(img)
 print(x)
 print(x.dtype)
+
+# import matplotlib.pyplot as plt
+
+# plt.imshow(img)
+# plt.show()
+
+print(x.shape)
+print(x[tf.newaxis,...].shape)
+
 # x = tf.keras.applications.mobilenet.preprocess_input(
 #     x[tf.newaxis,...])
 # print(x.shape)

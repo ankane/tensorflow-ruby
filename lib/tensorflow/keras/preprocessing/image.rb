@@ -9,7 +9,6 @@ module TensorFlow
               # TODO make resize consistent with Python
               img.resize "#{target_size.map(&:to_i).join("x")}!", "-filter", "point"
             end
-            # img.write("/tmp/resized.jpg")
             img
           end
 
