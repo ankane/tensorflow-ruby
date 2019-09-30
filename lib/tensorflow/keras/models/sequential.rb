@@ -15,6 +15,31 @@ module TensorFlow
         end
 
         def compile(optimizer: nil, loss: nil, metrics: nil)
+          @optimizer =
+            case optimizer
+            when "adam"
+              Optimizers::Adam.new
+            else
+              raise "Unknown optimizer: #{optimizer}"
+            end
+
+          @loss =
+            case loss
+            when "sparse_categorical_crossentropy"
+              Losses::SparseCategoricalCrossentropy.new
+            else
+              raise "Unknown loss: #{loss}"
+            end
+
+          @metrics =
+            metrics.map do |metric|
+              case metric
+              when "accuracy"
+                Metrics::SparseCategoricalAccuracy.new
+              else
+                raise "Unknown metric: #{metric}"
+              end
+            end
         end
 
         def fit(x, y, epochs: nil)
@@ -35,11 +60,19 @@ module TensorFlow
               progressbar.progress += current_batch_size
               sleep(0.0001)
             end
+
+            reset_metrics
           end
         end
 
         def evaluate(x, y)
           raise "Not implemented"
+        end
+
+        private
+
+        def reset_metrics
+          @metrics.each(&:reset_states)
         end
       end
     end
