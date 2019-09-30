@@ -6,20 +6,23 @@ file = tf.keras.utils.get_file(
     "grace_hopper.jpg",
     "https://storage.googleapis.com/download.tensorflow.org/example_images/grace_hopper.jpg")
 img = tf.keras.preprocessing.image.load_img(file, target_size=[224, 224])
+print(img)
 x = tf.keras.preprocessing.image.img_to_array(img)
-x = tf.keras.applications.mobilenet.preprocess_input(
-    x[tf.newaxis,...])
+print(x)
+print(x.dtype)
+# x = tf.keras.applications.mobilenet.preprocess_input(
+#     x[tf.newaxis,...])
 # print(x.shape)
 
-labels_path = tf.keras.utils.get_file(
-    'ImageNetLabels.txt',
-    'https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt')
-imagenet_labels = np.array(open(labels_path).read().splitlines())
-# print(imagenet_labels)
+# labels_path = tf.keras.utils.get_file(
+#     'ImageNetLabels.txt',
+#     'https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt')
+# imagenet_labels = np.array(open(labels_path).read().splitlines())
+# # print(imagenet_labels)
 
-pretrained_model = tf.keras.applications.MobileNet()
+# pretrained_model = tf.keras.applications.MobileNet()
 
-loaded = tf.saved_model.load("/tmp/mobilenet/1/")
+# loaded = tf.saved_model.load("/tmp/mobilenet/1/")
 # print(list(loaded.signatures.keys()))
 
 # infer = loaded.signatures["serving_default"]
