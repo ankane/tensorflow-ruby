@@ -6,5 +6,7 @@ class SavedModelTest < Minitest::Test
       "https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt")
     imagenet_labels = File.readlines(labels_path).map(&:chomp)
     p imagenet_labels
+
+    p Tf::SavedModel.load("/tmp/mobilenet/1")
   end
 end
