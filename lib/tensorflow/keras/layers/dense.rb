@@ -25,6 +25,14 @@ module TensorFlow
           @built = true
         end
 
+        def output_shape
+          []
+        end
+
+        def count_params
+          0
+        end
+
         def call(inputs)
           build(inputs.shape) unless @built
 

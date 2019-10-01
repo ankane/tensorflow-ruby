@@ -28,17 +28,18 @@ module TensorFlow
 
         def summary
           sep = "_________________________________________________________________\n"
+          total_params = @layers.map(&:count_params).sum
 
           summary = String.new("")
           summary << "Model: \"sequential\"\n"
           summary << sep
           summary << "Layer (type)                 Output Shape              Param #   \n"
           summary << "=================================================================\n"
-          summary << @layers.map { |l| "%-28s %-25s %-10s\n" % [l.class.name.split("::").last, [].inspect, 0] }.join(sep)
+          summary << @layers.map { |l| "%-28s %-25s %-10s\n" % [l.class.name.split("::").last, l.output_shape.map { |v| v == -1 ? nil : v }.inspect, l.count_params] }.join(sep)
           summary << "=================================================================\n"
-          summary << "Total params: \n"
-          summary << "Trainable params: \n"
-          summary << "Non-trainable params: \n"
+          summary << "Total params: #{total_params}\n"
+          summary << "Trainable params: #{total_params}\n"
+          summary << "Non-trainable params: 0\n"
           summary << sep
           puts summary
         end
