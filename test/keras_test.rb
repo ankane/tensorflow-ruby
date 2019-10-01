@@ -14,6 +14,8 @@ class KerasTest < Minitest::Test
       Tf::Keras::Layers::Dense.new(10, activation: "softmax")
     ])
 
+    model.summary
+
     skip
 
     model.compile(optimizer: "adam", loss: "sparse_categorical_crossentropy", metrics: ["accuracy"])
