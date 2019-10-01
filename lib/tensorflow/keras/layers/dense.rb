@@ -22,15 +22,17 @@ module TensorFlow
             @bias = nil
           end
 
+          @output_shape = [last_dim, @units]
+
           @built = true
         end
 
         def output_shape
-          []
+          @output_shape
         end
 
         def count_params
-          0
+          @units + @kernel.shape.inject(&:*)
         end
 
         def call(inputs)

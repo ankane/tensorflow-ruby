@@ -28,6 +28,13 @@ module TensorFlow
 
         def summary
           sep = "_________________________________________________________________\n"
+
+          output_shape = nil
+          @layers.each do |layer|
+            layer.build(output_shape) if layer.respond_to?(:build)
+            output_shape = layer.output_shape
+          end
+
           total_params = @layers.map(&:count_params).sum
 
           summary = String.new("")
@@ -35,7 +42,7 @@ module TensorFlow
           summary << sep
           summary << "Layer (type)                 Output Shape              Param #   \n"
           summary << "=================================================================\n"
-          summary << @layers.map { |l| "%-28s %-25s %-10s\n" % [l.class.name.split("::").last, l.output_shape.map { |v| v == -1 ? nil : v }.inspect, l.count_params] }.join(sep)
+          summary << @layers.map { |l| "%-28s %-25s %-10s\n" % [l.class.name.split("::").last, ([nil] + l.output_shape[1..-1]).inspect, l.count_params] }.join(sep)
           summary << "=================================================================\n"
           summary << "Total params: #{total_params}\n"
           summary << "Trainable params: #{total_params}\n"

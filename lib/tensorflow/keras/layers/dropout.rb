@@ -5,13 +5,17 @@ module TensorFlow
         def initialize(rate)
         end
 
+        def build(input_shape)
+          @output_shape = input_shape
+        end
+
         def call(inputs)
           # TODO implement
           TensorFlow.identity(inputs)
         end
 
         def output_shape
-          [] # TODO same as input shape
+          @output_shape
         end
 
         def count_params
