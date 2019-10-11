@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     module Layers
       class Dense
@@ -43,8 +43,8 @@ module TensorFlow
           if rank > 2
             raise Error, "Rank > 2 not supported yet"
           else
-            inputs = TensorFlow.cast(inputs, @dtype)
-            outputs = TensorFlow.matmul(inputs, @kernel)
+            inputs = Tensorflow.cast(inputs, @dtype)
+            outputs = Tensorflow.matmul(inputs, @kernel)
           end
 
           if @use_bias

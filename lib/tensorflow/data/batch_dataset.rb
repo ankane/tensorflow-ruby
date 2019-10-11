@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Data
     class BatchDataset < Dataset
       def initialize(input_dataset, batch_size, drop_remainder)
@@ -8,7 +8,7 @@ module TensorFlow
 
         variant_tensor = RawOps.batch_dataset_v2(
           input_dataset: input_dataset,
-          batch_size: TensorFlow.convert_to_tensor(batch_size, dtype: :int64),
+          batch_size: Tensorflow.convert_to_tensor(batch_size, dtype: :int64),
           drop_remainder: drop_remainder,
           output_types: @output_types,
           output_shapes: @output_shapes

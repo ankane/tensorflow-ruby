@@ -1,5 +1,5 @@
 # keep in alphabetical order
-module TensorFlow
+module Tensorflow
   module Ops
     def cast(x, dtype)
       Utils.execute("Cast", [x], DstT: FFI::DataType[dtype])

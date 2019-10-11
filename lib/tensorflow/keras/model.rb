@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     class Model
     end

@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   class Variable
     attr_reader :name
 
@@ -11,19 +11,19 @@ module TensorFlow
     end
 
     def assign(value)
-      value = TensorFlow.convert_to_tensor(value, dtype: @dtype)
+      value = Tensorflow.convert_to_tensor(value, dtype: @dtype)
       RawOps.assign_variable_op(resource: @pointer, value: value)
       self
     end
 
     def assign_add(value)
-      value = TensorFlow.convert_to_tensor(value, dtype: @dtype)
+      value = Tensorflow.convert_to_tensor(value, dtype: @dtype)
       RawOps.assign_add_variable_op(resource: @pointer, value: value)
       self
     end
 
     def assign_sub(value)
-      value = TensorFlow.convert_to_tensor(value, dtype: @dtype)
+      value = Tensorflow.convert_to_tensor(value, dtype: @dtype)
       RawOps.assign_sub_variable_op(resource: @pointer, value: value)
       self
     end

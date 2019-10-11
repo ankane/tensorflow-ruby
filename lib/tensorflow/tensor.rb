@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   class Tensor
     def initialize(value = nil, dtype: nil, shape: nil, pointer: nil)
       @status = FFI.TF_NewStatus
@@ -131,15 +131,17 @@ module TensorFlow
     end
 
     def dtype
-      @dtype ||= FFI::DataType[FFI.TFE_TensorHandleDataType(@pointer)]
+      @dtype ||= FFI::DataType[FFI.TFE_TensorHandleDataType(@pointer)] if @pointer
     end
 
     def shape
       @shape ||= begin
         shape = []
-        num_dims.times do |i|
-          shape << FFI.TFE_TensorHandleDim(@pointer, i, @status)
-          check_status @status
+        if @pointer
+          num_dims.times do |i|
+            shape << FFI.TFE_TensorHandleDim(@pointer, i, @status)
+            check_status @status
+          end
         end
         shape
       end
@@ -162,9 +164,16 @@ module TensorFlow
     end
 
     def numo
-      klass = Utils::NUMO_TYPE_MAP[dtype]
-      raise "Unknown type: #{dtype}" unless klass
-      klass.cast(value)
+      case dtype
+        when NilClass
+          nil
+        when :variant
+          :variant
+        else
+          klass = Utils::NUMO_TYPE_MAP[dtype]
+          raise "Unknown type: #{dtype}" unless klass
+          klass.cast(value)
+        end
     end
 
     def inspect

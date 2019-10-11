@@ -1,8 +1,8 @@
-module TensorFlow
+module Tensorflow
   class Context
     def initialize
       options = FFI.TFE_NewContextOptions
-      @status = TensorFlow::FFI.TF_NewStatus
+      @status = Tensorflow::FFI.TF_NewStatus
       @pointer = FFI.TFE_NewContext(options, @status)
       Utils.check_status @status
       ObjectSpace.define_finalizer(self, self.class.finalize(@pointer))

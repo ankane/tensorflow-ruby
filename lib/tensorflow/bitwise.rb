@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Bitwise
     class << self
       def bitwise_and(x, y)

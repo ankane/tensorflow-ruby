@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     module Metrics
       class Mean
@@ -13,14 +13,14 @@ module TensorFlow
         end
 
         def update_state(values)
-          input = TensorFlow.convert_to_tensor(values)
-          input = TensorFlow.cast(input, @dtype)
+          input = Tensorflow.convert_to_tensor(values)
+          input = Tensorflow.cast(input, @dtype)
           @total.assign_add(Math.reduce_sum(input))
-          @count.assign_add(TensorFlow.cast(RawOps.size(input: input), @dtype))
+          @count.assign_add(Tensorflow.cast(RawOps.size(input: input), @dtype))
         end
 
         def result
-          RawOps.div_no_nan(x: @total, y: TensorFlow.cast(@count, :float))
+          RawOps.div_no_nan(x: @total, y: Tensorflow.cast(@count, :float))
         end
 
         def reset_states

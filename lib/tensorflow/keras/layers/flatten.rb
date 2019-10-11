@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     module Layers
       class Flatten
@@ -17,7 +17,7 @@ module TensorFlow
 
         def call(inputs)
           flattened_dim = inputs.shape[1..-1].inject(&:*)
-          TensorFlow.reshape(inputs, [-1, flattened_dim])
+          Tensorflow.reshape(inputs, [-1, flattened_dim])
         end
       end
     end

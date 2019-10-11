@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Utils
     NUMO_TYPE_MAP = {
       int8: Numo::Int8,
@@ -54,8 +54,13 @@ module TensorFlow
             when :shape
               dims_ptrs =
                 attr_value.map do |shape|
-                  ptr = ::FFI::MemoryPointer.new(:int64, shape.size)
-                  ptr.write_array_of_int64(shape)
+                  if shape.empty?
+                    ptr = ::FFI::MemoryPointer.new(:int64, 1)
+                    ptr.write_int64(0)
+                  else
+                    ptr = ::FFI::MemoryPointer.new(:int64, shape.size)
+                    ptr.write_array_of_int64(shape)
+                  end
                 end
               dims = ::FFI::MemoryPointer.new(:pointer, num_values)
               dims.write_array_of_pointer(dims_ptrs)
@@ -108,21 +113,21 @@ module TensorFlow
 
         inputs.each_with_index do |input, i|
           # TODO handle this better
-          if op_name == "TensorSliceDataset" && i == 0
+          if (op_name == "TensorSliceDataset" || op_name == "ZipDataset") && i == 0
             input_ptr = ::FFI::MemoryPointer.new(:pointer, input.size)
             input_ptr.write_array_of_pointer(input)
             FFI.TFE_OpAddInputList(op, input_ptr, input.size, status)
           else
             raise "Missing argument" if input.nil?
 
-            input = TensorFlow.convert_to_tensor(input) unless input.respond_to?(:to_ptr)
+            input = Tensorflow.convert_to_tensor(input) unless input.respond_to?(:to_ptr)
             FFI.TFE_OpAddInput(op, input, status)
           end
           check_status status
         end
 
         # TODO decide how many retvals to allocate
-        retvals = ::FFI::MemoryPointer.new(:pointer, 2)
+        retvals = ::FFI::MemoryPointer.new(:pointer, 10)
         num_retvals = ::FFI::MemoryPointer.new(:int)
         num_retvals.write_int(retvals.size)
         FFI.TFE_Execute(op, retvals, num_retvals, status)
@@ -138,9 +143,9 @@ module TensorFlow
           # TODO handle case where n = 1 and still want an array for retvals
           n == 1 ? retvals.first : retvals
         end
-      ensure
-        FFI.TF_DeleteStatus(status) if status
-        FFI.TFE_DeleteOp(op) if op
+      # ensure
+      #   FFI.TF_DeleteStatus(status) if status
+      #   FFI.TFE_DeleteOp(op) if op
       end
 
       def infer_type(value)
@@ -173,12 +178,19 @@ module TensorFlow
       end
 
       def to_tensor_array(values)
-        values.map do |v|
-          if v.is_a?(Tensor)
-            v
+        case values
+          when Numo::NArray
+            [Tensor.new(values)]
+          when Tensor
+            [values]
           else
-            TensorFlow.convert_to_tensor(v)
-          end
+            values.to_a.map do |v|
+              if v.is_a?(Tensor)
+                v
+              else
+                Tensorflow.convert_to_tensor(v)
+              end
+            end
         end
       end
     end

@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Math
     class << self
       def abs(x)
@@ -225,7 +225,7 @@ module TensorFlow
       end
 
       def log_sigmoid(x)
-        x = TensorFlow.convert_to_tensor(x)
+        x = Tensorflow.convert_to_tensor(x)
         negative(RawOps.softplus(features: -x))
       end
 
@@ -306,7 +306,7 @@ module TensorFlow
       # end
 
       def reduce_any(input_tensor, axis: nil, keepdims: false)
-        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        input_tensor = Tensorflow.convert_to_tensor(input_tensor)
         axis ||= reduction_dims(input_tensor)
         RawOps.any(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
@@ -318,25 +318,25 @@ module TensorFlow
       # end
 
       def reduce_max(input_tensor, axis: nil, keepdims: false)
-        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        input_tensor = Tensorflow.convert_to_tensor(input_tensor)
         axis ||= reduction_dims(input_tensor)
         RawOps.max(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
 
       def reduce_mean(input_tensor, axis: nil, keepdims: false)
-        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        input_tensor = Tensorflow.convert_to_tensor(input_tensor)
         axis ||= reduction_dims(input_tensor)
         RawOps.mean(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
 
       def reduce_min(input_tensor, axis: nil, keepdims: false)
-        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        input_tensor = Tensorflow.convert_to_tensor(input_tensor)
         axis ||= reduction_dims(input_tensor)
         RawOps.min(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
 
       def reduce_prod(input_tensor, axis: nil, keepdims: false)
-        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        input_tensor = Tensorflow.convert_to_tensor(input_tensor)
         axis ||= reduction_dims(input_tensor)
         RawOps.prod(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
@@ -347,7 +347,7 @@ module TensorFlow
       end
 
       def reduce_sum(input_tensor, axis: nil, keepdims: false)
-        input_tensor = TensorFlow.convert_to_tensor(input_tensor)
+        input_tensor = Tensorflow.convert_to_tensor(input_tensor)
         axis ||= reduction_dims(input_tensor)
         RawOps.sum(input: input_tensor, reduction_indices: axis, keep_dims: keepdims)
       end
@@ -493,7 +493,7 @@ module TensorFlow
 
       def reduction_dims(input_tensor)
         rank = RawOps.rank(input: input_tensor).value
-        TensorFlow.constant((0...rank).to_a, dtype: :int32)
+        Tensorflow.constant((0...rank).to_a, dtype: :int32)
       end
     end
   end

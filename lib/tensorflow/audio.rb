@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Audio
     class << self
       def decode_wav(contents, desired_channels: -1, desired_samples: -1)

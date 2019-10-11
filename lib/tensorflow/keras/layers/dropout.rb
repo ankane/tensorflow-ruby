@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     module Layers
       class Dropout
@@ -11,7 +11,7 @@ module TensorFlow
 
         def call(inputs)
           # TODO implement
-          TensorFlow.identity(inputs)
+          Tensorflow.identity(inputs)
         end
 
         def output_shape

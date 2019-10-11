@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Strings
     class << self
       def as_string(input, precision: nil, scientific: nil, shortest: nil, width: nil, fill: nil)

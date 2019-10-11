@@ -1,10 +1,13 @@
-module TensorFlow
+module Tensorflow
   module Data
     class Dataset
+      # Copied from Python code
+      DEFAULT_READER_BUFFER_SIZE_BYTES = 256 * 1024  # 256 KB
+
       include Enumerable
 
       # TODO remove
-      attr_reader :output_types, :output_shapes
+      attr_reader :output_types, :output_shapes, :variant_tensor
 
       def initialize(variant_tensor)
         @variant_tensor = variant_tensor
@@ -41,6 +44,11 @@ module TensorFlow
       ensure
         RawOps.delete_iterator(handle: iterator, deleter: deleter) if iterator
       end
-    end
+
+      def map(&block)
+        MapDataset.new(self, nil, block)
+      end
+        #(input_dataset: nil, other_arguments: nil, f: nil, output_types: nil, output_shapes: nil, use_inter_op_parallelism: nil, preserve_cardinality: nil)
+      end
   end
 end

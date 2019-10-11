@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module IO
     class << self
       def decode_and_crop_jpeg(contents, crop_window, channels: nil, ratio: nil, fancy_upscaling: nil, try_recover_truncated: nil, acceptable_fraction: nil, dct_method: nil)

@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Image
     class << self
       # def adjust_brightness
@@ -154,15 +154,15 @@ module TensorFlow
       # end
 
       def resize(images, size)
-        images = TensorFlow.convert_to_tensor(images)
+        images = Tensorflow.convert_to_tensor(images)
 
         batch = images.shape.size != 3
-        images = TensorFlow.expand_dims(images, 0) unless batch
+        images = Tensorflow.expand_dims(images, 0) unless batch
 
         # TODO support more methods
         images = RawOps.resize_bilinear(images: images, size: size)
 
-        images = TensorFlow.squeeze(images, axis: [0]) unless batch
+        images = Tensorflow.squeeze(images, axis: [0]) unless batch
 
         images
       end

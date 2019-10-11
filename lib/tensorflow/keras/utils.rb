@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     module Utils
       class << self
@@ -7,7 +7,7 @@ module TensorFlow
           initial_value =
             case initializer
             when "zeros"
-              TensorFlow.fill(TensorFlow.convert_to_tensor(shape, dtype: :int64), 0.0)
+              Tensorflow.fill(Tensorflow.convert_to_tensor(shape, dtype: :int64), 0.0)
             when "glorot_uniform"
               # TODO compute fans
               fan_in = shape[0]

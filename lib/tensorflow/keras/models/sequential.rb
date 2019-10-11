@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Keras
     module Models
       class Sequential

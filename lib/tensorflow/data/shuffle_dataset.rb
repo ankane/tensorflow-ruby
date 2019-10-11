@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module Data
     class ShuffleDataset < Dataset
       def initialize(input_dataset, buffer_size)
@@ -8,9 +8,9 @@ module TensorFlow
 
         variant_tensor = RawOps.shuffle_dataset(
           input_dataset: input_dataset,
-          buffer_size: TensorFlow.convert_to_tensor(buffer_size, dtype: :int64),
-          seed: TensorFlow.convert_to_tensor(0, dtype: :int64),
-          seed2: TensorFlow.convert_to_tensor(0, dtype: :int64),
+          buffer_size: Tensorflow.convert_to_tensor(buffer_size, dtype: :int64),
+          seed: Tensorflow.convert_to_tensor(0, dtype: :int64),
+          seed2: Tensorflow.convert_to_tensor(0, dtype: :int64),
           output_types: @output_types,
           output_shapes: @output_shapes
         )

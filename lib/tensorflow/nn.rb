@@ -1,4 +1,4 @@
-module TensorFlow
+module Tensorflow
   module NN
     class << self
       def all_candidate_sampler(true_classes, num_true: nil, num_sampled: nil, unique: nil, seed: nil, seed2: nil)
