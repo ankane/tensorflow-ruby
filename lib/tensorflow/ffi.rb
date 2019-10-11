@@ -1,19 +1,23 @@
-module TensorFlow
+module Tensorflow
   module FFI
     extend ::FFI::Library
 
     begin
-      ffi_lib TensorFlow.ffi_lib
+      ffi_lib Tensorflow.ffi_lib
     rescue LoadError => e
       raise e if ENV["TENSORFLOW_DEBUG"]
-      raise LoadError, "Could not find TensorFlow"
+      raise LoadError, "Could not find Tensorflow"
     end
 
+    # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/c_api.h
     class Buffer < ::FFI::Struct
       layout :data, :pointer,
         :length, :size_t,
         :data_deallocator, :pointer
     end
+    attach_function :TF_NewBuffer, %i[void], :pointer
+    attach_function :TF_DeleteBuffer, %i[pointer], :void
+    attach_function :TF_GetBuffer, %i[pointer], :pointer
 
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/c_api.h
     attach_function :TF_Version, %i[], :string

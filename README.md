@@ -1,6 +1,6 @@
-# TensorFlow
+# Tensorflow
 
-[TensorFlow](https://github.com/tensorflow/tensorflow) - the end-to-end machine learning platform - for Ruby
+[Tensorflow](https://github.com/tensorflow/tensorflow) - the end-to-end machine learning platform - for Ruby
 
 :fire: Uses the C API under the hood
 
@@ -8,7 +8,7 @@
 
 ## Installation
 
-[Install TensorFlow](#tensorflow-installation). For Homebrew, use:
+[Install Tensorflow](#tensorflow-installation). For Homebrew, use:
 
 ```sh
 brew install tensorflow
@@ -22,7 +22,7 @@ gem 'tensorflow'
 
 ## Getting Started
 
-This library follows the TensorFlow 2.0 [Python API](https://www.tensorflow.org/versions/r2.0/api_docs/python/tf). Many methods and options are missing at the moment. Here’s the [current plan](https://github.com/ankane/tensorflow/issues/1). Additional PRs welcome!
+This library follows the Tensorflow 2.0 [Python API](https://www.tensorflow.org/versions/r2.0/api_docs/python/tf). Many methods and options are missing at the moment. Here’s the [current plan](https://github.com/ankane/tensorflow/issues/1). Additional PRs welcome!
 
 ## Constants
 
@@ -104,7 +104,7 @@ model.fit(x_train, y_train, epochs: 5)
 model.evaluate(x_test, y_test)
 ```
 
-## TensorFlow Installation
+## Tensorflow Installation
 
 ### Mac
 

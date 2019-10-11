@@ -1,13 +1,21 @@
 require_relative "test_helper"
 
-class TensorFlowTest < Minitest::Test
+class TensorflowTest < Minitest::Test
   def test_version
-    assert_equal "1.14.0", TensorFlow.library_version
+    assert_equal "2.0.0", Tensorflow.library_version
+  end
+
+  def test_operations
+    operations = Tensorflow.operations
+    assert(operations.length > 1000)
+
+    operation = operations.first
+    assert_kind_of(Tensorflow::OpDef, operation)
   end
 
   def test_hello
-    hello = Tf.constant("Hello, TensorFlow!")
-    assert_equal "Hello, TensorFlow!", hello.value
+    hello = Tf.constant("Hello, Tensorflow!")
+    assert_equal "Hello, Tensorflow!", hello.value
   end
 
   def test_constant
@@ -26,7 +34,7 @@ class TensorFlowTest < Minitest::Test
     assert_equal :int64, Tf.constant(-2147483649).dtype
     assert_equal :complex128, Tf.constant(Complex(2, 3)).dtype
     assert_equal :string, Tf.constant(["hello", "world"]).dtype
-    error = assert_raises(TensorFlow::Error) do
+    error = assert_raises(Tensorflow::Error) do
       Tf.constant(["hello", 1])
     end
     assert_equal "Unable to infer data type", error.message
@@ -61,7 +69,7 @@ class TensorFlowTest < Minitest::Test
   end
 
   def test_numo
-    TensorFlow::Utils::NUMO_TYPE_MAP.each do |type, klass|
+    Tensorflow::Utils::NUMO_TYPE_MAP.each do |type, klass|
       value =
         case type
         when :float, :double

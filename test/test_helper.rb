@@ -3,7 +3,7 @@ Bundler.require(:default)
 require "minitest/autorun"
 require "minitest/pride"
 require "base64"
-require "mini_magick"
+#require "mini_magick"
 
 class Minitest::Test
   private

@@ -29,6 +29,11 @@ require "tensorflow/utils"
 require "tensorflow/variable"
 require "tensorflow/version"
 
+# specs
+require "tensorflow/type_spec"
+require "tensorflow/batchable_type_spec"
+require "tensorflow/tensor_spec"
+
 # data
 require "tensorflow/data/dataset"
 require "tensorflow/data/batch_dataset"
@@ -57,7 +62,9 @@ require "tensorflow/keras/optimizers/adam"
 require "tensorflow/keras/preprocessing/image"
 require "tensorflow/keras/utils"
 
-module TensorFlow
+require 'tensorflow/core/framework/op_def_pb'
+
+module Tensorflow
   class Error < StandardError; end
 
   class << self
@@ -81,6 +88,15 @@ module TensorFlow
       FFI.TF_Version
     end
 
+    def operations
+      buffer = FFI.TF_GetAllOpList
+      string = buffer[:data].read_string(buffer[:length])
+      ops = OpList.decode(string)
+      FFI.TF_DeleteBuffer(buffer)
+      # Return the nested op object which is enumerable
+      ops.op
+    end
+
     def constant(value, dtype: nil, shape: nil)
       Tensor.new(value, dtype: dtype, shape: shape)
     end
@@ -96,4 +112,4 @@ module TensorFlow
 end
 
 # shortcut
-Tf = TensorFlow
+Tf = Tensorflow

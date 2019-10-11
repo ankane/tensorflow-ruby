@@ -2,8 +2,8 @@ require_relative "lib/tensorflow/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "tensorflow"
-  spec.version       = TensorFlow::VERSION
-  spec.summary       = "TensorFlow - the end-to-end machine learning platform - for Ruby"
+  spec.version       = Tensorflow::VERSION
+  spec.summary       = "Tensorflow - the end-to-end machine learning platform - for Ruby"
   spec.homepage      = "https://github.com/ankane/tensorflow"
   spec.license       = "MIT"
 
@@ -23,6 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "minitest", ">= 5"
   spec.add_development_dependency "google-protobuf"
-  spec.add_development_dependency "mini_magick"
-  spec.add_development_dependency "nokogiri"
+#  spec.add_development_dependency "mini_magick"
+#  spec.add_development_dependency "nokogiri"
 end

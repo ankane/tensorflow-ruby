@@ -9,5 +9,5 @@ if [ ! -d "$CACHE_DIR" ]; then
   tar xvfz libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz --one-top-level
   mv libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION $CACHE_DIR
 else
-  echo "TensorFlow cached"
+  echo "Tensorflow cached"
 fi
