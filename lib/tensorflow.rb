@@ -12,6 +12,12 @@ require "net/http"
 require "tempfile"
 require "zlib"
 
+# Load protobufs. Is this a good idea to require all ruby files in those directories?
+Dir[File.join(__dir__, 'tensorflow', 'core', 'lib', 'core', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'tensorflow', 'core', 'stream_executor', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'tensorflow', 'core', 'framework', '*.rb')].each { |file| require file }
+#Dir[File.join(__dir__, 'tensorflow', 'core', 'protobuf', '*.rb')].each { |file| require file }
+
 # modules
 require "tensorflow/audio"
 require "tensorflow/bitwise"
@@ -21,6 +27,7 @@ require "tensorflow/io"
 require "tensorflow/linalg"
 require "tensorflow/math"
 require "tensorflow/nn"
+require "tensorflow/operation"
 require "tensorflow/ops"
 require "tensorflow/raw_ops"
 require "tensorflow/strings"
@@ -39,6 +46,7 @@ require "tensorflow/data/dataset"
 require "tensorflow/data/batch_dataset"
 require "tensorflow/data/shuffle_dataset"
 require "tensorflow/data/tensor_slice_dataset"
+require "tensorflow/data/zip_dataset"
 
 # keras
 require "tensorflow/keras/datasets/boston_housing"
@@ -65,8 +73,6 @@ require "tensorflow/keras/utils"
 require 'tensorflow/core/framework/op_def_pb'
 
 module Tensorflow
-  class Error < StandardError; end
-
   class << self
     attr_accessor :ffi_lib
   end
@@ -88,15 +94,6 @@ module Tensorflow
       FFI.TF_Version
     end
 
-    def operations
-      buffer = FFI.TF_GetAllOpList
-      string = buffer[:data].read_string(buffer[:length])
-      ops = OpList.decode(string)
-      FFI.TF_DeleteBuffer(buffer)
-      # Return the nested op object which is enumerable
-      ops.op
-    end
-
     def constant(value, dtype: nil, shape: nil)
       Tensor.new(value, dtype: dtype, shape: shape)
     end
@@ -104,7 +101,7 @@ module Tensorflow
     def convert_to_tensor(value, dtype: nil)
       value = Tensor.new(value, dtype: dtype) unless value.is_a?(Tensor)
       if dtype && value.dtype != dtype
-        raise Error, "Tensor conversion requested dtype #{dtype} for Tensor with dtype #{value.dtype}"
+        raise StandardError, "Tensor conversion requested dtype #{dtype} for Tensor with dtype #{value.dtype}"
       end
       value
     end
