@@ -1,12 +1,21 @@
 module Tensorflow
   class Context
+    def self.default
+      @default ||= Context.new
+    end
+
     def initialize
       options = FFI.TFE_NewContextOptions
       @status = Tensorflow::FFI.TF_NewStatus
       @pointer = FFI.TFE_NewContext(options, @status)
-      Utils.check_status @status
+      Operation.check_status @status
       ObjectSpace.define_finalizer(self, self.class.finalize(@pointer))
       FFI.TFE_DeleteContextOptions(options)
+    end
+
+    def execute(op_name, inputs = [], **attrs)
+      operation = Operation.new(self)
+      operation.execute(op_name, inputs, **attrs)
     end
 
     def function?(name)
