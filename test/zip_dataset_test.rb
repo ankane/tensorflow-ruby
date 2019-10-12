@@ -6,11 +6,11 @@ class ZipDatasetTest < Minitest::Test
                   Numo::NArray[[12], [13], [14], [15]].tile(22),
                   Numo::NArray[37.0, 38.0, 39.0, 40.0]]
 
-    # datasets = components.map do |component|
-    #   Tensorflow::Data::TensorSliceDataset.new(component)
-    # end
-    datasets = Tensorflow::Data::TensorSliceDataset.new(components[2])
+    datasets = components.map do |component|
+      Tensorflow::Data::TensorSliceDataset.new(components)
+    end
 
-    puts datasets
+    dataset = Tensorflow::Data::ZipDataset.new(datasets)
+    puts dataset
   end
 end
