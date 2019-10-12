@@ -254,7 +254,7 @@ module Tensorflow
     end
 
     def check_status(status)
-      Utils.check_status(status)
+      Operation.check_status(status)
     end
   end
 end

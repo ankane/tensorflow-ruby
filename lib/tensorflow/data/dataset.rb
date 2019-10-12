@@ -37,7 +37,7 @@ module Tensorflow
             values = RawOps.iterator_get_next_sync(iterator: iterator, output_types: @output_types, output_shapes: @output_shapes)
             yield values
           end
-        rescue Error => e
+        rescue => e
           # iterate until end of sequence error
           raise e unless e.message == "End of sequence"
         end

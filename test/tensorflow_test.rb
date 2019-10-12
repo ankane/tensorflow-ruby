@@ -5,14 +5,6 @@ class TensorflowTest < Minitest::Test
     assert_equal "2.0.0", Tensorflow.library_version
   end
 
-  def test_operations
-    operations = Tensorflow.operations
-    assert(operations.length > 1000)
-
-    operation = operations.first
-    assert_kind_of(Tensorflow::OpDef, operation)
-  end
-
   def test_hello
     hello = Tf.constant("Hello, Tensorflow!")
     assert_equal "Hello, Tensorflow!", hello.value
