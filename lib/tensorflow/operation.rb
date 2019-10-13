@@ -7,10 +7,11 @@ module Tensorflow
         buffer = FFI.TF_GetAllOpList
         string = buffer[:data].read_string(buffer[:length])
         ops = OpList.decode(string)
-        FFI.TF_DeleteBuffer(buffer)
         ops.op.each_with_object(Hash.new) do |op_def, hash|
           hash[op_def.name] = op_def
         end
+      ensure
+        FFI.TF_DeleteBuffer(buffer)
       end
     end
 
@@ -20,7 +21,7 @@ module Tensorflow
 
     def self.check_status(status)
       if FFI.TF_GetCode(status) != 0
-        raise(FFI.TF_Message(status))
+        raise(::TensorflowError, FFI.TF_Message(status))
       end
     end
 
@@ -40,8 +41,9 @@ module Tensorflow
       check_status status
 
       attrs.each do |attr_name, attr_value|
-        attr_name = attr_name.to_s
+        next unless attr_value
 
+        attr_name = attr_name.to_s
         is_list = ::FFI::MemoryPointer.new(:int)
         type = FFI.TFE_OpGetAttrType(op, attr_name, is_list, status)
         check_status status
@@ -129,7 +131,9 @@ module Tensorflow
           ptr.write_array_of_int64(attr_value)
           FFI.TFE_OpSetAttrShape(op, attr_name, ptr, attr_value.size, status)
           check_status status
-        # when :tensor
+        when :tensor
+          FFI.TFE_OpSetAttrTensor(op, attr_name, attr_value.tensor_pointer, status)
+          check_status status
         # when :placeholder
         # when :func
         else
