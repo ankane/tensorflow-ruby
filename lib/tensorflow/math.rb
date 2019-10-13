@@ -493,7 +493,7 @@ module Tensorflow
 
       def reduction_dims(input_tensor)
         rank = RawOps.rank(input: input_tensor).value
-        Tf::Tensor.constant((0...rank).to_a, dtype: :int32)
+        Tf.constant((0...rank).to_a, dtype: :int32)
       end
     end
   end
