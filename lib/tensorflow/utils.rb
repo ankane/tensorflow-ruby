@@ -39,7 +39,7 @@ module Tensorflow
         elsif value.all? { |v| v.is_a?(Numeric) }
           :float
         else
-          raise Error, "Unable to infer data type"
+          raise ::TensorflowError, "Unable to infer data type"
         end
       end
 
