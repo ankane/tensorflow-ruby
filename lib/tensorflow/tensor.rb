@@ -1,8 +1,14 @@
 module Tensorflow
   class Tensor
+    def self.constant(value, dtype: nil, shape: nil)
+      tensor = Tensor.new(value, dtype: dtype, shape: shape)
+      RawOps.const(value: tensor, dtype: tensor.dtype)
+    end
+
     def initialize(value = nil, dtype: nil, shape: nil, pointer: nil)
       @status = FFI.TF_NewStatus
 
+      # Pointer should be a tensor handle, not a tensor
       if pointer
         @pointer = pointer
       else
@@ -169,6 +175,8 @@ module Tensorflow
           nil
         when :variant
           :variant
+        when :string
+          :string
         else
           klass = Utils::NUMO_TYPE_MAP[dtype]
           raise "Unknown type: #{dtype}" unless klass
@@ -190,6 +198,12 @@ module Tensorflow
       end
     end
 
+    def tensor_pointer
+      tensor = FFI.TFE_TensorHandleResolve(@pointer, @status)
+      check_status @status
+      tensor
+    end
+
     private
 
     def num_dims
@@ -206,12 +220,6 @@ module Tensorflow
 
     def data_pointer
       FFI.TF_TensorData(tensor_pointer)
-    end
-
-    def tensor_pointer
-      tensor = FFI.TFE_TensorHandleResolve(@pointer, @status)
-      check_status @status
-      tensor
     end
 
     def reshape(arr, dims)

@@ -52,7 +52,7 @@ task :generate_ops do
       def_options_str = (input_names + options).map { |v| ", #{v}: nil" }.join
       execute_options_str = options.map { |v| ", #{v}: #{v}" }.join
       defs << %!      def #{def_name}(#{def_options_str})
-        Utils.execute("#{op.name}", [#{input_names.join(", ")}]#{execute_options_str})
+        Context.default.execute("#{op.name}", [#{input_names.join(", ")}]#{execute_options_str})
       end!
     end
   end

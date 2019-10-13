@@ -6,7 +6,7 @@ module Tensorflow
       @dtype = dtype || Utils.infer_type(Array(initial_value).flatten)
       @shape = shape
       @name = name
-      @pointer = RawOps.var_handle_op(dtype: type_enum, shape: [], shared_name: Utils.default_context.shared_name)
+      @pointer = RawOps.var_handle_op(dtype: type_enum, shape: [], shared_name: Context.default.shared_name)
       assign(initial_value) if initial_value
     end
 

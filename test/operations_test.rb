@@ -25,7 +25,7 @@ class OperationsTest < Minitest::Test
           [1, 2]
         end
 
-      tensor = Tf.identity(Tf.constant(value, dtype: dtype))
+      tensor = Tf.identity(Tf::Tensor.constant(value, dtype: dtype))
       assert_equal value, tensor.value
       assert_equal dtype, tensor.dtype
     end

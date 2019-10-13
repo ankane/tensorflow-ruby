@@ -44,7 +44,11 @@ require "tensorflow/tensor_spec"
 # data
 require "tensorflow/data/dataset"
 require "tensorflow/data/batch_dataset"
+require "tensorflow/data/fixed_length_record_dataset"
+require "tensorflow/data/map_dataset"
+require "tensorflow/data/repeat_dataset"
 require "tensorflow/data/shuffle_dataset"
+require "tensorflow/data/tensor_dataset"
 require "tensorflow/data/tensor_slice_dataset"
 require "tensorflow/data/zip_dataset"
 
@@ -72,6 +76,10 @@ require "tensorflow/keras/utils"
 
 require 'tensorflow/core/framework/op_def_pb'
 
+# We can't use Tensorflow::Error because a protobuf message annoyingly assigns that as a module
+class TensorflowError < StandardError
+end
+
 module Tensorflow
   class << self
     attr_accessor :ffi_lib
@@ -92,10 +100,6 @@ module Tensorflow
 
     def library_version
       FFI.TF_Version
-    end
-
-    def constant(value, dtype: nil, shape: nil)
-      Tensor.new(value, dtype: dtype, shape: shape)
     end
 
     def convert_to_tensor(value, dtype: nil)

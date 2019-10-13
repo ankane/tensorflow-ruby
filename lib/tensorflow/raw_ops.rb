@@ -4218,8 +4218,8 @@ module Tensorflow
         Context.default.execute("TensorArrayWriteV3", [handle, index, value, flow_in])
       end
 
-      def tensor_dataset(components: nil, output_shapes: nil)
-        Context.default.execute("TensorDataset", [components], output_shapes: output_shapes)
+      def tensor_dataset(components: nil, output_types: nil, output_shapes: nil)
+        Context.default.execute("TensorDataset", [components], Toutput_types: output_types, output_shapes: output_shapes)
       end
 
       def tensor_forest_create_tree_variable(tree_handle: nil, tree_config: nil)

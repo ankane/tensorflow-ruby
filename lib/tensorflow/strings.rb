@@ -12,7 +12,7 @@ module Tensorflow
       # end
 
       def join(inputs, separator: "")
-        Utils.execute("StringJoin", inputs, separator: separator, N: inputs.size)
+        Context.default.execute("StringJoin", [inputs], separator: separator, N: inputs.size)
       end
 
       def length(input, unit: "BYTE")
