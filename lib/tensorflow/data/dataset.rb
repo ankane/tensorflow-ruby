@@ -37,7 +37,7 @@ module Tensorflow
             values = RawOps.iterator_get_next_sync(iterator: iterator, output_types: @output_types, output_shapes: @output_shapes)
             yield values
           end
-        rescue => e
+        rescue ::TensorflowError => e
           # iterate until end of sequence error
           raise e unless e.message == "End of sequence"
         end
@@ -45,10 +45,23 @@ module Tensorflow
         RawOps.delete_iterator(handle: iterator, deleter: deleter) if iterator
       end
 
-      def map(&block)
-        MapDataset.new(self, nil, block)
+      # !!! DEBUG method. You don't want to use this method it because it iterates over
+      # the entire dataset and reads it into a ruby array in memory
+      def data
+        self.map do |slice|
+          slice.map do |tensor|
+            tensor.value
+          end
+        end
       end
-        #(input_dataset: nil, other_arguments: nil, f: nil, output_types: nil, output_shapes: nil, use_inter_op_parallelism: nil, preserve_cardinality: nil)
+
+      # def map(&block)
+      #   MapDataset.new(self, nil, block)
+      # end
+
+      def repeat(count)
+        RepeatDataset.new(self, 3)
       end
+    end
   end
 end
