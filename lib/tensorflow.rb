@@ -29,6 +29,7 @@ require "tensorflow/math"
 require "tensorflow/nn"
 require "tensorflow/operation"
 require "tensorflow/ops"
+require "tensorflow/random"
 require "tensorflow/raw_ops"
 require "tensorflow/strings"
 require "tensorflow/tensor"
@@ -97,17 +98,25 @@ module Tensorflow
     def_delegators Linalg, :eye, :matmul
     def_delegators Math, :abs, :acos, :acosh, :add, :add_n, :argmax, :argmin, :asin, :asinh, :atan, :atan2, :atanh, :cos, :cosh, :cumsum, :divide, :equal, :exp, :floor, :greater, :greater_equal, :less, :less_equal, :logical_and, :logical_not, :logical_or, :maximum, :minimum, :multiply, :negative, :not_equal, :pow, :reduce_all, :reduce_any, :reduce_logsumexp, :reduce_max, :reduce_mean, :reduce_min, :reduce_prod, :reduce_sum, :round, :scalar_mul, :sigmoid, :sign, :sin, :sinh, :sqrt, :square, :subtract, :tan, :tanh, :truediv
     def_delegators NN, :space_to_batch
+    def_delegators Tensor, :constant, :placeholder
 
     def library_version
       FFI.TF_Version
     end
 
     def convert_to_tensor(value, dtype: nil)
-      value = Tensor.new(value, dtype: dtype) unless value.is_a?(Tensor)
-      if dtype && value.dtype != dtype
-        raise StandardError, "Tensor conversion requested dtype #{dtype} for Tensor with dtype #{value.dtype}"
+      case value
+        when Tensor
+          value
+        when Variable
+          value
+        else
+          value = Tensor.new(value, dtype: dtype) unless value.is_a?(Tensor)
+          if dtype && value.dtype != dtype
+            raise StandardError, "Tensor conversion requested dtype #{dtype} for Tensor with dtype #{value.dtype}"
+          end
+          value
       end
-      value
     end
   end
 end

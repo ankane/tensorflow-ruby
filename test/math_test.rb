@@ -74,8 +74,15 @@ class MathTest < Minitest::Test
     assert_equal [2, 4], Tf.reduce_max(x, axis: 1).value
   end
 
-  def test_reduce_mean
+  def test_reduce_mean_constant
     x = Tf::Tensor.constant([[1.0, 1.0], [2.0, 2.0]])
+    assert_equal 1.5, Tf.reduce_mean(x).value
+    assert_equal [1.5, 1.5], Tf.reduce_mean(x, axis: 0).value
+    assert_equal [1.0, 2.0], Tf.reduce_mean(x, axis: 1).value
+  end
+
+  def test_reduce_mean_variable
+    x = Tf::Variable.new([[1.0, 1.0], [2.0, 2.0]])
     assert_equal 1.5, Tf.reduce_mean(x).value
     assert_equal [1.5, 1.5], Tf.reduce_mean(x, axis: 0).value
     assert_equal [1.0, 2.0], Tf.reduce_mean(x, axis: 1).value
