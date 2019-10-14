@@ -2,7 +2,7 @@ require_relative "test_helper"
 
 class TensorFlowTest < Minitest::Test
   def test_version
-    assert_equal "1.14.0", TensorFlow.library_version
+    assert TensorFlow.library_version
   end
 
   def test_hello
