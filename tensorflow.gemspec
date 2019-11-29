@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version       = TensorFlow::VERSION
   spec.summary       = "TensorFlow - the end-to-end machine learning platform - for Ruby"
   spec.homepage      = "https://github.com/ankane/tensorflow"
-  spec.license       = "MIT"
+  spec.license       = "Apache-2.0"
 
   spec.author        = "Andrew Kane"
   spec.email         = "andrew@chartkick.com"

@@ -1,3 +1,7 @@
+## 0.1.3 (unreleased)
+
+- Changed to Apache 2.0 license to match TensorFlow
+
 ## 0.1.2 (2019-09-24)
 
 - Added `Audio`, `Bitwise`, `Image`, `IO`, `Linalg`, `NN`, `Strings`, and `Data::Dataset` modules
