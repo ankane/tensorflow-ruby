@@ -2,7 +2,7 @@
 
 :fire: [TensorFlow](https://github.com/tensorflow/tensorflow) - the end-to-end machine learning platform - for Ruby
 
-This gem is currently experimental and only supports basic tensor operations at the moment.
+This gem is currently experimental and only supports basic tensor operations at the moment. Check out [Torch-rb](https://github.com/ankane/torch-rb) for a more complete deep learning library.
 
 [![Build Status](https://travis-ci.org/ankane/tensorflow.svg?branch=master)](https://travis-ci.org/ankane/tensorflow)
 
