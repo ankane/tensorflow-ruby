@@ -22,7 +22,7 @@ gem 'tensorflow'
 
 ## Getting Started
 
-This library follows the TensorFlow 2.0 [Python API](https://www.tensorflow.org/versions/r2.0/api_docs/python/tf). Many methods and options are missing at the moment. Here’s the [current plan](https://github.com/ankane/tensorflow/issues/1). Additional PRs welcome!
+This library follows the TensorFlow 2 [Python API](https://www.tensorflow.org/versions/r2.0/api_docs/python/tf). Many methods and options are missing at the moment. Here’s the [current plan](https://github.com/ankane/tensorflow/issues/1). Additional PRs welcome!
 
 ## Constants
 
