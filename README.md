@@ -4,6 +4,8 @@
 
 This gem is currently experimental and only supports basic tensor operations at the moment. Check out [Torch.rb](https://github.com/ankane/torch-rb) for a more complete deep learning library.
 
+To run a TensorFlow model in Ruby, [convert it to ONNX](https://github.com/onnx/tensorflow-onnx) and use [ONNX Runtime](https://github.com/ankane/onnxruntime). Check out [this tutorial](https://ankane.org/tensorflow-ruby) for a complete example.
+
 [![Build Status](https://travis-ci.org/ankane/tensorflow.svg?branch=master)](https://travis-ci.org/ankane/tensorflow)
 
 ## Installation
