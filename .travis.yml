@@ -2,7 +2,7 @@ dist: bionic
 language: ruby
 rvm: 2.7
 before_install:
-  - export TENSORFLOW_VERSION=1.15.0
+  - export TENSORFLOW_VERSION=2.3.0
   - ./test/ci/install_tensorflow.sh
   - export LD_LIBRARY_PATH=$HOME/tensorflow/$TENSORFLOW_VERSION/lib:$LD_LIBRARY_PATH
 cache:
