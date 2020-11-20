@@ -14,9 +14,8 @@ jobs:
       run: |
         mkdir ~/tensorflow
         cd ~/tensorflow
-        wget https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
-        tar xvfz libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
-        ls
+        wget -q https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
+        tar xfz libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
       env:
         TENSORFLOW_VERSION: 2.3.0
     - run: |
