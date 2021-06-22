@@ -1,6 +1,6 @@
 ## 0.2.0 (unreleased)
 
-- Added support for TensorFlow 2.4
+- Added support for TensorFlow 2.5
 - Changed to Apache 2.0 license to match TensorFlow
 
 ## 0.1.2 (2019-09-24)
