@@ -36,9 +36,12 @@ module TensorFlow
     attach_function :TF_DeleteTensor, %i[pointer], :void
     attach_function :TF_TensorData, %i[pointer], :pointer
     attach_function :TF_TensorByteSize, %i[pointer], :size_t
-    attach_function :TF_StringEncode, %i[pointer size_t pointer size_t pointer], :size_t
-    attach_function :TF_StringDecode, %i[pointer size_t pointer pointer pointer], :size_t
-    attach_function :TF_StringEncodedSize, %i[size_t], :size_t
+
+    # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/tf_tstring.h
+    attach_function :TF_StringInit, %i[pointer], :void
+    attach_function :TF_StringCopy, %i[pointer pointer size_t], :void
+    attach_function :TF_StringGetDataPointer, %i[pointer], :string
+    attach_function :TF_StringGetSize, %i[pointer], :size_t
 
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/eager/c_api.h
     ContextDevicePlacementPolicy = enum(:explicit, :warn, :silent, :silent_for_int32)
