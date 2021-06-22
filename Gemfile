@@ -1,4 +1,9 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in tensorflow.gemspec
 gemspec
+
+gem "rake"
+gem "minitest", ">= 5"
+gem "google-protobuf"
+gem "mini_magick"
+gem "nokogiri"

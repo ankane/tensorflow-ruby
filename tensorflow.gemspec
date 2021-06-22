@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.license       = "Apache-2.0"
 
   spec.author        = "Andrew Kane"
-  spec.email         = "andrew@chartkick.com"
+  spec.email         = "andrew@ankane.org"
 
   spec.files         = Dir["*.{md,txt}", "{lib}/**/*"]
   spec.require_path  = "lib"
@@ -18,11 +18,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ffi"
   spec.add_dependency "numo-narray"
   spec.add_dependency "npy"
-
-  spec.add_development_dependency "bundler"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "minitest", ">= 5"
-  spec.add_development_dependency "google-protobuf"
-  spec.add_development_dependency "mini_magick"
-  spec.add_development_dependency "nokogiri"
 end
