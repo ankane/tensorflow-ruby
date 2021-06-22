@@ -2,6 +2,7 @@
 
 - Added support for TensorFlow 2.5
 - Dropped support for TensorFlow < 2.5
+- Dropped support for Ruby < 2.6
 - Changed to Apache 2.0 license to match TensorFlow
 
 ## 0.1.2 (2019-09-24)
