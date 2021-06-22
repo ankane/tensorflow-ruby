@@ -74,4 +74,14 @@ class TensorFlowTest < Minitest::Test
       assert_equal a, Tf.identity(a).numo
     end
   end
+
+  def test_gradient_tape
+    x = Tf.constant(3.0)
+    # TODO figure out block form
+    g = Tf::GradientTape.new
+    g.watch(x)
+    y = x * x
+    dy_dx = g.gradient(y, x)
+    p dy_dx
+  end
 end

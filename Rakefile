@@ -1,5 +1,6 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
+require "rake/extensiontask"
 
 task default: :test
 Rake::TestTask.new do |t|
@@ -7,6 +8,19 @@ Rake::TestTask.new do |t|
   t.pattern = "test/**/*_test.rb"
   t.warning = false
 end
+
+Rake::ExtensionTask.new("tensorflow") do |ext|
+  ext.name = "ext"
+  ext.lib_dir = "lib/tensorflow"
+end
+
+task :remove_ext do
+  Dir["lib/tensorflow/ext.bundle"].each do |path|
+    File.unlink(path) if File.exist?(path)
+  end
+end
+
+Rake::Task["build"].enhance [:remove_ext]
 
 # -- TODO: put everything below somewhere better --
 

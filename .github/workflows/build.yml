@@ -20,4 +20,5 @@ jobs:
         TENSORFLOW_VERSION: 2.5.0
     - run: |
         export LD_LIBRARY_PATH=$HOME/tensorflow/lib:$LD_LIBRARY_PATH
+        bundle exec rake compile
         bundle exec rake test
