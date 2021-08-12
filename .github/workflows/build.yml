@@ -17,7 +17,7 @@ jobs:
         wget -q https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
         tar xfz libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
       env:
-        TENSORFLOW_VERSION: 2.5.0
+        TENSORFLOW_VERSION: 2.6.0
     - run: |
         export LD_LIBRARY_PATH=$HOME/tensorflow/lib:$LD_LIBRARY_PATH
         bundle exec rake test
