@@ -1,4 +1,4 @@
-# TensorFlow
+# TensorFlow Ruby
 
 :fire: [TensorFlow](https://github.com/tensorflow/tensorflow) - the end-to-end machine learning platform - for Ruby
 
@@ -6,7 +6,7 @@ This gem is currently experimental and only supports basic tensor operations at 
 
 To run a TensorFlow model in Ruby, [convert it to ONNX](https://github.com/onnx/tensorflow-onnx) and use [ONNX Runtime](https://github.com/ankane/onnxruntime). Check out [this tutorial](https://ankane.org/tensorflow-ruby) for a full example.
 
-[![Build Status](https://github.com/ankane/tensorflow/workflows/build/badge.svg?branch=master)](https://github.com/ankane/tensorflow/actions)
+[![Build Status](https://github.com/ankane/tensorflow-ruby/workflows/build/badge.svg?branch=master)](https://github.com/ankane/tensorflow-ruby/actions)
 
 ## Installation
 
@@ -128,22 +128,22 @@ Download the [shared library](https://www.tensorflow.org/install/lang_c#download
 
 ## History
 
-View the [changelog](https://github.com/ankane/tensorflow/blob/master/CHANGELOG.md)
+View the [changelog](https://github.com/ankane/tensorflow-ruby/blob/master/CHANGELOG.md)
 
 ## Contributing
 
 Everyone is encouraged to help improve this project. Here are a few ways you can help:
 
-- [Report bugs](https://github.com/ankane/tensorflow/issues)
-- Fix bugs and [submit pull requests](https://github.com/ankane/tensorflow/pulls)
+- [Report bugs](https://github.com/ankane/tensorflow-ruby/issues)
+- Fix bugs and [submit pull requests](https://github.com/ankane/tensorflow-ruby/pulls)
 - Write, clarify, or fix documentation
 - Suggest or add new features
 
 To get started with development:
 
 ```sh
-git clone https://github.com/ankane/tensorflow.git
-cd tensorflow
+git clone https://github.com/ankane/tensorflow-ruby.git
+cd tensorflow-ruby
 bundle install
 bundle exec rake test
 ```
