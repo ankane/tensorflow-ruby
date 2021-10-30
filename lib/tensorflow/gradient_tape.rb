@@ -8,6 +8,7 @@ module TensorFlow
 
     def with
       push_tape
+      yield
     ensure
       pop_tape if @recording
     end
