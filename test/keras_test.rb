@@ -14,7 +14,7 @@ class KerasTest < Minitest::Test
       Tf::Keras::Layers::Dense.new(10, activation: "softmax")
     ])
 
-    model.summary
+    # model.summary
 
     model.compile(optimizer: "adam", loss: "sparse_categorical_crossentropy", metrics: ["accuracy"])
     model.fit(x_train, y_train, epochs: 5)

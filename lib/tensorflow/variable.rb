@@ -42,6 +42,10 @@ module TensorFlow
       v.assign_sub(other).read_value
     end
 
+    def **(other)
+      Math.pow(self, other.to_f)
+    end
+
     def to_s
       inspect
     end
