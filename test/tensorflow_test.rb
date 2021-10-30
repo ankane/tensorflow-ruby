@@ -77,10 +77,12 @@ class TensorFlowTest < Minitest::Test
 
   def test_gradient_tape
     x = Tf.constant(3.0)
-    # TODO figure out block form
+    y = nil
     g = Tf::GradientTape.new
-    g.watch(x)
-    y = x * x
+    g.with do
+      g.watch(x)
+      y = x * x
+    end
     dy_dx = g.gradient(y, x)
     p dy_dx
   end
