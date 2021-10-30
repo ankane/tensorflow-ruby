@@ -79,7 +79,7 @@ class TensorFlowTest < Minitest::Test
     x = Tf.constant(3.0)
     y = nil
     g = Tf::GradientTape.new
-    g.with do
+    g.record do
       g.watch(x)
       y = x * x
     end

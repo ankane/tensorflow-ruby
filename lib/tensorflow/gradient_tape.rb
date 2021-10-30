@@ -9,7 +9,7 @@ module TensorFlow
       @recording = false
     end
 
-    def with
+    def record
       push_tape
       yield
     ensure
