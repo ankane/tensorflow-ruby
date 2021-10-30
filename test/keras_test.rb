@@ -16,11 +16,9 @@ class KerasTest < Minitest::Test
 
     model.summary
 
-    skip
-
     model.compile(optimizer: "adam", loss: "sparse_categorical_crossentropy", metrics: ["accuracy"])
-
     model.fit(x_train, y_train, epochs: 5)
+    skip
     model.evaluate(x_test, y_test)
   end
 

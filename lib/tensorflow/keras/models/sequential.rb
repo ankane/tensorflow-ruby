@@ -14,12 +14,18 @@ module TensorFlow
           @layers << layer
         end
 
+        # TODO improve
         def compile(optimizer: nil, loss: nil, metrics: nil)
-          raise "Not implemented"
+          @optimizer = Optimizers.get(optimizer)
+          @loss = loss
+          @metrics = metrics
         end
 
         def fit(x, y, epochs: nil)
-          raise "Not implemented"
+          epochs.times do |i|
+            puts "Epoch #{i + 1}/#{epochs}"
+            puts "TODO"
+          end
         end
 
         def evaluate(x, y)
