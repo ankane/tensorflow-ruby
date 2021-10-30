@@ -11,4 +11,16 @@ void Init_ext()
     []() {
       return Rice::String(TF_VERSION_STRING);
     });
+
+  Rice::define_module_under(m, "Tape")
+    .define_singleton_function(
+      "push_new_tape",
+      [](bool persistent, bool watch_accessed_variables) {
+        return Rice::Nil;
+      })
+    .define_singleton_function(
+      "pop_tape",
+      [](Rice::Object tape) {
+        // TODO
+      });
 }

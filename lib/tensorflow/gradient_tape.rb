@@ -1,8 +1,11 @@
 # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/eager/backprop.py
 module TensorFlow
   class GradientTape
-    def initialize(persistent: false)
+    def initialize(persistent: false, watch_accessed_variables: true)
+      @tape = nil
       @persistent = persistent
+      @watch_accessed_variables = watch_accessed_variables
+      @watched_variables = []
       @recording = false
     end
 
@@ -27,7 +30,11 @@ module TensorFlow
       if @recording
         raise Error, "Tape is still recording, This can happen if you try to re-enter an already-active tape."
       end
-      # TODO tape.push
+      if @tape.nil?
+        @tape = Tape.push_new_tape(@persistent, @watch_accessed_variables)
+      else
+        raise NotImplementedYet
+      end
       @recording = true
     end
 
@@ -35,7 +42,7 @@ module TensorFlow
       unless @recording
         raise Error, "Tape is not recording."
       end
-      # TODO tape.pop
+      Tape.pop_tape(@tape)
       @recording = false
     end
   end

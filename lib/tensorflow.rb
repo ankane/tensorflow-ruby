@@ -63,6 +63,11 @@ require "tensorflow/keras/utils"
 
 module TensorFlow
   class Error < StandardError; end
+  class NotImplementedYet < StandardError
+    def message
+      "This feature has not been implemented yet. Consider submitting a PR."
+    end
+  end
 
   class << self
     attr_accessor :ffi_lib
