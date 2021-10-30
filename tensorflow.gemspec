@@ -10,8 +10,9 @@ Gem::Specification.new do |spec|
   spec.author        = "Andrew Kane"
   spec.email         = "andrew@ankane.org"
 
-  spec.files         = Dir["*.{md,txt}", "{lib}/**/*"]
+  spec.files         = Dir["*.{md,txt}", "{ext,lib}/**/*"]
   spec.require_path  = "lib"
+  spec.extensions    = ["ext/torch/extconf.rb"]
 
   spec.required_ruby_version = ">= 2.6"
 
