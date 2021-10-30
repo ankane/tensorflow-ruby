@@ -16,11 +16,26 @@ void Init_ext()
     .define_singleton_function(
       "push_new_tape",
       [](bool persistent, bool watch_accessed_variables) {
-        return Rice::Nil;
+        // TODO TFE_Py_TapeSetNew
+      })
+    .define_singleton_function(
+      "push_tape",
+      [](Rice::Object tape) {
+        // TODO TFE_Py_TapeSetAdd
       })
     .define_singleton_function(
       "pop_tape",
       [](Rice::Object tape) {
-        // TODO
+        // TODO TFE_Py_TapeSetRemove
+      })
+    .define_singleton_function(
+      "watch",
+      [](Rice::Object tape, Rice::Object tensor) {
+        // TODO TFE_Py_TapeWatch
+      })
+    .define_singleton_function(
+      "gradient",
+      [](Rice::Object tape, Rice::Object target, Rice::Object sources) {
+        // TODO TFE_Py_TapeGradient
       });
 }

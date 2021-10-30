@@ -17,11 +17,11 @@ module TensorFlow
     end
 
     def watch(tensor)
-      # TODO tape.watch
+      Tape.watch(@tape, tensor)
     end
 
     def gradient(target, sources)
-      # TODO
+      Tape.gradient(@tape, target, sources)
     end
 
     private
