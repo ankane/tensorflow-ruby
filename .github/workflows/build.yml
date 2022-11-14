@@ -2,13 +2,12 @@ name: build
 on: [push, pull_request]
 jobs:
   build:
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0
+        ruby-version: 3.1
         bundler-cache: true
     - name: Install TensorFlow
       run: |
@@ -17,7 +16,7 @@ jobs:
         wget -q https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
         tar xfz libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
       env:
-        TENSORFLOW_VERSION: 2.6.0
+        TENSORFLOW_VERSION: 2.10.0
     - run: |
         export LD_LIBRARY_PATH=$HOME/tensorflow/lib:$LD_LIBRARY_PATH
         bundle exec rake test
