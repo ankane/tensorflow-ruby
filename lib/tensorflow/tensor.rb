@@ -166,8 +166,8 @@ module TensorFlow
       # must use proc instead of stabby lambda
       proc do
         FFI.TFE_DeleteTensorHandle(pointer)
-        FFI.TFE_DeleteStatus(status)
-        FFI.TFE_DeleteTensor(tensor) if tensor
+        FFI.TF_DeleteStatus(status)
+        # FFI.TF_DeleteTensor(tensor) if tensor
       end
     end
 
