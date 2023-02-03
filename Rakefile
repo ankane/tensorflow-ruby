@@ -79,7 +79,7 @@ task :seed_ops do
   unless File.exist?(cached_path)
     url = "https://www.tensorflow.org/versions/r2.0/api_docs/python"
     puts "Downloading #{url}"
-    File.write(cached_path, open(url).read)
+    File.write(cached_path, URI.parse(url).read)
   end
 
   ops = []
