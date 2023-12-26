@@ -4,10 +4,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2
+          ruby-version: 3.3
           bundler-cache: true
       - name: Install TensorFlow
         run: |
@@ -16,7 +16,7 @@ jobs:
           wget -q https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
           tar xfz libtensorflow-cpu-linux-x86_64-$TENSORFLOW_VERSION.tar.gz
         env:
-          TENSORFLOW_VERSION: 2.11.0
+          TENSORFLOW_VERSION: 2.15.0
       - run: |
           export LD_LIBRARY_PATH=$HOME/tensorflow/lib:$LD_LIBRARY_PATH
           bundle exec rake test

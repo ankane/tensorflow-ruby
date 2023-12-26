@@ -18,4 +18,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ffi"
   spec.add_dependency "numo-narray"
   spec.add_dependency "npy"
+  spec.add_dependency "base64"
 end
