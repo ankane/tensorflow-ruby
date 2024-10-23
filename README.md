@@ -13,13 +13,13 @@ To run a TensorFlow model in Ruby, [convert it to ONNX](https://github.com/onnx/
 [Install TensorFlow](#tensorflow-installation). For Homebrew, use:
 
 ```sh
-brew install tensorflow
+brew install libtensorflow
 ```
 
 Add this line to your application’s Gemfile:
 
 ```ruby
-gem 'tensorflow'
+gem "tensorflow"
 ```
 
 ## Getting Started
